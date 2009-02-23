@@ -13,18 +13,19 @@ public abstract class DirWatcher extends TimerTask {
     public DirWatcher(String path, String filter) {
         this.path = path;
         dfw = new DirFilterWatcher(filter);
-
-        List dirs = collectDirs(new File(path), new ArrayList());
+        collectAllFiles(new File(path));
+        System.out.println("scaning " +allfiles.size()+" files");
+        
     }
 
     public void collectAllFiles(File f) {
+        allfiles.put(f, new Long(f.lastModified()));
+
         if(f.isDirectory()){
-            File files[] = f.listFiles(dfw);
+            File files[] = f.listFiles();
             for (int i = 0; i < files.length; i++) {
                if(files[i].isDirectory()) {
                    collectAllFiles(files[i]);
-               } else {
-                   allfiles.put(files[i], new Long(files[i].lastModified()));
                }
             }
         }
@@ -32,10 +33,10 @@ public abstract class DirWatcher extends TimerTask {
 
     public List collectDirs(File f, List ret) {
         if(f.isDirectory()){
+            ret.add(f);
             File files[] = f.listFiles(dfw);
             for (int i = 0; i < files.length; i++) {
                if(files[i].isDirectory()) {
-                   ret.add(files[i]);
                    collectDirs(files[i], ret);
                }
             }
@@ -44,8 +45,6 @@ public abstract class DirWatcher extends TimerTask {
     }
 
     public final void run() {
-        System.out.println("scaning " +allfiles.size()+" files");
-
         List dirs = collectDirs(new File(path), new ArrayList());
         for (int i = 0; i < dirs.size(); i++) {
             File dir = (File) dirs.get(i);
@@ -56,7 +55,7 @@ public abstract class DirWatcher extends TimerTask {
     public final void checkDir( File f) {
         HashSet checkedFiles = new HashSet();
         File filesArray[] = f.listFiles(dfw);
-        System.out.println("scan allfiles in " + f.getName() +" (" +allfiles.size()+")");
+       // System.out.println("checkDir " + f.getName() +" (" +filesArray.length+")");
 
         // scan the allfiles and check for modification/addition
         for (int i = 0; i < filesArray.length; i++) {
@@ -73,15 +72,15 @@ public abstract class DirWatcher extends TimerTask {
             }
         }
 
-        // now check for deleted allfiles
-        Set ref = ((HashMap) allfiles.clone()).keySet();
-        ref.removeAll((Set) checkedFiles);
-        Iterator it = ref.iterator();
-        while (it.hasNext()) {
-            File deletedFile = (File) it.next();
-            allfiles.remove(deletedFile);
-            onChange(deletedFile, "delete");
-        }
+//        // now check for deleted allfiles
+//        Set ref = ((HashMap) allfiles.clone()).keySet();
+//        ref.removeAll((Set) checkedFiles);
+//        Iterator it = ref.iterator();
+//        while (it.hasNext()) {
+//            File deletedFile = (File) it.next();
+//            allfiles.remove(deletedFile);
+//            onChange(deletedFile, "delete");
+//        }
     }
 
     protected abstract void onChange(File file, String action);
