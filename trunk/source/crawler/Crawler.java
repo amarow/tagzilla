@@ -23,7 +23,7 @@ public abstract class Crawler implements Runnable{
 
 
     public Crawler(String path) {
-        this(path, "", 5000);
+        this(path, "", 10000);
     }
 
     public Crawler(String path, String filter, long pause) {
