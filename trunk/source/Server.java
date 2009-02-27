@@ -1,18 +1,19 @@
-import java.util.*;
+import crawler.Crawler;
+
 import java.io.*;
 
 public class Server {
 
-  public static void main(String args[]) {
-    TimerTask task = new DirWatcher("t:/aes", "" ) {
-      protected void onChange( File file, String action ) {
-        // here we code the action on a change
-        System.out.println
-           ( "File "+ file.getAbsolutePath() +" action: " + action );
-      }
-    };
+    public static void main(String args[]) {
+        Crawler c = new Crawler("d:/", "", 5000) {
+            protected void onChange(File file, String action) {
+                System.out.println("File " + file.getAbsolutePath() + " action: " + action);
+            }
+        };
+        
+        
 
-    Timer timer = new Timer();
-    timer.schedule( task , new Date(), 5000 );
-  }
+        Thread t = new Thread(c);
+        t.start();
+    }
 }
