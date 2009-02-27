@@ -10,9 +10,6 @@ public class Server {
                 System.out.println("File " + file.getAbsolutePath() + " action: " + action);
             }
         };
-        
-        
-
         Thread t = new Thread(c);
         t.start();
     }
