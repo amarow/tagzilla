@@ -1,4 +1,6 @@
-import crawler.Crawler;
+package de.ama.server.crawler;
+
+import de.ama.server.crawler.Crawler;
 
 import java.io.*;
 
