@@ -16,9 +16,9 @@
     
 */
 
-package server.services;
+package de.ama.server.services;
 
-import server.actions.ActionScriptAction;
+import de.ama.server.actions.ActionScriptAction;
 
 /**
  * User: x

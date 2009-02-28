@@ -1,6 +1,6 @@
-package server.services;
+package de.ama.server.services;
 
-import server.beans.User;
+import de.ama.server.bom.User;
 
 /**
  * Created by IntelliJ IDEA.

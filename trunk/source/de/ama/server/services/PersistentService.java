@@ -1,6 +1,6 @@
 
 
-package server.services;
+package de.ama.server.services;
 
 import de.ama.db.Query;
 
