@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="server" default="build.all">
+
+
+    <property file="./build.properties" />
+
+    <property name="deploy.dir" value="${home.dir}/war"/>
+    <property name="cfg.dir" value="${home.dir}/source/de/ama/server/conf"/>
+    <property name="client.src.dir" value="${home.dir}/client/src"/>
+
+    <target name="server.compile.environment" description="compiles the java sources">
+         <delete dir="classes" failonerror="false"/>
+         <mkdir dir="classes" />
+        <javac destdir="classes" debug="on">
+            <src path="source"/>
+            <classpath>
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>                                          
+     </target>
+
+    <target name="server.enhance" description="enhances the classes">
+        <java classname="de.ama.db.tools.Enhancer" fork="true">
+            <classpath>
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+                <pathelement location="classes"/>
+            </classpath>
+            <arg value="indir"/>
+            <arg path="classes"/>
+            <arg value="verbose"/>
+            <arg value="1"/>
+        </java>
+    </target>
+    
+    <target name="deploy" description="deploy to tomcat">
+        <copy overwrite="true" todir="${deploy.dir}/WEB-INF/classes">
+            <fileset dir="classes">
+                <include name="**/**"/>
+                <exclude name="generator/**"/>
+                <exclude name="logic/**"/>
+            </fileset>
+        </copy>
+        <copy overwrite="false" todir="${deploy.dir}/WEB-INF/lib">
+            <fileset dir="lib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <copy overwrite="false" todir="${deploy.dir}/WEB-INF/flex">
+            <fileset dir="${cfg.dir}">
+                <include name="**/messaging-config.xml"/>
+                <include name="**/proxy-config.xml"/>
+                <include name="**/remoting-config.xml"/>
+                <include name="**/services-config.xml"/>
+            </fileset>
+        </copy>
+        <copy overwrite="false" todir="${deploy.dir}/WEB-INF">
+            <fileset dir="${cfg.dir}">
+                <include name="**/web.xml"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!--  ********************************* CLIENT ************************************************* -->
+
+
+    <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
+
+
+    <target name="client.clean" >
+        <delete dir="${deploy.dir}/client" />
+        <mkdir dir="${deploy.dir}/client" />
+    </target>
+
+    <target name="client.compile" description="compiles the flex sources" >
+        <delete file="${deploy.dir}/client/client.swf"/>
+        <mxmlc file="${client.src.dir}/client.mxml"
+               output="${deploy.dir}/client/client.swf"
+               services="${cfg.dir}/services-config.xml"
+                debug="true">
+        </mxmlc>
+    </target>
+
+    <target name="client.wrapper" >
+        <html-wrapper
+                height="100%"
+                width="100%"
+                template="express-installation"
+                bgcolor="red"
+                history="true"
+                title="Welcome to FLOW"
+                file="client.html"
+                application="flowApp"
+                swf="client"
+                output="${deploy.dir}/client"/>
+    </target>
+
+    <target name="build.server" description="make server and deploy to tomcat" depends="server.compile.environment,server.enhance,deploy" />
+    <target name="build.client" description="make client and deploy to tomcat" depends="client.clean,client.compile,client.wrapper" />
+    <target name="build.all" description="deploy to tomcat" depends="build.client,build.server" />
+
+
+</project>
