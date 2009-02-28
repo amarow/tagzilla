@@ -1,4 +1,4 @@
-package de.ama.server.crawler;
+package de.ama.server;
 
 import de.ama.server.crawler.Crawler;
 
