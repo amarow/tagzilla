@@ -1,15 +1,14 @@
-package server.services.impl;
+package de.ama.server.services.impl;
 
 /**
  * User: x
  * Date: 16.05.2008
  */
 
-import server.services.ActionService;
-import server.services.Environment;
-import server.actions.ServerAction;
-import server.actions.ActionScriptAction;
-import de.ama.util.Util;
+import de.ama.server.actions.ActionScriptAction;
+import de.ama.server.actions.ServerAction;
+import de.ama.server.services.ActionService;
+import de.ama.server.services.Environment;
 
 
 public class ActionServiceImpl implements ActionService {

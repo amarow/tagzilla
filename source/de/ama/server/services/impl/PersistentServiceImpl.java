@@ -1,12 +1,12 @@
 
-package server.services.impl;
+package de.ama.server.services.impl;
 
 import de.ama.db.DB;
 import de.ama.db.OidIterator;
 import de.ama.db.Query;
 import de.ama.util.Ini;
-import server.services.PersistentService;
-import server.services.UserService;
+import de.ama.server.services.PersistentService;
+import de.ama.server.services.UserService;
 
 import java.util.List;
 

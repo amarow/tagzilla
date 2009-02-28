@@ -1,11 +1,11 @@
-package server.services.impl;
+package de.ama.server.services.impl;
 
 import de.ama.db.Query;
 import de.ama.util.Util;
-import server.actions.ServerAction;
-import server.beans.User;
-import server.services.Environment;
-import server.services.UserService;
+import de.ama.server.actions.ServerAction;
+import de.ama.server.services.Environment;
+import de.ama.server.services.UserService;
+import de.ama.server.bom.User;
 
 import java.util.HashMap;
 import java.util.List;

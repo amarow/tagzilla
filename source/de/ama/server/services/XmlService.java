@@ -16,7 +16,7 @@
     
 */
 
-package server.services;
+package de.ama.server.services;
 
 /**
  * User: x

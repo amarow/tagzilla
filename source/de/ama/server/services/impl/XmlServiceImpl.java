@@ -1,8 +1,8 @@
-package server.services.impl;
+package de.ama.server.services.impl;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import server.services.XmlService;
+import de.ama.server.services.XmlService;
 
 
 public class XmlServiceImpl implements XmlService {
