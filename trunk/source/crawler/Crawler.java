@@ -2,6 +2,8 @@ package crawler;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,16 +12,17 @@ import java.util.HashMap;
  * Time: 21:26:39
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Crawler implements Runnable{
-    private String path;
-    private HashMap allfiles = new HashMap();
+public abstract class Crawler implements Runnable {
+    private String rootPath;
+    private HashMap storeA = new HashMap();
+    private HashMap storeB = new HashMap();
+    private HashMap allfilesA = storeA;
+    private HashMap allfilesB = storeB;
 
-    private FileFilter filter;
     private long pause = 5000;
-    private boolean running=true;
-    private boolean adjusting=true;
-    private long scannedDirsCount=0;
-    private long scannedFilesCount=0;
+    private boolean running = true;
+    private boolean adjusting = true;
+    private long scannedFilesCount = 0;
 
 
     public Crawler(String path) {
@@ -27,12 +30,11 @@ public abstract class Crawler implements Runnable{
     }
 
     public Crawler(String path, String filter, long pause) {
-        this.path = path;
-        this.filter = new FileFilter(filter);
+        this.rootPath = path;
         this.pause = pause;
 
         File root = new File(path);
-        if(!root.isDirectory()) {
+        if (!root.isDirectory()) {
             throw new IllegalArgumentException("root file is not a directory, can not scan file " + root.getPath());
         }
     }
@@ -43,98 +45,94 @@ public abstract class Crawler implements Runnable{
     }
 
     private void walkDirs(File in) {
-        if(in.isDirectory()){
+        if (in.isDirectory()) {
             File files[] = in.listFiles();
-            if(files!=null) {
+            if (files != null) {
                 for (int i = 0; i < files.length; i++) {
-                     walkDirs(files[i]);
+                    File file = files[i];
+                    if(file.isDirectory()){
+                        walkDirs(file);
+                    } else {
+                        scannedFilesCount++;
+                        if(scannedFilesCount%1500==0){
+                            sleep(500);
+                        }
+                        String key = file.getPath();
+                        Long current = (Long) allfilesA.remove(key);
+
+                        if (current == null) {
+                            allfilesB.put(key, new Long(file.lastModified()));
+                            if (!adjusting) {
+                                onChange(file, "added");
+                            }
+                        } else {
+                            if (current.longValue() != file.lastModified()) {
+                                allfilesB.put(key, new Long(file.lastModified()));
+                                if (!adjusting) {
+                                    onChange(file, "modified");
+                                }
+                            } else {
+                                allfilesB.put(key, current);
+                            }
+                        }
+                    }
+
                 }
             }
-
-            String key = in.getPath();
-            Long current = (Long) allfiles.get(key);
-            if (current == null || (current.longValue() != in.lastModified())) {
-                allfiles.put(key, new Long(in.lastModified()));
-                checkDir(in);
-            }
-            scannedDirsCount++;
         }
     }
 
-    private void sleep(long millis){
+    private void sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-    public final void checkDir( File f) {
-        File files[] = f.listFiles(filter);
-        if(files!=null){
-            for (int i = 0; i < files.length; i++) {
-                File file = files[i];
-                if(file.isFile()){
-                    scannedFilesCount++;
-                    if(scannedFilesCount%1000==0){
-                        sleep(1);
-                    }
-                    String key = file.getPath();
-                    Long current = (Long) allfiles.get(key);
-                    if (current == null) {
-                        allfiles.put(key, new Long(file.lastModified()));
-                        if(!adjusting){
-                            onChange(files[i], "add");
-                        }
-                    } else if (current.longValue() != file.lastModified()) {
-                        allfiles.put(key, new Long(file.lastModified()));
-                        if(!adjusting){
-                            onChange(files[i], "modify");
-                        }
-                    }
-                }
-            }
-        }
-    }
 
 
     public final void run() {
 
-        while(running) {
-            adjusting = allfiles.isEmpty();
-            scannedDirsCount=0;
-            scannedFilesCount=0;
+        while (running) {
+            adjusting = allfilesA.isEmpty();
+            scannedFilesCount = 0;
             long start = System.currentTimeMillis();
-            File root = new File(path);
+            File root = new File(rootPath);
             walkDirs(root);
             long stop = System.currentTimeMillis();
 
+            Set set = allfilesA.keySet();
+            for (Iterator iterator = set.iterator(); iterator.hasNext();) {
+                String key = (String) iterator.next();
+                onChange(new File(key), "deleted");
+            }
+            allfilesA.clear();
+            flip();
+
             long consum = stop - start;
-            System.out.println("checked " +scannedDirsCount+" directories and "+ scannedFilesCount+" of ("+allfiles.size() +") files in "+ consum +" millis.");
-            System.out.println("waiting "+pause+" millis");
+            System.out.println("checked " + scannedFilesCount + " of (" + allfilesA.size() + ") files in " + consum + " millis.");
+            System.out.println("waiting " + pause + " millis");
             sleep(pause);
         }
 
+        System.out.println("By By");
+
     }
 
+    private void flip() {
+        if (allfilesA == storeA) {
+            allfilesA = storeB;
+            allfilesB = storeA;
+        } else {
+            allfilesA = storeA;
+            allfilesB = storeB;
+        }
+    }
+
+    public void stop(){
+        running = false;
+    }
 
     protected abstract void onChange(File file, String action);
 }
 
-class FileFilter implements java.io.FileFilter {
-    private String filter;
-
-    public FileFilter() {
-        this.filter = "";
-    }
-
-    public FileFilter(String filter) {
-        this.filter = filter;
-    }
-
-    public boolean accept(File file) {
-        if ("".equals(filter)) {
-            return true;
-        }
-        return (file.getName().endsWith(filter));
-    }
-}
