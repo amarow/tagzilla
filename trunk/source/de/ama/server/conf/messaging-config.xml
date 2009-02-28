@@ -11,6 +11,6 @@
         <channel ref="my-polling-amf"/>
     </default-channels>
 
-    <destination id="flow"/>
+    <destination id="tagzilla"/>
 
 </service>

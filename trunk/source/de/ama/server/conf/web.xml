@@ -35,7 +35,7 @@
     
     <servlet>
        <servlet-name>Bootstrap</servlet-name>
-       <servlet-class>server.Bootstrap</servlet-class>
+       <servlet-class>de.ama.server.Bootstrap</servlet-class>
        <load-on-startup>1</load-on-startup>
     </servlet>
     

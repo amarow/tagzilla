@@ -58,7 +58,7 @@ public class ServerAction {
     }
 
     public String getCatalog(){
-        return "flow";
+        return "tagzilla";
     }
 
     public void commit(){

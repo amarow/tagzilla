@@ -17,11 +17,11 @@ public class Environment {
      * Common Umgebung "hochfahren"
      */
     public static void initCommon(){
-        singletons.put(PersistentService.NAME   ,getBean("server.services.impl.PersistentServiceImpl"));
-        singletons.put(UserService.NAME         ,getBean("server.services.impl.UserServiceImpl"));
-        singletons.put(ActionService.NAME       ,getBean("server.services.impl.ActionServiceImpl"));
+        singletons.put(PersistentService.NAME   ,getBean("de.ama.server.services.impl.PersistentServiceImpl"));
+        singletons.put(UserService.NAME         ,getBean("de.ama.server.services.impl.UserServiceImpl"));
+        singletons.put(ActionService.NAME       ,getBean("de.ama.server.services.impl.ActionServiceImpl"));
 
-        beanDictionary.put(XmlService.NAME          ,"server.services.impl.XmlServiceImpl");
+        beanDictionary.put(XmlService.NAME          ,"de.ama.server.services.impl.XmlServiceImpl");
 
 //        Endpoint.publish("http://localhost:8085/services", getBean(ActionService.NAME));
         System.out.println("WebService ActionService up and running");
