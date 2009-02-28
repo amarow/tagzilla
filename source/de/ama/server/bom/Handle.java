@@ -13,7 +13,7 @@ public class Handle implements PersistentMarker {
     private String path;
     private String lastUser;
     private long lastmodified ;
-    private int version;
+    private int fileVersion;
     private int size;
 
     public String getPath() {
@@ -40,12 +40,12 @@ public class Handle implements PersistentMarker {
         this.lastmodified = lastmodified;
     }
 
-    public int getVersion() {
-        return version;
+    public int getFileVersion() {
+        return fileVersion;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
+    public void setFileVersion(int fileVersion) {
+        this.fileVersion = fileVersion;
     }
 
     public int getSize() {

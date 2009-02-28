@@ -23,6 +23,6 @@ public class ActionScriptAction {
     }
 
     public String getCatalog() {
-        return Util.saveToString(catalog,"flow");
+        return Util.saveToString(catalog,"tagzilla");
     }
 }
