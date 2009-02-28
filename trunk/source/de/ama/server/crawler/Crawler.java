@@ -1,4 +1,4 @@
-package crawler;
+package de.ama.server.crawler;
 
 import java.io.File;
 import java.util.HashMap;
