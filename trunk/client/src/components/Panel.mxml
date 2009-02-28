@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Container xmlns:mx="http://www.adobe.com/2006/mxml"
+              width="300" height="22">
+
+    <mx:Script> <![CDATA[
+        import mx.collections.ArrayList;
+
+        private var data:Object;
+        private var path:String;
+        private var fields:ArrayList;
+
+        public function getPath():String {
+            return path;
+        }
+
+        public function setPath(val:String):void {
+            path = val;
+        }
+
+
+        public function getData():Object {
+            return data;
+        }
+
+        public function setData(val:Object):void {
+            data = val;
+            
+        }
+
+        public function addField(val:EditField):void {
+            fields.addItem(val);
+        }
+
+        public function getField(path:String):EditField {
+            var i:int;
+            var len:int=fields.length;
+            var f:EditField=null;
+            for(i=0; i<len; i++){
+               f=fields.getItemAt(i) as EditField;
+               if(f.path==path) return f;
+            }
+            return null;
+        }
+
+        ]]></mx:Script>
+
+
+</mx:Container>

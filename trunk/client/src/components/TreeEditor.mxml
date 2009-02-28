@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script><![CDATA[
+		import flash.utils.getQualifiedClassName;
+	 	[Bindable]
+		public var treeData:Object; 
+		[Bindable]
+		public var selectedNode:Object;
+		
+		public function treeChanged(event:Event):void {
+                selectedNode = Tree(event.target).selectedItem.toString();
+        }
+        
+	]]></mx:Script> 
+
+    <mx:HDividedBox color="0xffffff" width="100%" height="100%" >
+         
+            <mx:Tree id="myTree" width="30%" height="100%" labelField="label"
+                showRoot="true" dataProvider="{treeData}" change="treeChanged(event)"  color="#D02A2A"/>
+
+            <mx:TextArea height="100%" width="70%"  text="Selected Item: {selectedNode}" color="#050505" backgroundColor="#B4DBED"/>
+        
+    </mx:HDividedBox>
+</mx:Canvas>

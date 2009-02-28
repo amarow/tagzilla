@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comps="components.*" layout="vertical" width='100%' height='100%' paddingTop='1' paddingLeft='1' paddingRight='1' paddingBottom='1' >
+
+
+</mx:Application>
