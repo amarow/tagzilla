@@ -10,7 +10,7 @@ public class LoginAction extends ServerAction {
         String tmp = (String) getData();
         StringDivider sd = new StringDivider(tmp,"{del}");
         if(sd.ok()){
-            String userId = Environment.getUserService().login(sd.pre() ,sd.post());
+            Long userId = Environment.getUserService().login(sd.pre() ,sd.post());
             setData(userId);
         }
     }

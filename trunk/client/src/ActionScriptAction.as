@@ -1,10 +1,10 @@
 package {
 	import mx.collections.ArrayCollection;
 	
-[RemoteClass(alias="server.actions.ActionScriptAction")]
+[RemoteClass(alias="de.ama.server.actions.ActionScriptAction")]
 public class ActionScriptAction {
     public var serverActionName:String;
-    public var userId:String;
+    public var userId:Number;
     public var catalog:String;
 
     public var message:String;

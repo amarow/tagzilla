@@ -12,15 +12,15 @@ import de.ama.db.PersistentMarker;
 public class User implements PersistentMarker {
     private String name;
     private String pwd;
-    private String id;
+    private long id;
 
-    public User(String name, String pwd, String id) {
+    public User(String name, String pwd, long id) {
         this.name = name;
         this.pwd = pwd;
         this.id = id;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 }

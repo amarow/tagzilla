@@ -1,7 +1,7 @@
 package de.ama.server.actions;
 
-import de.ama.util.StringDivider;
 import de.ama.server.services.Environment;
+import de.ama.util.StringDivider;
 
 
 public class NewUserAction extends ServerAction {
@@ -10,7 +10,7 @@ public class NewUserAction extends ServerAction {
         String tmp = (String) getData();
         StringDivider sd = new StringDivider(tmp,"{del}");
         if(sd.ok()){
-            String userId = Environment.getUserService().newUser(sd.pre() ,sd.post());
+            Long userId = Environment.getUserService().newUser(sd.pre() ,sd.post());
             commit();
             setData(userId);
         }

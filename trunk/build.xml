@@ -76,9 +76,9 @@
     </target>
 
     <target name="client.compile" description="compiles the flex sources" >
-        <delete file="${deploy.dir}/client/client.swf"/>
-        <mxmlc file="${client.src.dir}/client.mxml"
-               output="${deploy.dir}/client/client.swf"
+        <delete file="${deploy.dir}/client/tagzilla.swf"/>
+        <mxmlc file="${client.src.dir}/tagzilla.mxml"
+               output="${deploy.dir}/client/tagzilla.swf"
                services="${cfg.dir}/services-config.xml"
                 debug="true">
         </mxmlc>

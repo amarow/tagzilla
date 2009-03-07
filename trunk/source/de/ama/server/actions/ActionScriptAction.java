@@ -6,7 +6,7 @@ import de.ama.util.Util;
 public class ActionScriptAction {
 
     public String serverActionName;
-    public String userId;
+    public Long   userId;
     public String catalog;
 
     public Object data;
