@@ -4,9 +4,9 @@ package de.ama.server.services.impl;
 import de.ama.db.DB;
 import de.ama.db.OidIterator;
 import de.ama.db.Query;
-import de.ama.util.Ini;
 import de.ama.server.services.PersistentService;
 import de.ama.server.services.UserService;
+import de.ama.util.Ini;
 
 import java.util.List;
 
@@ -17,6 +17,11 @@ import java.util.List;
 public class PersistentServiceImpl implements PersistentService {
 
     public PersistentServiceImpl() {
+        start();
+    }
+
+
+    public void start(){
         String host = Ini.getString("db.host","localhost");
         String user = Ini.getString("db.user","root");
         String catalog = Ini.getString("db.catalog","tagzilla");
@@ -30,6 +35,9 @@ public class PersistentServiceImpl implements PersistentService {
         leave();
     }
 
+    public void stop(){
+        DB.get().disconnect();
+    }
 
     public void join(String catalog){
         DB.joinCatalog(catalog);

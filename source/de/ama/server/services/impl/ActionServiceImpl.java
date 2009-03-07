@@ -15,7 +15,7 @@ public class ActionServiceImpl implements ActionService {
 
 
     private ServerAction createAction(String name) {
-        return (ServerAction) Environment.getBean("server.actions." + name);
+        return (ServerAction) Environment.getBean("de.ama.server.actions." + name);
     }
 
     public ActionScriptAction execute(ActionScriptAction asa) {

@@ -13,6 +13,9 @@ import java.util.List;
 public interface PersistentService {
     public static String NAME = "PersistentService";
 
+    public void start();
+    public void stop();
+
     public void join(String catalog);
     public void leave();
 

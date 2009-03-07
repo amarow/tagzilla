@@ -20,6 +20,7 @@ public class Environment {
         singletons.put(PersistentService.NAME   ,getBean("de.ama.server.services.impl.PersistentServiceImpl"));
         singletons.put(UserService.NAME         ,getBean("de.ama.server.services.impl.UserServiceImpl"));
         singletons.put(ActionService.NAME       ,getBean("de.ama.server.services.impl.ActionServiceImpl"));
+        singletons.put(CrawlerService.NAME      ,getBean("de.ama.server.services.impl.CrawlerServiceImpl"));
 
         beanDictionary.put(XmlService.NAME          ,"de.ama.server.services.impl.XmlServiceImpl");
 
@@ -46,6 +47,10 @@ public class Environment {
 
     public static PersistentService getPersistentService(){
         return (PersistentService) getSingleton(PersistentService.NAME);
+    }
+
+    public static CrawlerService getCrawlerService(){
+        return (CrawlerService) getSingleton(CrawlerService.NAME);
     }
 
     public static UserService getUserService(){

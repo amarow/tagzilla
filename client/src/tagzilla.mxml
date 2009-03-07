@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="100%" height="100%" xmlns:ns1="components.*" backgroundGradientAlphas="[0.4, 0.39]" backgroundGradientColors="[#5D5252, #39261F]" >
+	<mx:VDividedBox top="0" left="0" right="0" bottom="0" verticalGap="5" liveDragging="true" color="#B5D4DA" backgroundAlpha="0.94" backgroundColor="#131111">
+		<mx:Canvas width="100%" height="50%" backgroundAlpha="0.55" backgroundColor="#080404" >
+			<mx:Canvas backgroundAlpha="0.94" backgroundColor="#A89F9F" bottom="0" top="28" left="2" right="98" cornerRadius="11" borderStyle="solid" alpha="0.84" themeColor="#ACBCC6">
+				<mx:Button x="73" y="46" label="Martin" fillAlphas="[1.0, 1.0]" fillColors="[#CCA11E, #CCA11E]"/>
+				<mx:Button x="159" y="87" label="Kunden" width="80" height="37" fillAlphas="[1.0, 1.0]" fillColors="[#0E2D0E, #0E2D0E]"/>
+				<mx:Button x="343" y="120" label="Verträge" width="87" height="37" fillAlphas="[1.0, 1.0]" fillColors="[#C93A3A, #C93A3A]"/>
+				<mx:Button x="421" y="43" label="Protokolle" width="91" height="28" fillAlphas="[1.0, 1.0]" fillColors="[#2D96B9, #2D96B9]"/>
+				<mx:Button x="457" y="167" label="Vorlagen" width="78" height="37" fillAlphas="[1.0, 1.0]" fillColors="[#225514, #225514]"/>
+				<mx:Label x="35" y="167" text="Rechnung_Entwurf.doc" width="138"/>
+			</mx:Canvas>
+			<mx:Button x="10" label="Thyssen" top="4" height="22"/>
+			<mx:Button x="83" label="Porsche" fillAlphas="[1.0, 1.0]" fillColors="[#5A570D, #5A570D]" top="4" height="22"/>
+			<mx:Button x="156" label="To Do" fillAlphas="[1.0, 1.0]" fillColors="[#0B460A, #0B460A]" top="4" height="22"/>
+			<mx:Button x="215" label="Rechnungen" fillAlphas="[1.0, 1.0]" fillColors="[#660C0C, #660C0C]" top="4" height="22"/>
+			<mx:Button x="312" label="Bilder" fillAlphas="[1.0, 1.0]" fillColors="[#274F75, #274F75]" top="4" height="22"/>
+			<mx:Canvas backgroundAlpha="0.94" backgroundColor="#A89F9F" bottom="0" top="28" right="2" cornerRadius="11" borderStyle="solid" alpha="0.84" themeColor="#ACBCC6" width="92">
+				<mx:Button x="10" y="10" label="Martin" fillAlphas="[1.0, 1.0]" fillColors="[#CCA11E, #CCA11E]"/>
+				<mx:Button x="10" y="38" label="Kunden" width="70" height="21" fillAlphas="[1.0, 1.0]" fillColors="[#0E2D0E, #0E2D0E]"/>
+				<mx:Button x="10" y="96" label="Verträge" width="70" height="23" fillAlphas="[1.0, 1.0]" fillColors="[#C93A3A, #C93A3A]"/>
+				<mx:Button x="10" y="67" label="Protokolle" width="70" height="21" fillAlphas="[1.0, 1.0]" fillColors="[#2D96B9, #2D96B9]"/>
+				<mx:Button x="12" y="127" label="Vorlagen" width="68" height="22" fillAlphas="[1.0, 1.0]" fillColors="[#225514, #225514]"/>
+				<mx:Button x="10" y="157" label="Verträge" width="70" height="23" fillAlphas="[1.0, 1.0]" fillColors="[#C93A3A, #C93A3A]"/>
+				<mx:Button x="10" y="188" label="Verträge" width="70" height="23" fillAlphas="[1.0, 1.0]" fillColors="[#C93A3A, #C93A3A, #C93A3A, #C93A3A]"/>
+			</mx:Canvas>
+		</mx:Canvas>
+		<mx:Canvas width="100%" height="200" backgroundAlpha="0.55" backgroundColor="#080404">
+			<mx:Canvas backgroundAlpha="0.94" backgroundColor="#A89F9F" bottom="2" top="0" left="2" right="2" cornerRadius="11" borderStyle="solid" alpha="0.84" themeColor="#ACBCC6">
+				<mx:DataGrid right="4" bottom="4" top="4" left="4">
+					<mx:columns>
+						<mx:DataGridColumn headerText="Column 1" dataField="col1"/>
+						<mx:DataGridColumn headerText="Column 2" dataField="col2"/>
+						<mx:DataGridColumn headerText="Column 3" dataField="col3"/>
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:Canvas>
+		</mx:Canvas>
+	</mx:VDividedBox>
+	
+</mx:WindowedApplication>

@@ -13,11 +13,9 @@ public interface UserService {
     public static String NAME = "UserService";
     public static String USER_ID_SEQUENZE = "user_id";
 
-    public User getActiveUser(String id);
+    public User getActiveUser(Long id);
 
-    public String newUser(String name, String pwd);
-    public String login(String name, String pwd);
+    public Long newUser(String name, String pwd);
+    public Long login(String name, String pwd);
     public void removeUser(User user);
-
-
 }

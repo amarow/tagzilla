@@ -1,9 +1,13 @@
 package de.ama.server.crawler;
 
+import de.ama.db.DB;
+import de.ama.server.bom.Handle;
+import de.ama.server.services.Environment;
+
 import java.io.File;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +16,7 @@ import java.util.Iterator;
  * Time: 21:26:39
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Crawler implements Runnable {
+public class Crawler implements Runnable {
     private String rootPath;
     private HashMap storeA = new HashMap();
     private HashMap storeB = new HashMap();
@@ -23,13 +27,10 @@ public abstract class Crawler implements Runnable {
     private boolean running = true;
     private boolean adjusting = true;
     private long scannedFilesCount = 0;
+    private long commitCount = 0;
 
 
-    public Crawler(String path) {
-        this(path, "", 10000);
-    }
-
-    public Crawler(String path, String filter, long pause) {
+    public Crawler(String path, long pause) {
         this.rootPath = path;
         this.pause = pause;
 
@@ -39,10 +40,6 @@ public abstract class Crawler implements Runnable {
         }
     }
 
-
-    public void setRunning(boolean running) {
-        this.running = running;
-    }
 
     private void walkDirs(File in) {
         if (in.isDirectory()) {
@@ -62,15 +59,11 @@ public abstract class Crawler implements Runnable {
 
                         if (current == null) {
                             allfilesB.put(key, new Long(file.lastModified()));
-                            if (!adjusting) {
-                                onChange(file, "added");
-                            }
+                            onAddFile(file);
                         } else {
                             if (current.longValue() != file.lastModified()) {
                                 allfilesB.put(key, new Long(file.lastModified()));
-                                if (!adjusting) {
-                                    onChange(file, "modified");
-                                }
+                                onRemoveFile(file);
                             } else {
                                 allfilesB.put(key, current);
                             }
@@ -93,30 +86,37 @@ public abstract class Crawler implements Runnable {
 
     public final void run() {
 
+        DB.joinCatalog("tagzilla");
+
         while (running) {
-            adjusting = allfilesA.isEmpty();
-            scannedFilesCount = 0;
-            long start = System.currentTimeMillis();
-            File root = new File(rootPath);
-            walkDirs(root);
-            long stop = System.currentTimeMillis();
+            try {
+                adjusting = allfilesA.isEmpty();
+                scannedFilesCount = 0;
+                long start = System.currentTimeMillis();
+                File root = new File(rootPath);
+                walkDirs(root);
+                long stop = System.currentTimeMillis();
 
-            Set set = allfilesA.keySet();
-            for (Iterator iterator = set.iterator(); iterator.hasNext();) {
-                String key = (String) iterator.next();
-                onChange(new File(key), "deleted");
+                Set set = allfilesA.keySet();
+                for (Iterator iterator = set.iterator(); iterator.hasNext();) {
+                    String key = (String) iterator.next();
+                    onRemoveFile(new File(key));
+                }
+                allfilesA.clear();
+                flip();
+
+                double consum = (stop - start)/1000.0;
+                System.out.println(rootPath +" checked " + scannedFilesCount +" of " + allfilesA.size() +" files in " + consum +" sec");
+                DB.session().commit();
+
+            } catch (Exception e) {
+                DB.session().rollback();
             }
-            allfilesA.clear();
-            flip();
 
-            long consum = stop - start;
-            System.out.println("checked " + scannedFilesCount + " of (" + allfilesA.size() + ") files in " + consum + " millis.");
-            System.out.println("waiting " + pause + " millis");
             sleep(pause);
         }
 
-        System.out.println("By By");
-
+        DB.leaveCatalog();
     }
 
     private void flip() {
@@ -129,10 +129,45 @@ public abstract class Crawler implements Runnable {
         }
     }
 
-    public void stop(){
-        running = false;
+    public String getRootPath() {
+        return rootPath;
     }
 
-    protected abstract void onChange(File file, String action);
+    protected void onAddFile(File file){
+        System.out.println("ADD    :"+ file.getPath());
+
+        Handle h = new Handle();
+        h.setPath(file.getPath());
+        h.setLastmodified(file.lastModified());
+        h.setSize(file.length());
+
+        Environment.getPersistentService().makePersistent(h);
+        commitBunch();
+    };
+
+    protected void onUpdateFile(File file){
+        System.out.println("UPDATE :"+ file.getPath());
+
+    };
+
+    protected void onRemoveFile(File file){
+        System.out.println("REMOVE :"+ file.getPath());
+    };
+
+    protected void commitBunch(){
+        if(commitCount%100==0){
+            Environment.getPersistentService().commit();
+        }
+    }
+
+    public boolean getRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+
 }
 

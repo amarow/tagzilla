@@ -1,11 +1,11 @@
 package de.ama.server.services.impl;
 
 import de.ama.db.Query;
-import de.ama.util.Util;
 import de.ama.server.actions.ServerAction;
+import de.ama.server.bom.User;
 import de.ama.server.services.Environment;
 import de.ama.server.services.UserService;
-import de.ama.server.bom.User;
+import de.ama.util.Util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,18 +13,18 @@ import java.util.Map;
 
 
 public class UserServiceImpl implements UserService {
-    Map<String , User> activeUsers = new HashMap<String , User>() ;
+    Map<Long , User> activeUsers = new HashMap<Long , User>() ;
 
-    public String  newUser(String name, String pwd) {
+    public Long  newUser(String name, String pwd) {
 
         if(Util.isEmpty(name)){
             ServerAction.getCurrent().addError("bitte gebe einen Namen an");
-            return "";
+            return new Long(-1);
         }
 
         if(Util.isEmpty(pwd)){
             ServerAction.getCurrent().addError("bitte gebe einen Passwort ein");
-            return "";
+            return new Long(-1);
         }
 
         long count = Environment.getPersistentService().getObjectCount(new Query(User.class, "name", Query.EQ, name).
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
             long id = Environment.getPersistentService().getNextNumber(USER_ID_SEQUENZE);
 
-            User user = new User(name, pwd, name + "_" + id);
+            User user = new User(name, pwd, id);
             Environment.getPersistentService().makePersistent(user);
             return user.getId();
         }
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         Environment.getPersistentService().delete(Environment.getPersistentService().getOidString(user));
     }
 
-    public User getActiveUser(String id) {
+    public User getActiveUser(Long id) {
         User user = activeUsers.get(id);
         if(user==null) {
             throw new RuntimeException("no active user / session dead") ;
@@ -54,23 +54,23 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public String login(String name, String pwd) {
+    public Long login(String name, String pwd) {
 
         if(Util.isEmpty(name)){
             ServerAction.getCurrent().addError("bitte gebe einen Namen an");
-            return "";
+            return new Long(-1);
         }
         if(Util.isEmpty(pwd)){
 //            throw new RuntimeException("bitte geben Sie ein Passwort ein") ;
             ServerAction.getCurrent().addError("bitte gebe einen Passwort ein");
-            return "";
+            return new Long(-1);
         }
 
         List users = Environment.getPersistentService().getObjects(new Query(User.class, "name", Query.EQ, name).
                                                                     and(new Query(User.class, "pwd", Query.EQ, pwd)));
         if (users.size() == 0) {
             ServerAction.getCurrent().addError("Es gibt keinen User mit der Kombination User/Passwort.");
-            return "";
+            return new Long(-1);
         }
 
         User user = (User) users.get(0);
