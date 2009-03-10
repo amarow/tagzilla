@@ -3,6 +3,7 @@
 package de.ama.server.services;
 
 import de.ama.db.Query;
+import de.ama.db.OidIterator;
 
 import java.util.List;
 
@@ -22,11 +23,13 @@ public interface PersistentService {
     Object getObject(String oid);
     Object getObject(Query q, boolean exact );
     List getObjects(Query q);
+    public OidIterator getObjectsIterator(Query query);
     long getObjectCount(Query q);
 
     String makePersistent(Object o);
     String getOidString(Object o);
     void delete(String oid);
+    void delete(Query q);
 
     void commit();
     void rollback();

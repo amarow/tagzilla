@@ -55,6 +55,10 @@ public class PersistentServiceImpl implements PersistentService {
         return DB.session().getOidIterator(query).asList();
     }
 
+    public OidIterator getObjectsIterator(Query query) {
+        return DB.session().getOidIterator(query);
+    }
+
     public long getObjectCount(Query q) {
         return DB.session().getObjectCount(q);
     }
@@ -84,6 +88,10 @@ public class PersistentServiceImpl implements PersistentService {
 
     public void delete(String oid) {
        DB.session().delete(oid);
+    }
+
+    public void delete(Query q) {
+       DB.session().delete(q);
     }
 
     public void commit(){
