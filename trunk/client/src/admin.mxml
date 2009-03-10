@@ -23,6 +23,10 @@
 	                Alert.show(a.detailErrorMessage);
 	            }
 	            
+	            if(a.data is ArrayCollection){
+	            	crawlers = a.data as ArrayCollection;
+	            }
+	            
 	        }
 
 			
@@ -31,12 +35,13 @@
             }
             
             private function removeCrawler():void  {
-				stopCrawler();
-				crawlerTable.removeChildAt(crawlerTable.selectedIndex);
+				var a:ActionScriptAction = new ActionScriptAction();
+	            a.serverActionName="CrawlerAction";
+	            a.data="delete."+crawlerTable.selectedItem;
+	            actionservice.execute(a);           
             }
             
             private function startCrawler():void  {
-            	
    	            var a:ActionScriptAction = new ActionScriptAction();
 	            a.serverActionName="CrawlerAction";
 	            a.data="start."+crawlerTable.selectedItem;

@@ -1,7 +1,10 @@
 package de.ama.server.crawler;
 
 import de.ama.db.DB;
+import de.ama.db.Query;
+import de.ama.db.OidIterator;
 import de.ama.server.bom.Handle;
+import de.ama.server.bom.Directory;
 import de.ama.server.services.Environment;
 
 import java.io.File;
@@ -37,6 +40,17 @@ public class Crawler implements Runnable {
         File root = new File(path);
         if (!root.isDirectory()) {
             throw new IllegalArgumentException("root file is not a directory, can not scan file " + root.getPath());
+        }
+    }
+
+    public Crawler(Directory dir) {
+        rootPath=dir.getPath();
+        pause=dir.getPause();
+
+        OidIterator iterator = Environment.getPersistentService().getObjectsIterator(new Query(Handle.class, "path", Query.LIKE, rootPath));
+        while (iterator.hasNext()) {
+            Handle handle = (Handle) iterator.next();
+            storeA.put(handle.getPath(),handle.getLastmodified());
         }
     }
 
@@ -160,7 +174,7 @@ public class Crawler implements Runnable {
         }
     }
 
-    public boolean getRunning() {
+    public boolean isRunning() {
         return running;
     }
 

@@ -2,7 +2,6 @@
 package de.ama.server;
 
 import de.ama.server.services.Environment;
-import de.ama.util.Util;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -23,9 +22,9 @@ public class Bootstrap implements ServletContextListener {
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        System.out.println("*************************** stop ***************************");
+        System.out.println("*************************** stopAllCrawlers ***************************");
         Environment.getPersistentService().stop();
-        Environment.getCrawlerService().stop();
+        Environment.getCrawlerService().stopAllCrawlers();
         System.out.println("TAGZILA-CrawlerServiceImpl endet OK.");
         System.out.println("*************************************************************");
     }

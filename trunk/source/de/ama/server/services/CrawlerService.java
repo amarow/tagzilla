@@ -1,5 +1,7 @@
 package de.ama.server.services;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: x
@@ -12,7 +14,12 @@ public interface CrawlerService {
 
     void startCrawler(String path, int pause);
 
-    void stop();
+    void stopAllCrawlers();
 
     void stopCrawler(String path);
+
+    void deleteCrawler(String path);
+
+    List getAllCrawlers();
+
 }
