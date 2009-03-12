@@ -20,18 +20,20 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public class Crawler implements Runnable {
-    private String rootPath;
+    public  String rootPath;
     private HashMap storeA = new HashMap();
     private HashMap storeB = new HashMap();
     private HashMap allfilesA = storeA;
     private HashMap allfilesB = storeB;
 
-    private long pause = 5000;
-    private boolean running = true;
+    public  long pause = 5000;
+    public  boolean running = false;
     private boolean adjusting = true;
-    private long scannedFilesCount = 0;
+    public  long scannedFilesCount = 0;
     private long commitCount = 0;
 
+    public Crawler() {
+    }
 
     public Crawler(String path, long pause) {
         this.rootPath = path;
@@ -99,6 +101,7 @@ public class Crawler implements Runnable {
 
 
     public final void run() {
+        running = true;
 
         DB.joinCatalog("tagzilla");
 
@@ -147,6 +150,10 @@ public class Crawler implements Runnable {
         return rootPath;
     }
 
+    public String getrootPath() {
+        return rootPath;
+    }
+
     protected void onAddFile(File file){
         System.out.println("ADD    :"+ file.getPath());
 
@@ -182,6 +189,16 @@ public class Crawler implements Runnable {
         this.running = running;
     }
 
+    public long getScannedFilesCount() {
+        return scannedFilesCount;
+    }
 
+    public boolean isAdjusting() {
+        return adjusting;
+    }
+
+    public long getPause() {
+        return pause;
+    }
 }
 

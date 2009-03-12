@@ -7,11 +7,10 @@ import de.ama.util.StringDivider;
 public class LoginAction extends ServerAction {
 
     public void execute() {
-        String tmp = (String) getData();
+        String tmp = (String) data;
         StringDivider sd = new StringDivider(tmp,"{del}");
         if(sd.ok()){
-            Long userId = Environment.getUserService().login(sd.pre() ,sd.post());
-            setData(userId);
+           userId = Environment.getUserService().login(sd.pre() ,sd.post());
         }
     }
 

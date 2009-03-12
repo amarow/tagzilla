@@ -4,6 +4,7 @@ import de.ama.db.Persistent;
 import de.ama.server.bom.User;
 import de.ama.server.services.Environment;
 import de.ama.server.services.XmlService;
+import de.ama.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,22 @@ import java.util.List;
  */
 public class ServerAction {
 
-    private static ThreadLocal currentActionHolder;
+    // ************** ActionScript Members *********************
 
-    private Object  data;
+    public Long   userId;
+    public String catalog;
+
+    public Object data;
+    public String message;
+    public String detailErrorMessage;
+
+    // *********************************************************
+
+    private static ThreadLocal currentActionHolder;
     private User    user;
 
+    public ServerAction() {
+    }
 
 
     public static void setCurrent(ServerAction a) {
@@ -43,15 +55,6 @@ public class ServerAction {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
     }
 
     public void execute(){
@@ -135,5 +138,7 @@ public class ServerAction {
         return true;
     }
 
-
+    public String getName() {
+        return Util.getUnqualifiedClassName(getClass());
+    }
 }
