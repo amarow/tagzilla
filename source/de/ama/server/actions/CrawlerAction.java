@@ -11,34 +11,25 @@ import java.util.ArrayList;
 
 public class CrawlerAction extends ServerAction {
 
+
+    public Crawler crawler;
+
     public void execute() {
-        String tmp = (String) getData();
-        StringDivider sd = new StringDivider(tmp,".");
-        if(sd.ok()){
-            if(sd.pre().equals("start")){
-                String path = sd.post();
-                File file = new File(path);
-                if(file.exists() && file.isDirectory()){
-                    Environment.getCrawlerService().startCrawler(path,5000);
-                }
-            } else if(sd.pre().equals("stop")){
-                String path = sd.post();
-                File file = new File(path);
-                if(file.exists() && file.isDirectory()){
-                    Environment.getCrawlerService().stopCrawler(path);
-                }
-            } else if(sd.pre().equals("delete")){
-                String path = sd.post();
-                File file = new File(path);
-                if(file.exists() && file.isDirectory()){
-                    Environment.getCrawlerService().stopCrawler(path);
-                    Environment.getCrawlerService().deleteCrawler(path);
-                }
-            }
+
+        if (message.equals("start")) {
+                Environment.getCrawlerService().startCrawler(crawler);
+        } else if (message.equals("stop")) {
+                Environment.getCrawlerService().stopCrawler(crawler);
+        } else if (message.equals("delete")) {
+                Environment.getCrawlerService().stopCrawler(crawler);
+                Environment.getCrawlerService().deleteCrawler(crawler);
+        } else if (message.equals("delete")) {
+                Environment.getCrawlerService().stopCrawler(crawler);
+                Environment.getCrawlerService().deleteCrawler(crawler);
         }
 
-        List list = Environment.getCrawlerService().getAllCrawlers();
-        setData(list);
+        data = Environment.getCrawlerService().getAllCrawlers();
+        message = Environment.getCrawlerService().infoCrawler(crawler);
     }
 
     public boolean needsUser() {

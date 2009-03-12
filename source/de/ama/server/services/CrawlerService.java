@@ -1,5 +1,7 @@
 package de.ama.server.services;
 
+import de.ama.server.crawler.Crawler;
+
 import java.util.List;
 
 /**
@@ -12,13 +14,15 @@ import java.util.List;
 public interface CrawlerService {
     String NAME = "CrawlerService";
 
-    void startCrawler(String path, int pause);
+    void startCrawler(Crawler c);
 
     void stopAllCrawlers();
 
-    void stopCrawler(String path);
+    void stopCrawler(Crawler c);
 
-    void deleteCrawler(String path);
+    void deleteCrawler(Crawler c);
+
+    String infoCrawler(Crawler c);
 
     List getAllCrawlers();
 

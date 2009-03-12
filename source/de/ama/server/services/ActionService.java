@@ -1,7 +1,7 @@
 
 package de.ama.server.services;
 
-import de.ama.server.actions.ActionScriptAction;
+import de.ama.server.actions.ServerAction;
 
 /**
  * User: x
@@ -10,5 +10,5 @@ import de.ama.server.actions.ActionScriptAction;
 public interface ActionService {
     public static String NAME = "ActionService";
 
-    public ActionScriptAction execute(ActionScriptAction asa);
+    public ServerAction execute(ServerAction asa);
 }

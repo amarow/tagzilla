@@ -25,7 +25,7 @@ public class CrawlerServiceImpl implements CrawlerService {
     public CrawlerServiceImpl(String args[]) {
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
-            startCrawler(arg, 5000);
+            startCrawler(new Crawler(arg, 5000));
         }
     }
 
@@ -43,44 +43,43 @@ public class CrawlerServiceImpl implements CrawlerService {
 
 
 
-    public void startCrawler(String path, int pause) {
-        Crawler crawler = findCrawler(path);
+    public void startCrawler(Crawler c) {
+        Crawler crawler = findCrawler(c.rootPath);
         if (crawler == null) {
 
-            Directory dir = (Directory) Environment.getPersistentService().getObject(new Query(Directory.class, "path", Query.EQ, path), false);
+            Directory dir = (Directory) Environment.getPersistentService().getObject(new Query(Directory.class, "path", Query.EQ, c.rootPath), false);
             if (dir == null) {
                 dir = new Directory();
-                dir.setPath(path);
-                dir.setPause(pause);
+                dir.setPath(c.rootPath);
+                dir.setPause(c.pause);
                 Environment.getPersistentService().makePersistent(dir);
                 Environment.getPersistentService().commit();
             }
 
-            crawler = new Crawler(path, pause);
-            System.out.println("starting crawler " + path);
+            System.out.println("starting crawler " + c.rootPath);
             Thread thread = new Thread(crawler);
             thread.start();
             crawlers.add(crawler);
 
         } else {
             if (crawler.isRunning()) {
-                System.out.println("crawler " + path + " allready started");
+                System.out.println("crawler " + c.rootPath + " allready started");
             } else {
-                System.out.println("starting crawler " + path);
+                System.out.println("starting crawler " + c.rootPath);
                 Thread thread = new Thread(crawler);
                 thread.start();
             }
         }
     }
 
-    public void stopCrawler(String path) {
-        Crawler crawler = findCrawler(path);
+    public void stopCrawler(Crawler c) {
+        Crawler crawler = findCrawler(c.rootPath);
         if (crawler != null && crawler.isRunning()) {
             System.out.println("stopping crawler " + crawler.getRootPath());
             crawler.setRunning(false);
             crawlers.remove(crawler);
         } else {
-            System.out.println("crawler " + path + " not found or allready stopped");
+            System.out.println("crawler " + c.rootPath + " not found or allready stopped");
         }
     }
 
@@ -94,10 +93,18 @@ public class CrawlerServiceImpl implements CrawlerService {
         }
     }
 
-    public void deleteCrawler(String path) {
-        Environment.getPersistentService().delete(new Query(Directory.class, "path", Query.EQ, path));
-        Environment.getPersistentService().delete(new Query(Handle.class, "path", Query.LIKE, path));
+    public void deleteCrawler(Crawler c) {
+        Crawler crawler = findCrawler(c.rootPath);
+        Environment.getPersistentService().delete(new Query(Directory.class, "path", Query.EQ, c.rootPath+"*"));
+        Environment.getPersistentService().delete(new Query(Handle.class, "path", Query.LIKE, c.rootPath+"*"));
         Environment.getPersistentService().commit();
+        crawlers.remove(crawler);
+    }
+
+    public String infoCrawler(Crawler c) {
+        long dirs = Environment.getPersistentService().getObjectCount(new Query(Directory.class, "path", Query.EQ, c.rootPath + "*"));
+        long handles= Environment.getPersistentService().getObjectCount(new Query(Handle.class, "path", Query.LIKE, c.rootPath+"*"));
+        return "dirs="+dirs+" handles="+handles;
     }
 
     

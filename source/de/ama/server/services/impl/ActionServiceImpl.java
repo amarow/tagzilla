@@ -5,7 +5,6 @@ package de.ama.server.services.impl;
  * Date: 16.05.2008
  */
 
-import de.ama.server.actions.ActionScriptAction;
 import de.ama.server.actions.ServerAction;
 import de.ama.server.services.ActionService;
 import de.ama.server.services.Environment;
@@ -14,40 +13,26 @@ import de.ama.server.services.Environment;
 public class ActionServiceImpl implements ActionService {
 
 
-    private ServerAction createAction(String name) {
-        return (ServerAction) Environment.getBean("de.ama.server.actions." + name);
-    }
-
-    public ActionScriptAction execute(ActionScriptAction asa) {
-        System.out.println("ActionServiceImpl.remote_execute " + asa.serverActionName);
-
-        asa.detailErrorMessage = null;
-        asa.message = null;
+    public ServerAction execute(ServerAction a) {
+        System.out.println("ActionServiceImpl.remote_execute " + a.getName());
 
         try {
-            Environment.getPersistentService().join(asa.getCatalog());
-
-            ServerAction a = createAction(asa.getServerActionName());
-            if (a == null) {
-                throw new RuntimeException("cant find ServerAction for [" + asa.serverActionName + "]");
-            }
+            Environment.getPersistentService().join(a.getCatalog());
             ServerAction.setCurrent(a);
 
             if (a.needsUser()) {
-                a.setUser(Environment.getUserService().getActiveUser(asa.userId));
+                a.setUser(Environment.getUserService().getActiveUser(a.userId));
             }
 
-            a.setData(asa.data);
             a.execute();
-            asa.data = a.getData();
 
-            System.out.println("ActionServiceImpl.execute OK " + asa.serverActionName);
-            return asa;
+            System.out.println("ActionServiceImpl.execute OK " + a.getName());
+            return a;
 
         } catch (Exception e) {
             e.printStackTrace();
-            asa.detailErrorMessage = e.getMessage();
-            return asa;
+            a.detailErrorMessage = e.getMessage();
+            return a;
         } finally {
             Environment.getPersistentService().rollback();
             Environment.getPersistentService().leave();
