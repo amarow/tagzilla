@@ -62,7 +62,7 @@
 
 
 
-    <mx:Button label="New" color="#2546D4" click="addTag()" left="10" top="10"/>
+    <mx:Button label="+" color="#2546D4" click="addTag()" left="10" top="10" width="35"/>
 
     <comps:Tag x="159" y="87" path="/Users/ama/Documents" />
     <comps:Tag x="343" y="120" path="/Developer"/>
