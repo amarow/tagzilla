@@ -1,36 +1,61 @@
 package components
 {
-	import mx.core.Application;
-	
-	public class Util
-	{
-		public static function saveToString(o:Object,def:String=""):String {
-		    if(o==null)return def;
-		    return o.toString();
-		}
+import mx.controls.Alert;
+import mx.core.Application;
+import mx.core.ApplicationGlobals;
+import mx.events.MenuEvent;
 
-       import mx.events.MenuEvent;
-       import components.ListPane;
-       import components.TreeEditor;
-       import components.AdvanceTabNavigator;
+public class Util
+{
+    private static var globalStore:Array = new Array();
 
-       public static function handleMenuClick(evt:MenuEvent):void {
-          var type:String = XML(evt.item).attribute("type")[0];
-          var model:String = XML(evt.item).attribute("model")[0];
-          var tabs:Object = Application.application.getChildByName("mainTabs");
-          if(type == "lister"){
-             var p:ListPane = new ListPane();
-             p.label=model;
-             AdvanceTabNavigator(tabs).addChild(p);
-             AdvanceTabNavigator(tabs).selectedChild=p;
-          }
-          if(type == "editor"){
-             var e:TreeEditor = new TreeEditor();
-             e.label=model;
-             AdvanceTabNavigator(tabs).addChild(e);
-             AdvanceTabNavigator(tabs).selectedChild=e;
-          }
-       }
+    public static function saveToString(o:Object, def:String = ""):String {
+        if (o == null)return def;
+        return o.toString();
+    }
 
-	}
+    public static function shrinkString(str:String, l:int,pre:String=""):String {
+        if (str == null)return "";
+        if(str.length > l){
+            return pre+str.substr(str.length-l);
+        }
+        return pre+str;
+    }
+
+
+
+
+    public static function findComponent(key:String):Object {
+            return ApplicationGlobals.application.getChildByName(key);
+    }
+
+    public static function getComponent(key:String):Object {
+        var c:Object = findComponent(key);
+        if (c == null) {
+            showError("Component for id(" + key + ") not found")
+        }
+
+        return c;
+    }
+
+    public static function showMessage(m:String):void {
+        Alert.show(m,"Message");
+    }
+
+    public static function showError(m:String):void {
+        Alert.show(m,"Error");
+    }
+
+
+    public static function storeGlobal(key:String, val:Object):void{
+        globalStore[key]=val;
+    }
+
+    public static function getGlobal(key:String):Object{
+        return globalStore[key];
+    }
+
+
+
+}
 }

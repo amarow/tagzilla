@@ -1,6 +1,7 @@
 package de.ama.server.services;
 
-import de.ama.server.crawler.Crawler;
+import de.ama.server.bom.Crawler;
+import de.ama.db.OidIterator;
 
 import java.util.List;
 
@@ -26,4 +27,7 @@ public interface CrawlerService {
 
     List getAllCrawlers();
 
+    List getAllHandlesByPath(String path);
+
+    List getAllHandlesByTag(String tag);
 }

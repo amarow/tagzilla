@@ -1,8 +1,6 @@
-package de.ama.server.crawler;
+package de.ama.server.bom;
 
 import de.ama.db.DB;
-import de.ama.db.Query;
-import de.ama.db.OidIterator;
 import de.ama.server.bom.Handle;
 import de.ama.server.bom.Directory;
 import de.ama.server.services.Environment;
@@ -11,6 +9,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -49,12 +48,13 @@ public class Crawler implements Runnable {
         rootPath=dir.getPath();
         pause=dir.getPause();
 
-        OidIterator iterator = Environment.getPersistentService().getObjectsIterator(new Query(Handle.class, "path", Query.LIKE, rootPath));
-        while (iterator.hasNext()) {
-            Handle handle = (Handle) iterator.next();
+        List l = Environment.getCrawlerService().getAllHandlesByPath(rootPath);
+        for (int i = 0; i < l.size(); i++) {
+            Handle handle = (Handle) l.get(i);
             storeA.put(handle.getPath(),handle.getLastmodified());
         }
     }
+
 
 
     private void walkDirs(File in) {

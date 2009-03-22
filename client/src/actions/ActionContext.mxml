@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<mx:Object xmlns:mx="http://www.adobe.com/2006/mxml">
+
+    <mx:Script><![CDATA[
+        import actions.ActionScriptAction;
+
+        import components.Util;
+
+        import mx.rpc.events.FaultEvent;
+        import mx.rpc.events.ResultEvent;
+
+        public var startedAction:ActionScriptAction;
+        public var invoker:Object;
+        public static var instance:ActionContext = new ActionContext();
+
+        public function execute(action:ActionScriptAction, invoker:Object = null):void {
+            this.invoker = invoker;
+            this.startedAction = action;
+            delegate.execute(action);
+        }
+
+
+        public function actionResultHandler(event:ResultEvent):void {
+            var action:ActionScriptAction = event.result as ActionScriptAction;
+            if (action.detailErrorMessage != null) {
+                Util.showError(action.detailErrorMessage);
+            }
+            action.onAfterCall(this);
+        }
+
+        public function actionFaultHandler(event:FaultEvent):void {
+            Util.showError(event.fault.faultString)
+        }
+
+        ]]></mx:Script>
+
+
+    <mx:RemoteObject id="delegate"
+                     destination="ActionService"
+                     result="actionResultHandler(event)"
+                     fault="actionFaultHandler(event)"
+                     showBusyCursor="true"
+                     concurrency="single"/>
+
+
+
+
+</mx:Object>

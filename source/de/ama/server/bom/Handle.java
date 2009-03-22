@@ -11,10 +11,11 @@ import de.ama.db.PersistentMarker;
  */
 public class Handle implements PersistentMarker {
     private String path;
-    private String lastUser;
-    private long lastmodified ;
-    private long size;
-    private long userId;
+    private String tags;
+    public String lastUser;
+    public long lastmodified ;
+    public long size;
+    public long userId;
 
     public long getUserId() {
         return userId;
@@ -55,4 +56,30 @@ public class Handle implements PersistentMarker {
     public void setSize(long size) {
         this.size = size;
     }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(String tag){
+        if(tag.contains("¤")){
+            throw new IllegalArgumentException("The '¤' is not permited in tags");
+        }
+
+        if(tags==null) tags="";
+
+        tag="¤"+tag+"¤";
+        if(tags.contains(tag)) return;
+
+        tags += tag;
+    }
+
+    public void setOidString(String oid){
+        System.out.println("Handle.setOidString:"+oid);
+    }
+
 }
