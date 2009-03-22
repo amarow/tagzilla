@@ -1,5 +1,6 @@
-package actions {
-	[RemoteClass(alias="de.ama.server.crawler.Crawler")]
+package bom {
+import actions.*;
+	[RemoteClass(alias="de.ama.server.bom.Crawler")]
 	public class Crawler
 	{
 		public var rootPath:String;

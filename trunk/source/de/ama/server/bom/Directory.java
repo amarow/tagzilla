@@ -10,11 +10,11 @@ import de.ama.db.PersistentMarker;
  * To change this template use File | Settings | File Templates.
  */
 public class Directory implements PersistentMarker {
-    private String path;
-    private long lastmodified ;
-    private long size;
-    private long userId;
-    private long pause;
+    public String path;
+    public long lastmodified ;
+    public long size;
+    public long userId;
+    public long pause;
 
     public String getPath() {
         return path;

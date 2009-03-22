@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+           xmlns:ns1="bom.*" xmlns:comps="components.*"
+           backgroundAlpha="1.0"
+           bottom="0" top="2" left="2" right="2"
+           cornerRadius="11" borderStyle="solid" alpha="0.84" themeColor="#ACBCC6"
+           backgroundColor="#F5EED9"
+           dragEnter="dragEnterHandler(event);"
+           dragDrop="dragDropHandler(event);">
+
+    <mx:Script><![CDATA[
+        import components.Handle;
+        import components.Tag;
+
+        import mx.events.DragEvent;
+        import mx.managers.DragManager;
+
+
+        private function mouseMoveHandler(event:MouseEvent):void {
+
+            //            // Get the drag initiator component from the event object.
+            //            var dragInitiator:Canvas=Canvas(event.currentTarget);
+            //
+            //            // Create a DragSource object.
+            //            var ds:DragSource = new DragSource();
+            //
+            //            // Add the data to the object.
+            //            ds.addData(dragColor, 'color');
+            //
+            //            // Call the DragManager doDrag() method to start the drag.
+            //            DragManager.doDrag(dragInitiator, ds, event);
+        }
+
+        private function dragEnterHandler(event:DragEvent):void {
+            if (event.dragSource.hasFormat('items')) {
+                var dropTarget:Canvas = event.currentTarget as Canvas;
+                DragManager.acceptDragDrop(dropTarget);
+            }
+
+        }
+
+        private function dragDropHandler(event:DragEvent):void {
+            if (event.dragSource.hasFormat('items')) {
+                var data:Object = event.dragSource.dataForFormat('items');
+                var n:int = data.length;
+                var i:int;
+                for (i = 0; i < n; i++) {
+                    var handle:Handle = data[i];
+                    this.addChild(handle);
+                    handle.x = event.localX;
+                    handle.y = event.localY + i * 20;
+                }
+            }
+        }
+
+        public function addTag():void {
+            this.addChild(new Tag("Tag"));
+        }
+
+
+        ]]></mx:Script>
+
+
+
+    <mx:Button label="New" color="#2546D4" click="addTag()" left="10" top="10"/>
+
+    <comps:Tag x="159" y="87" path="/Users/ama/Documents" />
+    <comps:Tag x="343" y="120" path="/Developer"/>
+    <comps:Tag x="343" y="55" tag="Text"/>
+
+</mx:Canvas>
