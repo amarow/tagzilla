@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="server" default="build.all">
+<project name="server">
 
 
     <property file="./build.properties" />
@@ -64,43 +64,90 @@
         </copy>
     </target>
 
+
+    <target name="build.server" description="make server and deploy to tomcat" depends="server.compile.environment,server.enhance,deploy" />
+
     <!--  ********************************* CLIENT ************************************************* -->
 
 
-    <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
+    <!-- SDK properties -->
+    <property name="SDK_HOME" value="${FLEX_HOME}"/>
+    <property name="MXMLC.JAR" value="${SDK_HOME}/lib/mxmlc.jar"/>
+    <property name="ADL" value="${SDK_HOME}/bin/adl"/>
+    <property name="ADT.JAR" value="${SDK_HOME}/lib/adt.jar"/>
 
+    <!-- Project properties -->
+    <property name="APP_NAME" value="client"/>
+    <property name="APP_ROOT_DIR" value="client"/> 
+    <property name="MAIN_SOURCE_FILE" value="${APP_ROOT_DIR}/src/${APP_NAME}.mxml"/>
+    <property name="APP_ROOT_FILE" value="${APP_NAME}.swf"/>
+    <property name="APP_DESCRIPTOR" value="${APP_ROOT_DIR}/src/${APP_NAME}-app.xml"/>
+    <property name="AIR_NAME" value="${APP_NAME}.air"/>
+    <property name="build" location="${APP_ROOT_DIR}/build"/>
+    <property name="debug"  location="${APP_ROOT_DIR}/debug"/>
+    <property name="release"  location="${APP_ROOT_DIR}/release"/>
+    <property name="assets"  location="${APP_ROOT_DIR}/src/assets"/>
+    <property name="STORETYPE" value="pkcs12"/>
+    <property name="KEYSTORE" value="client.p12"/>
 
-    <target name="client.clean" >
-        <delete dir="${deploy.dir}/client" />
-        <mkdir dir="${deploy.dir}/client" />
+    <target name="client.init" depends="client.clean">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${debug}"/>
+        <mkdir dir="${release}"/>
     </target>
 
-    <target name="client.compile" description="compiles the flex sources" >
-        <delete file="${deploy.dir}/client/tagzilla.swf"/>
-        <mxmlc file="${client.src.dir}/tagzilla.mxml"
-               output="${deploy.dir}/client/tagzilla.swf"
-               services="${cfg.dir}/services-config.xml"
-                debug="true">
-        </mxmlc>
+    <target name="client.debugcompile" depends="client.init">
+        <java jar="${MXMLC.JAR}" fork="true" failonerror="true">
+            <arg value="-debug=true"/>
+            <arg value="+flexlib=${SDK_HOME}/frameworks"/>
+            <arg value="+configname=air"/>
+            <arg value="-file-specs=${MAIN_SOURCE_FILE}"/>
+            <arg value="-output=${debug}/${APP_ROOT_FILE}"/>
+        </java>
+        <copy todir="${debug}">
+                 <fileset dir="${assets}"/>
+        </copy>
     </target>
 
-    <target name="client.wrapper" >
-        <html-wrapper
-                height="100%"
-                width="100%"
-                template="express-installation"
-                bgcolor="red"
-                history="true"
-                title="Welcome to FLOW"
-                file="client.html"
-                application="flowApp"
-                swf="client"
-                output="${deploy.dir}/client"/>
+    <target name="client.releasecompile" depends="client.init">
+        <java jar="${MXMLC.JAR}" fork="true" failonerror="true">
+            <arg value="-debug=false"/>
+            <arg value="+flexlib=${SDK_HOME}/frameworks"/>
+            <arg value="+configname=air"/>
+            <arg value="-file-specs=${MAIN_SOURCE_FILE}"/>
+            <arg value="-output=${build}/${APP_ROOT_FILE}"/>
+        </java>
     </target>
 
-    <target name="build.server" description="make server and deploy to tomcat" depends="server.compile.environment,server.enhance,deploy" />
-    <target name="build.client" description="make client and deploy to tomcat" depends="client.clean,client.compile,client.wrapper" />
-    <target name="build.all" description="deploy to tomcat" depends="build.client,build.server" />
+    <target name="client.test" depends="client.debugcompile">
+        <exec executable="${ADL}">
+            <arg value="${APP_DESCRIPTOR}"/>
+            <arg value="${debug}"/>
+        </exec>
+    </target>
 
+    <target name="package" depends="client.releasecompile">
+        <java jar="${ADT.JAR}" fork="true" failonerror="true">
+            <arg value="-package"/>
+            <arg value="-storetype"/>
+            <arg value="${STORETYPE}"/>
+            <arg value="-keystore"/>
+            <arg value="${KEYSTORE}"/>
+            <arg value="${release}/${AIR_NAME}"/>
+            <arg value="${APP_DESCRIPTOR}"/>
+            <arg value="-C"/>
+            <arg value="${build}"/>
+            <arg value="${APP_ROOT_FILE}"/>
+            <arg value="-C"/>
+            <arg value="${assets}"/>
+            <arg value="icons"/>
+        </java>
+    </target>
 
+    <target name="client.clean" description="clean up">
+        <delete dir="${build}"/>
+        <delete dir="${debug}"/>
+        <delete dir="${release}"/>
+    </target>
 </project>
+

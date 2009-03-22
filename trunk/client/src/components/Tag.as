@@ -83,11 +83,11 @@ public class Tag extends Button{
     }
 
 
-    function startDragging(event:MouseEvent):void {
+    private function startDragging(event:MouseEvent):void {
         super.startDrag();
     }
 
-    function stopDragging(event:MouseEvent):void {
+    private function stopDragging(event:MouseEvent):void {
         super.stopDrag();
     }
 
