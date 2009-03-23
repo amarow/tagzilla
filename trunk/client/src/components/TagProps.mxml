@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="272" height="196"
+                title="Tag Properties" showCloseButton="true" close="PopUpManager.removePopUp(this)" borderAlpha="0.75"
+                backgroundColor="#F8C9A6" backgroundAlpha="0.48">
+
+    <mx:Script><![CDATA[
+        import mx.managers.PopUpManager;
+
+        public  var _tag:components.Tag;
+
+        private function onOK():void {
+            if(tagInput.text.length>0){
+                _tag.tag  = tagInput.text;
+            } else {
+                _tag.path = pathInput.text;
+            }
+            _tag.setStyle("color",color.selectedColor);
+            PopUpManager.removePopUp(this);
+        }
+
+        public function set tag(tag:Tag):void {
+            _tag=tag;
+            tagInput.text  = tag.tag;
+            pathInput.text = tag.path;
+            color.selectedColor=tag.getStyle("color");
+        }
+
+
+        ]]></mx:Script>
+
+
+    <mx:Label x="10" y="10" text="Color"/>
+    <mx:Label x="10" y="36" text="Tag"/>
+    <mx:Label x="10" y="61" text="Path"/>
+
+    <mx:ColorPicker x="66" y="10" id="color"/>
+    <mx:TextInput x="66" y="34" id="tagInput" backgroundAlpha="0.5" color="#080909"/>
+    <mx:TextInput x="66" y="59" id="pathInput" backgroundAlpha="0.5"/>
+
+
+    <mx:Button x="177" y="124" label="OK" click="onOK()"/>
+
+
+</mx:TitleWindow>
