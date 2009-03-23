@@ -8,6 +8,7 @@ import mx.controls.Button;
 import mx.events.DragEvent;
 import mx.managers.DragManager;
 import mx.managers.PopUpManager;
+import mx.managers.CursorManager;
 
 public class Tag extends Button{
 
@@ -24,8 +25,9 @@ public class Tag extends Button{
         tag = _tag;
 
         super.setStyle("color", "black");
-        super.setStyle("textAlign", "right");
+        super.setStyle("textAlign", "center");
 
+        super.addEventListener(MouseEvent.ROLL_OVER, mouseOverHandler);
         super.addEventListener(MouseEvent.CLICK, onTagClick);
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
@@ -65,26 +67,42 @@ public class Tag extends Button{
 
     public function onTagClick(event:MouseEvent):void {
 
-        if (event.localX > 10) {
+        if (event.localX > (width-10)) {
+            var props:TagProps = TagProps(PopUpManager.createPopUp(parent, components.TagProps, true));
+            props.x = this.x;
+            props.y = this.y + this.height+5;
+            if(props.x+props.width>parent.width){
+            	props.x=parent.width-props.width;
+            }
+            if(props.y+props.height>parent.height){
+            	props.y=parent.height-props.height;
+            }
+            
+            props.tag = this;
+            return;
+        } 
+        
+        if (event.localX > 10 && event.localX < (width-10)) {
             var a:GetHandlesAction = new GetHandlesAction();
             a.path = path;
             a.tag = tag;
             ActionContext.instance.execute(a, this);
-        } else {
-            if (event.localY > height / 2) {
-                var props:TagProps = TagProps(PopUpManager.createPopUp(parent, components.TagProps, true));
-                props.x = this.x;
-                props.y = this.y + this.height+5;
-                props.tag = this;
-            }
         }
-
 
     }
 
+    private function mouseOverHandler(event:MouseEvent):void {
+        if (event.localX < 10 && event.localX > 1) {
+        	super.setStyle("borderColor","red");
+        } else {
+        	super.setStyle("borderColor","black");
+        }
+    }
 
     private function startDragging(event:MouseEvent):void {
-        super.startDrag();
+        if (event.localX < 10) {
+           super.startDrag();
+        }
     }
 
     private function stopDragging(event:MouseEvent):void {

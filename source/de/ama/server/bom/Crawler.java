@@ -1,6 +1,7 @@
 package de.ama.server.bom;
 
 import de.ama.db.DB;
+import de.ama.db.Query;
 import de.ama.server.bom.Handle;
 import de.ama.server.bom.Directory;
 import de.ama.server.services.Environment;
@@ -48,13 +49,12 @@ public class Crawler implements Runnable {
         rootPath=dir.getPath();
         pause=dir.getPause();
 
-        List l = Environment.getCrawlerService().getAllHandlesByPath(rootPath);
+        List l = getAllHandlesByPath(rootPath);
         for (int i = 0; i < l.size(); i++) {
             Handle handle = (Handle) l.get(i);
             storeA.put(handle.getPath(),handle.getLastmodified());
         }
     }
-
 
 
     private void walkDirs(File in) {
@@ -200,5 +200,11 @@ public class Crawler implements Runnable {
     public long getPause() {
         return pause;
     }
+
+    public List getAllHandlesByPath(String path) {
+        return Environment.getPersistentService().getObjects(new Query(Handle.class, "path", Query.LIKE, path+"*"));
+    }
+
+
 }
 
