@@ -26,8 +26,4 @@ public interface CrawlerService {
     String infoCrawler(Crawler c);
 
     List getAllCrawlers();
-
-    List getAllHandlesByPath(String path);
-
-    List getAllHandlesByTag(String tag);
 }

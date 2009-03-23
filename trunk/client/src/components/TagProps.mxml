@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="272" height="196"
-                title="Tag Properties" showCloseButton="true" close="PopUpManager.removePopUp(this)" borderAlpha="0.75"
-                backgroundColor="#F8C9A6" backgroundAlpha="0.48">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+	            xmlns:comps="components.*" 
+	            layout="absolute" width="272" height="164"
+                title="Tag Properties" showCloseButton="true" 
+                close="PopUpManager.removePopUp(this)" 
+                borderAlpha="0.75" backgroundColor="#DFD2C3" backgroundAlpha="1.0">
 
     <mx:Script><![CDATA[
         import mx.managers.PopUpManager;
-
+        import mx.events.ValidationResultEvent;
+        
         public  var _tag:components.Tag;
 
         private function onOK():void {
-            if(tagInput.text.length>0){
-                _tag.tag  = tagInput.text;
-            } else {
-                _tag.path = pathInput.text;
-            }
+			if(tagInput.text.indexOf("/")>=0 || tagInput.text.indexOf(":")==1){
+               _tag.path = tagInput.text;
+			} else {
+               _tag.tag  = tagInput.text;
+			}
             _tag.setStyle("color",color.selectedColor);
             PopUpManager.removePopUp(this);
         }
 
         public function set tag(tag:Tag):void {
             _tag=tag;
-            tagInput.text  = tag.tag;
-            pathInput.text = tag.path;
+            if(tag.tag.length>0){
+               tagInput.text  = tag.tag;
+            } else {
+               tagInput.text  = tag.path;
+            }
             color.selectedColor=tag.getStyle("color");
         }
 
+        private function handleValid(eventObj:ValidationResultEvent):void {
+            if(eventObj.type==ValidationResultEvent.VALID)    
+                // Enable Submit button.
+                okButton.enabled = true;
+            else
+                okButton.enabled = false;
+        }
 
         ]]></mx:Script>
 
 
-    <mx:Label x="10" y="10" text="Color"/>
-    <mx:Label x="10" y="36" text="Tag"/>
-    <mx:Label x="10" y="61" text="Path"/>
+    <mx:Label x="10" y="14" text="Color"/>
+    <mx:Label x="10" y="49" text="Tag"/>
 
     <mx:ColorPicker x="66" y="10" id="color"/>
-    <mx:TextInput x="66" y="34" id="tagInput" backgroundAlpha="0.5" color="#080909"/>
-    <mx:TextInput x="66" y="59" id="pathInput" backgroundAlpha="0.5"/>
+
+    <mx:TextInput x="66" y="47" id="tagInput" />
+    <comps:EditFieldValidator source="{tagInput}" property="text" 
+    	required="true" minLength="2" trigger="{tagInput}" triggerEvent="change"
+    	valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>
 
 
-    <mx:Button x="177" y="124" label="OK" click="onOK()"/>
+    <mx:Button x="183" y="92" label="OK" click="onOK()" id="okButton"/>
 
 
 </mx:TitleWindow>

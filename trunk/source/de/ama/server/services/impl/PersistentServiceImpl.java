@@ -41,6 +41,7 @@ public class PersistentServiceImpl implements PersistentService {
 
     public void join(String catalog){
         DB.joinCatalog(catalog);
+        DB.session().setVerbose(true);
     }
 
     public void leave(){

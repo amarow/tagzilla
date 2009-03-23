@@ -124,19 +124,4 @@ public class CrawlerServiceImpl implements CrawlerService {
     }
 
 
-    public List getAllHandlesByPath(String path) {
-
-        return Environment.getPersistentService().getObjects(new Query(Handle.class, "path", Query.LIKE, path+"*"));
-
-    }
-
-    public List getAllHandlesByTag(String tag) {
-
-        return Environment.getPersistentService().getObjects(new Query(Handle.class, "tags", Query.LIKE, "*¤"+tag+"¤*"));
-
-    }
-
-    
-
-
 }

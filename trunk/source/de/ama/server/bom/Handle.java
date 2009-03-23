@@ -10,6 +10,10 @@ import de.ama.db.PersistentMarker;
  * To change this template use File | Settings | File Templates.
  */
 public class Handle implements PersistentMarker {
+
+    public static String DELIM ="|";
+    public static long QUERY_LIMIT = 1000 ;
+
     private String path;
     private String tags;
     public String lastUser;
@@ -66,20 +70,14 @@ public class Handle implements PersistentMarker {
     }
 
     public void addTag(String tag){
-        if(tag.contains("¤")){
-            throw new IllegalArgumentException("The '¤' is not permited in tags");
+        if(tag.contains(DELIM)){
+            throw new IllegalArgumentException("The '"+ DELIM +"' is not permited in tags");
         }
 
-        if(tags==null) tags="";
+        if(tags==null) tags=DELIM;
 
-        tag="¤"+tag+"¤";
-        if(tags.contains(tag)) return;
+        if(tags.contains(DELIM +tag+ DELIM)) return;
 
-        tags += tag;
+        tags += tag+ DELIM;
     }
-
-    public void setOidString(String oid){
-        System.out.println("Handle.setOidString:"+oid);
-    }
-
 }

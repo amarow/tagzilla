@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<actionScriptProperties mainApplicationPath="tagzilla.mxml" version="3">
-<compiler additionalCompilerArguments="-services &quot;/Users/ama/dev/tagzilla/war/WEB-INF/flex/services-config.xml&quot; -locale en_US" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersion="9.0.124" htmlPlayerVersionCheck="true" outputFolderLocation="/Users/ama/dev/tagzilla/war/tagzilla-debug" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" useApolloConfig="true" verifyDigests="true" warn="true">
+<actionScriptProperties mainApplicationPath="client.mxml" version="3">
+<compiler additionalCompilerArguments="-services &quot;D:/dev/tagzilla/war/WEB-INF/flex/services-config.xml&quot; -locale en_US" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersion="9.0.124" htmlPlayerVersionCheck="true" outputFolderLocation="D:/dev/tagzilla/war/client" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" useApolloConfig="true" verifyDigests="true" warn="true">
 <compilerSourcePath/>
 <libraryPath defaultLinkType="1">
 <libraryPathEntry kind="4" path=""/>
@@ -9,6 +9,7 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
+<application path="client.mxml"/>
 <application path="admin.mxml"/>
 <application path="tagzilla.mxml"/>
 </applications>
