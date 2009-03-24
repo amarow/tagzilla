@@ -1,7 +1,8 @@
 package components {
+	
 import flash.events.MouseEvent;
-
 import mx.controls.Label;
+import actions.*;
 
 [RemoteClass(alias="de.ama.server.bom.Handle")]
 public class Handle extends Label
@@ -23,8 +24,17 @@ public class Handle extends Label
 
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
+        super.addEventListener(MouseEvent.CLICK, onClick);
+        
 
     }
+
+    public function onClick(e:MouseEvent):void {
+        var a:StartExecAction = new StartExecAction();
+        a.cmdline = "start winword D:/texte/Software.doc";
+        ActionContext.instance.execute(a, this);
+    }
+
 
 
     public function set path(val:String):void {
