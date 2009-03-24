@@ -24,7 +24,7 @@ public class GetHandlesAction extends ServerAction {
         }
 
         if(!Util.isEmpty(path)) {
-            Query q = new Query(Handle.class, "path", Query.LIKE, path + "*");
+            Query q = new Query(Handle.class, "path", Query.LIKE, Handle.toDBString(path) + "*");
             if(Environment.getPersistentService().getObjectCount(q)>Handle.QUERY_LIMIT){
                 message = "query was limited to "+Handle.QUERY_LIMIT+" entries";
             }
