@@ -17,11 +17,11 @@ public class Directory implements PersistentMarker {
     public long pause;
 
     public String getPath() {
-        return path;
+        return Handle.fromDbString(path);
     }
 
     public void setPath(String path) {
-        this.path = path;
+        this.path = Handle.toDBString(path);
     }
 
     public long getLastmodified() {

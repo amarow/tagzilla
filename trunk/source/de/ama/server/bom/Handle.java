@@ -1,6 +1,7 @@
 package de.ama.server.bom;
 
 import de.ama.db.PersistentMarker;
+import de.ama.util.Util;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,11 +31,11 @@ public class Handle implements PersistentMarker {
     }
 
     public String getPath() {
-        return path;
+        return fromDbString(path);
     }
 
     public void setPath(String path) {
-        this.path = path;
+        this.path = toDBString(path);
     }
 
     public String getLastUser() {
@@ -79,5 +80,40 @@ public class Handle implements PersistentMarker {
         if(tags.contains(DELIM +tag+ DELIM)) return;
 
         tags += tag+ DELIM;
+    }
+
+    public static String toDBString(String path){
+//        path=Util.replaceSubString(path,"\\","/");
+//        path=Util.replaceSubString(path,"ä", "&au");
+//        path=Util.replaceSubString(path,"Ä", "&AU");
+//        path=Util.replaceSubString(path,"ö", "&ou");
+//        path=Util.replaceSubString(path,"Ö", "&OU");
+//        path=Util.replaceSubString(path,"ü", "&uu");
+//        path=Util.replaceSubString(path,"Ü", "&UU");
+//        path=Util.replaceSubString(path,"ß", "&sz");
+        return path;
+    }
+
+    public static String fromDbString(String path){
+//        path=Util.replaceSubString(path,"&au","ä" );
+//        path=Util.replaceSubString(path,"&AU","Ä" );
+//        path=Util.replaceSubString(path,"&ou","ö" );
+//        path=Util.replaceSubString(path,"&OU","Ö" );
+//        path=Util.replaceSubString(path,"&uu","ü" );
+//        path=Util.replaceSubString(path,"&UU","Ü" );
+//        path=Util.replaceSubString(path,"&sz","ß" );
+        return path;
+    }
+
+    public static String replaceAll(char a,char b,String in ){
+        char[] chars = in.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char aChar = chars[i];
+            if(aChar==a){
+                chars[i]=b;
+            }
+        }
+
+        return new String(chars);
     }
 }

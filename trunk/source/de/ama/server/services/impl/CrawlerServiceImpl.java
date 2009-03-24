@@ -66,7 +66,7 @@ public class CrawlerServiceImpl implements CrawlerService {
     }
 
     private Directory getOrMakeDir(Crawler c) {
-        Directory dir = (Directory) Environment.getPersistentService().getObject(new Query(Directory.class, "path", Query.EQ, c.rootPath), false);
+        Directory dir = (Directory) Environment.getPersistentService().getObject(new Query(Directory.class, "path", Query.EQ, Handle.toDBString(c.rootPath)), false);
         if (dir == null) {
             dir = new Directory();
             dir.setPath(c.rootPath);
