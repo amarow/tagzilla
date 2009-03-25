@@ -13,6 +13,8 @@
         public  var _tag:components.Tag;
 
         private function onOK():void {
+            _tag.path = "";
+            _tag.tag = "";
 			if(tagInput.text.indexOf("/")>=0 || tagInput.text.indexOf(":")==1){
                _tag.path = tagInput.text;
 			} else {

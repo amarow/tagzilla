@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:actions="actions.*" 
+	layout="absolute" backgroundGradientAlphas="[1.0, 1.0]" 
+	backgroundGradientColors="[#103107, #6A8762]"
+	width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+        import bom.Crawler;
+			import mx.collections.ArrayCollection;
+	        import mx.rpc.events.ResultEvent;
+            import mx.controls.Alert;
+            import actions.CrawlerAction;
+
+			[Bindable]
+			public var crawlers:ArrayCollection = new ArrayCollection();
+			
+			
+	        private function actionResultHandler(event:ResultEvent):void {
+	            var a:CrawlerAction = event.result as CrawlerAction;
+	
+	            if (a.detailErrorMessage != null) {
+	                Alert.show(a.detailErrorMessage);
+	            }
+	            
+	            if(a.data is ArrayCollection){
+	            	crawlers = a.data as ArrayCollection;
+	            }
+	            
+	            statusLine.text=a.message;
+	            
+	        }
+
+			
+            private function addCrawler():void  {
+            	crawlers.addItem(new Crawler(newpath.text));
+            }
+            
+            private function removeCrawler():void  {
+   	            var a:CrawlerAction = new CrawlerAction();
+	            a.message="delete";
+	            a.crawler=crawlerTable.selectedItem as Crawler;
+	            actionservice.execute(a);            }
+            
+            private function startCrawler():void  {
+   	            var a:CrawlerAction = new CrawlerAction();
+	            a.message="start";
+	            a.crawler = crawlerTable.selectedItem as Crawler;
+	            actionservice.execute(a);
+            }
+            
+            private function stopCrawler():void  {
+   	            var a:CrawlerAction = new CrawlerAction();
+	            a.message="stop";
+	            a.crawler=crawlerTable.selectedItem as Crawler;
+	            actionservice.execute(a);           
+	        }
+            
+                        
+            private function updateCrawlers():void  {
+   	            var a:CrawlerAction = new CrawlerAction();
+   	            a.crawler=new Crawler("");
+	            a.message="update";
+	            actionservice.execute(a);            
+	        }
+            
+		]]>
+	</mx:Script>
+
+    <mx:RemoteObject id="actionservice" destination="ActionService" result="actionResultHandler(event)"/>
+
+	<mx:TabNavigator left="5" right="5" top="5" bottom="5" backgroundColor="#97AA8E" color="#B5D9AF" cornerRadius="5">
+		<mx:Canvas label="Properties" width="100%" height="100%" backgroundAlpha="0.27" cornerRadius="5" borderStyle="none" color="#EF0E0E">
+			<mx:Button label="+" click="addCrawler()" enabled="true" themeColor="#A0D692" color="#0F2F09" top="20" height="22" right="20" width="36"/>
+			<mx:Button label="U" click="updateCrawlers()" enabled="true" themeColor="#A0D692" color="#0F2F09" height="25" left="10" width="40" bottom="10"/>
+			<mx:Button label="-" click="removeCrawler()" enabled="true" themeColor="#A0D692" color="#0F2F09" width="42" height="25" left="58" bottom="10"/>
+			<mx:Button label="Stop" click="stopCrawler()" enabled="true" themeColor="#A0D692" color="#F02E0E" width="100" height="25" fillAlphas="[1.0, 1.0]" fillColors="[#6B0C0C, #6B0C0C, #AC5959, #D33333]" cornerRadius="7" right="20" bottom="10"/>
+			<mx:DataGrid id="crawlerTable" dataProvider="{crawlers}" borderStyle="solid" borderThickness="2" borderColor="#101518" themeColor="#70A75D" color="#16440E" left="20" right="20" bottom="69" top="71">
+				<mx:columns>
+					    <mx:DataGridColumn headerText="Path" dataField="rootPath"/>
+						<mx:DataGridColumn headerText="Pause" dataField="pause"/>
+						<mx:DataGridColumn headerText="Running" dataField="running"/>
+						<mx:DataGridColumn headerText="scannedFilesCount" dataField="scannedFilesCount"/>
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:Button label="Start" click="startCrawler()" enabled="true" themeColor="#A0D692" color="#B4ECA8" width="100" height="25" fillAlphas="[1.0, 1.0]" fillColors="[#409925, #409925, #80A874, #80A874]" cornerRadius="7" right="128" bottom="10"/>
+			<mx:Text text="Text" id="statusLine" left="10" bottom="43" color="#080808" right="20"/>
+			<mx:Label y="22" text="Path" width="49" color="#090A09" left="20"/>
+			<mx:TextInput y="20" id="newpath" color="#090A09" right="80" left="80"/>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	
+</mx:Application>

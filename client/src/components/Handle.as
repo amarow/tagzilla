@@ -31,7 +31,7 @@ public class Handle extends Label
 
     public function onClick(e:MouseEvent):void {
         var a:StartExecAction = new StartExecAction();
-        a.cmdline = "start winword D:/texte/Software.doc";
+        a.cmdline = "start winword "+path;
         ActionContext.instance.execute(a, this);
     }
 
