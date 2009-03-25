@@ -83,37 +83,44 @@ public class Handle implements PersistentMarker {
     }
 
     public static String toDBString(String path){
-//        path=Util.replaceSubString(path,"\\","/");
-//        path=Util.replaceSubString(path,"ä", "&au");
-//        path=Util.replaceSubString(path,"Ä", "&AU");
-//        path=Util.replaceSubString(path,"ö", "&ou");
-//        path=Util.replaceSubString(path,"Ö", "&OU");
-//        path=Util.replaceSubString(path,"ü", "&uu");
-//        path=Util.replaceSubString(path,"Ü", "&UU");
-//        path=Util.replaceSubString(path,"ß", "&sz");
+        path=replaceSubString(path,"\\","/");
+        path=replaceSubString(path,"ä", "&au");
+        path=replaceSubString(path,"Ä", "&AU");
+        path=replaceSubString(path,"ö", "&ou");
+        path=replaceSubString(path,"Ö", "&OU");
+        path=replaceSubString(path,"ü", "&uu");
+        path=replaceSubString(path,"Ü", "&UU");
+        path=replaceSubString(path,"ß", "&sz");
         return path;
     }
 
     public static String fromDbString(String path){
-//        path=Util.replaceSubString(path,"&au","ä" );
-//        path=Util.replaceSubString(path,"&AU","Ä" );
-//        path=Util.replaceSubString(path,"&ou","ö" );
-//        path=Util.replaceSubString(path,"&OU","Ö" );
-//        path=Util.replaceSubString(path,"&uu","ü" );
-//        path=Util.replaceSubString(path,"&UU","Ü" );
-//        path=Util.replaceSubString(path,"&sz","ß" );
+        path=replaceSubString(path,"&au","ä" );
+        path=replaceSubString(path,"&AU","Ä" );
+        path=replaceSubString(path,"&ou","ö" );
+        path=replaceSubString(path,"&OU","Ö" );
+        path=replaceSubString(path,"&uu","ü" );
+        path=replaceSubString(path,"&UU","Ü" );
+        path=replaceSubString(path,"&sz","ß" );
         return path;
     }
 
-    public static String replaceAll(char a,char b,String in ){
-        char[] chars = in.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            char aChar = chars[i];
-            if(aChar==a){
-                chars[i]=b;
-            }
-        }
+    public static String replaceSubString(String gesamt, String oldString, String newString) {
+        String result = "";
+        if (gesamt == null)    return gesamt;
+        if (newString == null) newString = "";
+        if (oldString == null) oldString = "";
+        if (oldString.equals("")) return gesamt;
+        if (oldString.equals(newString)) return gesamt;
 
-        return new String(chars);
+        int indexOldStr = gesamt.indexOf(oldString);
+        int oldStringLength = oldString.length();
+        while (indexOldStr > -1) {
+            result += gesamt.substring(0, indexOldStr) + newString;
+            gesamt = gesamt.substring(indexOldStr + oldStringLength);
+            indexOldStr = gesamt.indexOf(oldString);
+        }
+        result += gesamt;
+        return result;
     }
 }

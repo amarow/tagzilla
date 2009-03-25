@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
            xmlns:ns1="bom.*" xmlns:comps="components.*"
-           backgroundAlpha="1.0"
+           backgroundAlpha="0.62"
            bottom="0" top="2" left="2" right="2"
            cornerRadius="11" borderStyle="solid" alpha="0.84" themeColor="#ACBCC6"
            backgroundColor="#F5EED9"
@@ -63,9 +63,5 @@
 
 
     <mx:Button label="+" color="#2546D4" click="addTag()" left="10" top="10" width="35"/>
-
-    <comps:Tag x="159" y="87" path="/Users/ama/Documents" />
-    <comps:Tag x="343" y="120" path="/Developer"/>
-    <comps:Tag x="343" y="55" tag="Text"/>
 
 </mx:Canvas>
