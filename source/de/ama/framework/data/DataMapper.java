@@ -27,37 +27,13 @@ public abstract class DataMapper {
     public final static int BIG_TABLE = 2;
     public final static int FULL_OBJECT = 3;
     public final static int XML = 4;
-//    private static ThreadLocal cashHolder = new ThreadLocal();
-//
-//    public Map getCache() {
-//        if(cashHolder.session()==null){
-//           cashHolder.set(new HashMap());
-//        }
-//        return (Map) cashHolder.session();
-//    }
-//
-//    public Data getCachedData(Data data, Object boValue) {
-//        String key = data.getClass().getName()+"-"+UmgebungsObjekt.current().getOID(boValue).toString();
-//        Data d =  (Data) getCache().session(key);
-//        if(d!=null){
-//            System.out.println("<<< getCacheData = " + key);
-//        }
-//        return d;
-//    }
-//
-//    public void cacheData(Data data) {
-//        String key = data.getClass().getName()+"-"+data.getOidString();
-//        System.out.println(">>> cacheData = " + key);
-//        getCache().put(key,data);
-//    }
-
 
     ////////////////////////////// abstracts ///////////////////////////////////////
     // In Mapper-Derivaten müssen diese Methoden überschrieben werden.
 
-    public abstract void writeDataToBo(Object bo, Data rootData, String[] keys) throws MappingException;
+    public abstract void writeDataToBo(Object bo, Data rootData, String[] keys) ;
 
-    public abstract void readDataFromBo(Object bo, Data rootData, String[] keys) throws MappingException;
+    public abstract void readDataFromBo(Object bo, Data rootData, String[] keys) ;
 
     ////////////////////////////// abstracts ///////////////////////////////////////
 
@@ -80,10 +56,6 @@ public abstract class DataMapper {
 
     public void writeDataToBo(Object bo, Data rootData) throws MappingException {
 
-//        if (EnvironmentBase.getServerPropertyAsBoolean("Mapping", "checkVersionDeep", false)) {
-//            checkVersion(bo, rootData);
-//        }
-
         try {
             // Hook für den Entwickler des Data-Objekts
             rootData.preWriteDataToBo(bo);
@@ -102,16 +74,8 @@ public abstract class DataMapper {
     }
 
 
-    public Data readDataFromBo(Object bo, Data rootData, int type) throws MappingException {
-//        Data previousReadData = getCachedData(rootData,bo);
-//        if(previousReadData!=null){
-//            return previousReadData;
-//        }
-//            System.out.println("DataMapper.readDataFromBo "+ Util.getUnqualifiedClassName(rootData.getClass()));
+    public Data readDataFromBo(Object bo, Data rootData, int type)  {
         readOidAndVersion(bo, rootData);
-//        cacheData(rootData);
-
-
 
         // Hook für den Entwickler des Data-Objekts
         rootData.preReadDataFromBo(bo);
@@ -121,9 +85,6 @@ public abstract class DataMapper {
 
         // Hook für den Entwickler des Data-Objekts
         rootData.postReadDataFromBo(bo);
-
-
-        //   Debug.debug("read Object : " + bo.getClass().getName() + " oid=" + rootData.getOidString());
 
         return rootData;
     }
@@ -174,22 +135,20 @@ public abstract class DataMapper {
     }
 
 
-    public DataTable createFromBoList(Data data, Collection boList, boolean mini) throws MappingException {
-        DataTable table = DataTable.createFromData(data, mini);
+    public List createFromBoList(Data data, Collection boList, boolean mini) throws MappingException {
+        List ret = new ArrayList();
         if (boList != null) {
-            readObjects(boList, table, mini);
+            readObjects(boList, ret , mini);
         }
-        return table;
+        return ret;
     }
 
-    public void writeObjects(Object obj, DataTable table) throws MappingException {
+    public void writeObjects(Object obj, List list) throws MappingException {
         if (obj == null) {
             throw new MappingException("Try to write DataTable into Bo, but there is no Collection to write to !!!!" +
-                    "\r\n Collections in Bo's should be initialized " +
-                    "\r\n Table-Class = " + table.getType().getName());
+                    "\n Collections in Bo's should be initialized ");
         }
 
-        List proxys = table.getDataProxys();
         Collection container = null;
         //System.out.println("DataMapper.writeObjects :" + obj.getClass() + " table=" + table.getGuiRepresentation());
         // Leider kann in der Signatur keine Collection übergeben werden, weil
@@ -210,13 +169,11 @@ public abstract class DataMapper {
         // Wir entleren die Collection und bauen sie neu auf.
         container.clear();
 
-        for (int i = 0; i < proxys.size(); i++) {
-            DataProxy dp = (DataProxy) proxys.get(i);
-            Object element = null;
-            // Falls es Daten gibt, sollen diese auch gemappt werden.
-            if (dp.hasData()) {
-                Data data = dp.getData(false);
-                if (dp.hasNewData()) {
+        for (int i = 0; i < list.size(); i++) {
+            Object element = list.get(i);
+            if (element instanceof Data) {
+                Data data = (Data) element;
+                if(data.isNew()){
                     // bei ganz neuen Daten muß auch ein passendes Bo erzeugt werden.
                     element = data.createEmptyBo();
                 } else {
@@ -224,115 +181,34 @@ public abstract class DataMapper {
                     element = DB.session().getObject(data.getOidString());
                 }
                 data.getMapper().writeDataToBo(element, data);
-            } else if (dp.hasReference()) {
-                // wenn es keine Daten gibt, gibt es vieleicht eine Referenz umzuhängen ?
-                element = DB.session().getObject(dp.getOidString());
             }
 
             container.add(element);
             oldContainer.remove(element);
         }
 
-        if (table.isDeletingBos()) {
-            DB.session().deleteObjects(oldContainer);
-//            Util.printList("FROM DB DELETED OBJECTS :", oldContainer);
-        }
-
+        DB.session().deleteObjects(oldContainer);
 
     }
 
 
-    public void readObjects(Object obj, DataTable table, boolean mini) throws MappingException {
-        Collection container = null;
-        // Leider kann in der Signatur keine Collection übergeben werden, weil
-        if (obj instanceof Collection) {
-            container = (Collection) obj;
-        } else {
-            throw new MappingException("readObjects with wrong collection type :" + obj.getClass().getName());
-        }
+    public void readObjects(Collection dataCol, Collection objCol, boolean mini) throws MappingException {
 
-        String sortKey = table.getSortKey();
-        table.setSortKey(null);   // disable Sorting.
-
-        for (Iterator iterator = container.iterator(); iterator.hasNext();) {
+        for (Iterator iterator = objCol.iterator(); iterator.hasNext();) {
             Object bo = iterator.next();
-            if (bo == null) {
-                continue;
-            }
+            if (bo == null) { continue; }
 
-            Data data = DataDictionary.getDataForBo(bo, table.getType());
+            Data data = DataDictionary.getDataForBo(bo,null);
 
             int mappingType = mini ? MINI_TABLE : BIG_TABLE;
-            if (table.containsHeavyProxys()) {
-                mappingType = FULL_OBJECT;
-            }
+            data = data.getMapper().readDataFromBo(bo, data, mappingType);
 
-            DataProxy dp = null;
-            try {
-                data = data.getMapper().readDataFromBo(bo, data, mappingType);
-            } catch (Exception e) {
-                dp = data.getDataProxy();
-                dp.setErrorText(Util.getAllExceptionInfos(e));
-            }
-
-            dp = data.getDataProxy();
-            List row = table.newRow();
-            table.fillRow(row, data);
-
-
-            if (!table.containsHeavyProxys()) {
-                dp.unload();  // wir wollen ja nur den Proxy in der Tabelle haben !
-            }
+            dataCol.add(data);
         }
 
     }
 
     ////////////////////////////////////// für UpdateTableCommands //////////////////////////////////
-
-//    /*
-//     * Voraussetzung ist hier das die ContainerId  oidString des Cotainers und methodenName
-//     * des ParenObjects in der DataTAble gespeichert werden.
-//     */
-//
-//    public void readContainerObjects(String containerId, DataTable table, boolean mini) throws MappingException, Hinweis {
-//        List container = getContainer(containerId);
-//        readObjects(container, table, mini);
-//    }
-
-    /**
-     * Einen Container aus einem beliebigen Bo herausholen containerId enthält oidString und methoden Key
-     */
-    public List getContainer(String containerId) throws MappingException {
-        StringDivider sd = new StringDivider(containerId, "(method)");
-        if (sd.ok()) {
-            Object obj = null;
-            try {
-                obj = DB.session().getObject(sd.pre());
-            } catch (DBException de) {
-                throw new MappingException("can not retreive Container from BO containerId=[" + containerId + "], Bo not found !!!");
-            }
-
-
-            if (obj != null) {
-                try {
-                    Class c = obj.getClass();
-                    //          System.out.println("Class"+c.getName());
-                    String key = Util.getMethodeName("get", sd.post());
-                    //        System.out.println("key="+key);
-                    Method getter = c.getMethod(key, (Class)null);
-                    //      System.out.println("getter"+getter);
-                    return (List) getter.invoke(obj, (Class)null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw new MappingException("can not retreive Container from BO containerId=[" + containerId + "]", e);
-                }
-            }
-        } else {
-            throw new MappingException("can not retreive Container from wrong containerId = [" + containerId + "]");
-        }
-        return null;
-    }
-
 
     public static Query buildQuery(Data data, String condition) throws MappingException, ClassNotFoundException {
 
@@ -507,7 +383,7 @@ public abstract class DataMapper {
             if (wantedSize > 0 && count == wantedSize) {
                 break;
             }
-            Object o = (Object) objs.get(i);
+            Object o = objs.get(i);
             boList.add(o);
             count++;
         }

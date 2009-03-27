@@ -5,6 +5,9 @@ import de.ama.server.bom.User;
 import de.ama.server.services.Environment;
 import de.ama.server.services.XmlService;
 import de.ama.util.Util;
+import de.ama.framework.data.Data;
+import de.ama.framework.data.DataMapper;
+import de.ama.framework.data.MappingException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,9 @@ public class ServerAction {
 
     private static ThreadLocal currentActionHolder;
     private User    user;
+
+    private boolean versionMismatch;
+    private boolean dontCommit;
 
     public ServerAction() {
     }
@@ -85,5 +91,94 @@ public class ServerAction {
 
     public void setMessage(String m) {
         //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public void mapBoToData(Object bo, Data data)  {
+        data.getMapper().readDataFromBo(bo, data, DataMapper.FULL_OBJECT);
+    }
+
+        /**
+     * transferiert die Daten eines Data-Graphen in den Bo-Graphen.
+     * Wichtig ! Um Auskunft über Versionsmismatch zu bekommen, muß nach dem save() über die
+     * Methode hasVersionMismatch() kontrolliert werden ob ein Versionsmismatch vorlag.
+     * @param data ,das gemapped werden soll
+     * @return ein refeshter Data_Graph.
+     */
+    public Data save(Data data)  {
+       return writeToBo(data, true);
+    }
+
+    public Data writeToBo(Data data, boolean commit)  {
+        versionMismatch = false;
+
+        if (data == null) {
+            throw new RuntimeException("NO DATA in SaveBoAction");
+        }
+
+        Object obj = null;
+
+        String msg = data.getBoClassName() + " " + data.getOidString();
+        if (data.isNew()) {
+            obj = data.createEmptyBo();
+            if (obj == null) {
+                throw new RuntimeException("could not CREATE BO : " + msg);
+            }
+//            getPersistentService().makePersistent(obj);
+        } else {
+            obj = Environment.getPersistentService().getObject(data.getOidString());
+            if (obj == null) {
+                throw new RuntimeException("could not FIND BO TO UPDATE : " + msg);
+            }
+        }
+
+        try {
+            DataMapper mapper = data.getMapper();
+            mapper.checkVersion(obj, data);
+//          checkUniqueness(obj,data);
+            if (data.isNew()) {
+                Environment.getPersistentService().makePersistent(obj);
+            }
+            mapper.writeDataToBo(obj, data);
+
+            if(!commit){
+                return data;
+            }
+
+            commit();
+            return reload(data.getClass(), obj);
+        } catch (MappingException me) {
+            rollback();
+
+            // SonderFall MappingException mit Konkurierendem Zugriff.
+            if (me.hasError(MappingException.OPTIMISTIC_LOCKING_INVALID)) {
+                versionMismatch = true;
+                return reload(data.getClass(), obj);
+            }
+
+            throw new RuntimeException("MAPPING EXCEPTION : ", me);
+        }
+
+    }
+
+    public Data reload(Class type, Object obj)  {
+        try {
+            refreshObject(obj);
+            Data data = Data.createEmptyData(type);
+            data = data.getMapper().readDataFromBo(obj, data, DataMapper.FULL_OBJECT);
+            return data;
+        } catch (Exception e) {
+            rollback();
+            throw new RuntimeException("could not reload Bo from DB <" + type.getName() + ">  ",e);
+        }
+    }
+
+    public  void refreshObject(Object toRefresh) {
+        if (dontCommit) {
+//            if(TRACE.ON()){ TRACE.add(this,"refreshObject: dontCommit=true !"); }
+            return;
+        } else {
+            String oid = Environment.getPersistentService().getOidString(toRefresh);
+            Environment.getPersistentService().getObject(oid);
+        }
     }
 }

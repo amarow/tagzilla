@@ -25,9 +25,7 @@ public class GuiRepReader {
         }
 
         public String toString() {
-            if(val instanceof DataProxy){
-               return ((DataProxy)val).getGuiRepresentation();
-            }else if(val instanceof Data){
+             if(val instanceof Data){
                 return ((Data)val).getGuiRepresentation();
             }else if(val instanceof Date){
                 return Util.asString((Date)val);

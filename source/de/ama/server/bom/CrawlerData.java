@@ -16,8 +16,8 @@ public class CrawlerData extends Data {
     public  boolean running = false;
     public  long scannedFilesCount = 0;
 
-
     public String getGuiRepresentation() {
         return Util.saveToString(rootPath);
     }
+
 }

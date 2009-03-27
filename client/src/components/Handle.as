@@ -1,48 +1,19 @@
 package components {
-	
+
 import actions.*;
 
 import flash.events.MouseEvent;
 
 import mx.controls.Label;
-import flash.utils.IDataInput;
-import flash.utils.IDataOutput;
-import flash.utils.IExternalizable;
 
-[RemoteClass(alias="de.ama.server.data.Handle")]
-public class Handle extends Label implements IExternalizable
+public class Handle extends Label 
 {
-
-    public var oid:String;
-    public var version:Number;
 
     public var size:Number;
     public var lastmodified:Number;
     public var lastUser:String;
     public var _path:String;
     public var _tags:String ="";
-
-
-    public function readExternal(input:IDataInput):void {
-        oid = input.readUTF();
-        version = input.readInt();
-        
-        x = input.readInt();
-        y = input.readInt();
-        _tags = input.readUTF();
-        _path = input.readUTF();
-    }
-
-    public function writeExternal(output:IDataOutput):void {
-        output.writeUTF(oid);
-        output.writeInt(version);
-
-        output.writeInt(x);
-        output.writeInt(y);
-        output.writeUTF(_tags);
-        output.writeUTF(_path);
-    }
-
 
 
     public function Handle(path:String = "") {

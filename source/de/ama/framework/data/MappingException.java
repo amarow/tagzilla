@@ -12,7 +12,7 @@ import de.ama.util.Util;
  *
  * @author  Andreas Marochow
  */
-public class MappingException extends Exception {
+public class MappingException extends RuntimeException {
     public static final int MAPPING_ERROR = 1;
     public static final int OPTIMISTIC_LOCKING_INVALID = 2;
     private int error = MAPPING_ERROR;

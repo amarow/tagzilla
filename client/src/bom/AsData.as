@@ -1,8 +1,8 @@
 package bom {
-import data.*;
 
+[RemoteClass(alias="de.ama.server.framework.data.Data")]
 public class AsData{
-    public var oid:String;
+    public var oid:Number;
     public var version:int;
 }
 }

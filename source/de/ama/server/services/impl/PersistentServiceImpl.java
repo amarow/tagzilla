@@ -4,6 +4,7 @@ package de.ama.server.services.impl;
 import de.ama.db.DB;
 import de.ama.db.OidIterator;
 import de.ama.db.Query;
+import de.ama.db.Persistent;
 import de.ama.server.services.PersistentService;
 import de.ama.server.services.UserService;
 import de.ama.util.Ini;
@@ -107,5 +108,12 @@ public class PersistentServiceImpl implements PersistentService {
 
     public long getNextNumber(String key) {
         return DB.session().getSequenzeNext(key);
+    }
+
+    public void refresh(Object toRefresh) {
+        if (toRefresh instanceof Persistent) {
+            Persistent po = (Persistent) toRefresh;
+            DB.session().fillObject(po, po.getOid() );
+        }
     }
 }
