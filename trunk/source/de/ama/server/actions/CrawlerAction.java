@@ -24,8 +24,6 @@ public class CrawlerAction extends ServerAction {
 
             commit();
 
-        } catch (Exception e) {
-            rollback();
         } finally {
             data = Environment.getCrawlerService().getAllCrawlers();
             message = Environment.getCrawlerService().infoCrawler(crawler);

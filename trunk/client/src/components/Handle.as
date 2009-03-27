@@ -1,8 +1,10 @@
 package components {
 	
-import flash.events.MouseEvent;
-import mx.controls.Label;
 import actions.*;
+
+import flash.events.MouseEvent;
+
+import mx.controls.Label;
 
 [RemoteClass(alias="de.ama.server.bom.Handle")]
 public class Handle extends Label
@@ -25,8 +27,6 @@ public class Handle extends Label
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
         super.addEventListener(MouseEvent.CLICK, onClick);
-        
-
     }
 
     public function onClick(e:MouseEvent):void {
@@ -68,6 +68,8 @@ public class Handle extends Label
     private function stopDragging(event:MouseEvent):void{
         super.stopDrag();
     }
+
+    
 
 }
 }

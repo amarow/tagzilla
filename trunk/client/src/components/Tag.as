@@ -2,32 +2,36 @@ package components {
 import actions.*;
 
 import flash.events.MouseEvent;
-
 import flash.geom.Point;
+
 import mx.controls.Button;
 import mx.events.DragEvent;
 import mx.managers.DragManager;
 import mx.managers.PopUpManager;
-import mx.managers.CursorManager;
 
+[RemoteClass(alias="de.ama.server.bom.Tag")]
 public class Tag extends Button{
-
-    public var _size:int;
+    public var oid:Number;
+    public var version:Number;
+    
+    public var _weight:int;
     public var _tag:String;
     public var _path:String;
+    private var _oldpos:Point;
 
-    public function Tag(_tag:String = "", _size:int = 5) {
+
+    public function Tag(_tag:String = "", _weight:int = 5) {
         super();
         super.x = 50;
         super.y = 50;
+        _oldpos = new Point(x, y);
 
-        size = _size
+        _weight = _weight
         tag = _tag;
 
         super.setStyle("color", "black");
         super.setStyle("textAlign", "center");
 
-        super.addEventListener(MouseEvent.ROLL_OVER, mouseOverHandler);
         super.addEventListener(MouseEvent.CLICK, onTagClick);
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
@@ -42,8 +46,8 @@ public class Tag extends Button{
 
     public function set tag(val:String):void {
         _tag = val;
-        super.label = Util.shrinkString(val, 20);
-        super.width = 18+label.length * 8;
+        super.label = Util.shrinkString(_tag, 20);
+        super.width = 28 + _tag.length * 8;
     }
 
     public function get path():String {
@@ -52,57 +56,58 @@ public class Tag extends Button{
 
     public function set path(val:String):void {
         _path = val;
-        super.label = Util.shrinkString(val, 20);
-        super.width = 18+label.length * 8;
+        super.label = Util.shrinkString(_path, 20);
+        super.width = 28 + _path.length * 8;
     }
 
-    public function get size():int {
-        return _size;
+    public function get weight():int {
+        return _weight;
     }
 
-    public function set size(val:int):void {
-        _size = val;
-        height = 20 + _size;
+    public function set weight(val:int):void {
+        _weight = val;
+        height = 20 + _weight;
     }
 
     public function onTagClick(event:MouseEvent):void {
 
-        if (event.localX > (width-10)) {
-            var props:TagProps = TagProps(PopUpManager.createPopUp(parent, components.TagProps, true));
-            props.x = this.x;
-            props.y = this.y + this.height+5;
-            if(props.x+props.width>parent.width){
-            	props.x=parent.width-props.width;
-            }
-            if(props.y+props.height>parent.height){
-            	props.y=parent.height-props.height;
-            }
-            
-            props.tag = this;
+        if (x != _oldpos.x || y != _oldpos.y) {
+            _oldpos.x = x;
+            _oldpos.y = y;
             return;
-        } 
-        
-        if (event.localX > 10 && event.localX < (width-10)) {
-            var a:GetHandlesAction = new GetHandlesAction();
-            a.path = path;
-            a.tag = tag;
-            ActionContext.instance.execute(a, this);
         }
+
+        if (event.altKey || event.localX > (width - 10)) {
+            showConfig();
+        } else {
+            loadHandles()
+        }
+
 
     }
 
-    private function mouseOverHandler(event:MouseEvent):void {
-        if (event.localX < 10 && event.localX > 1) {
-        	super.setStyle("borderColor","red");
-        } else {
-        	super.setStyle("borderColor","black");
+    public function loadHandles():void {
+        var a:GetHandlesAction = new GetHandlesAction();
+        a.path = path;
+        a.tag = tag;
+        ActionContext.instance.execute(a, this);
+    }
+
+    public function showConfig():void {
+        var props:TagProps = TagProps(PopUpManager.createPopUp(parent, components.TagProps, true));
+        props.x = this.x;
+        props.y = this.y + this.height + 5;
+        if (props.x + props.width > parent.width) {
+            props.x = parent.width - props.width;
         }
+        if (props.y + props.height > parent.height) {
+            props.y = parent.height - props.height;
+        }
+        props.tag = this;
     }
 
     private function startDragging(event:MouseEvent):void {
-        if (event.localX < 10) {
-           super.startDrag();
-        }
+        super.startDrag();
     }
 
     private function stopDragging(event:MouseEvent):void {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actionScriptProperties mainApplicationPath="itagzilla.mxml" version="3">
-<compiler additionalCompilerArguments="-services &quot;D:\dev\tagzilla\war\WEB-INF\flex\services-config.xml&quot; -locale en_US" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersion="9.0.124" htmlPlayerVersionCheck="true" outputFolderLocation="D:/dev/tagzilla/war/itagzilla-debug" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
+<compiler additionalCompilerArguments="-services &quot;/Users/ama/dev/tagzilla/war/WEB-INF/flex/services-config.xml&quot; -locale en_US" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersion="9.0.124" htmlPlayerVersionCheck="true" outputFolderLocation="/Users/ama/dev/tagzilla/war/itagzilla-debug" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
 <compilerSourcePath>
-<compilerSourcePathEntry kind="1" linkType="1" path="D:/dev/tagzilla/client/src"/>
+<compilerSourcePathEntry kind="1" linkType="1" path="/Users/ama/dev/tagzilla/client/src"/>
 </compilerSourcePath>
 <libraryPath defaultLinkType="1">
 <libraryPathEntry kind="4" path=""/>
@@ -11,8 +11,8 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
-<application path="itagzilla.mxml"/>
 <application path="iadmin.mxml"/>
+<application path="itagzilla.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles/>
