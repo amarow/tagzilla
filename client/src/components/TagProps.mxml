@@ -51,9 +51,9 @@
     <mx:ColorPicker x="66" y="10" id="color"/>
 
     <mx:TextInput x="66" y="47" id="tagInput" />
-<!--    <comps:EditFieldValidator source="{tagInput}" property="text" 
+    <comps:EditFieldValidator source="{tagInput}" property="text" 
     	required="true" minLength="2" trigger="{tagInput}" triggerEvent="change"
-    	valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>-->
+    	valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>
 
 
     <mx:Button x="183" y="92" label="OK" click="onOK()" id="okButton"/>

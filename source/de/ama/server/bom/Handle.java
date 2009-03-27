@@ -21,6 +21,8 @@ public class Handle implements PersistentMarker {
     public long lastmodified ;
     public long size;
     public long userId;
+    public  int    x;
+    public  int    y;
 
     public long getUserId() {
         return userId;

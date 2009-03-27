@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application
-
         backgroundGradientAlphas="[0.4, 0.39]"
         backgroundGradientColors="[#5D5252, #39261F]"
         layout="absolute" width="100%" height="100%"
         xmlns:mx="http://www.adobe.com/2006/mxml"
         xmlns:actions="actions.*"
         xmlns:comps="components.*"
-        
-        
         >
-
-
-    <mx:VDividedBox top="0" left="0" right="0" bottom="0" verticalGap="5" liveDragging="true" color="#B5D4DA"
-                    backgroundAlpha="0.94" backgroundColor="#131111">
-        <mx:Canvas width="100%" height="50%" backgroundAlpha="0.55" backgroundColor="#080404">
-            <comps:Desk>
-
-            </comps:Desk>
-        </mx:Canvas>
-        <mx:Canvas width="100%" height="200" backgroundAlpha="0.55" backgroundColor="#080404">
-            <mx:Canvas backgroundAlpha="0.94" backgroundColor="#A89F9F" bottom="2" top="0" left="2" right="2"
-                       cornerRadius="11" borderStyle="solid" alpha="0.84" themeColor="#ACBCC6">
-                <comps:HandlesGrid id="handlesGrid"/>
-            </mx:Canvas>
-        </mx:Canvas>
-    </mx:VDividedBox>
+	<comps:AdvanceTabNavigator backgroundAlpha="0.08" top="2" left="2" right="2" bottom="2" tabCloseEnable="true" tabDragEnable="true" id="mainTabs" backgroundColor="#585A5F" themeColor="#FF2A00">
+	    <mx:Canvas top="0" bottom="0" left="0" right="0" label = "Start" backgroundAlpha="0.0">
+	        <mx:DataGrid width="452" right="10" top="0" bottom="40">
+	            <mx:columns>
+	                <mx:DataGridColumn headerText="Name" dataField="col1"/>
+	                <mx:DataGridColumn headerText="User" dataField="col2"/>
+	            </mx:columns>
+	        </mx:DataGrid>
+	        <mx:Button x="358" y="345" label="Edit"/>
+	        <mx:Button x="262" y="345" label="+"/>
+	        <mx:Button x="310" y="345" label="-"/>
+	    </mx:Canvas> 
+		<comps:Project top="0" bottom="0" left="0" right="0" label = "Thyssen" />
+		<comps:Project top="0" bottom="0" left="0" right="0" label = "Porsche" />
+	</comps:AdvanceTabNavigator>
 
 </mx:Application>

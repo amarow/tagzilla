@@ -18,12 +18,12 @@ public class UserServiceImpl implements UserService {
     public Long  newUser(String name, String pwd) {
 
         if(Util.isEmpty(name)){
-            ServerAction.getCurrent().addError("bitte gebe einen Namen an");
+            ServerAction.getCurrent().setMessage("bitte gebe einen Namen an");
             return new Long(-1);
         }
 
         if(Util.isEmpty(pwd)){
-            ServerAction.getCurrent().addError("bitte gebe einen Passwort ein");
+            ServerAction.getCurrent().setMessage("bitte gebe einen Passwort ein");
             return new Long(-1);
         }
 
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
             return user.getId();
         }
 
-        ServerAction.getCurrent().addError("Es gibt schon einen User mit der Kombination User/Passwort. Bitte wählen Sie ein anderes Passwort ");
+        ServerAction.getCurrent().setMessage("Es gibt schon einen User mit der Kombination User/Passwort. Bitte wählen Sie ein anderes Passwort ");
         return null;
     }
 
@@ -57,19 +57,19 @@ public class UserServiceImpl implements UserService {
     public Long login(String name, String pwd) {
 
         if(Util.isEmpty(name)){
-            ServerAction.getCurrent().addError("bitte gebe einen Namen an");
+            ServerAction.getCurrent().setMessage("bitte gebe einen Namen an");
             return new Long(-1);
         }
         if(Util.isEmpty(pwd)){
 //            throw new RuntimeException("bitte geben Sie ein Passwort ein") ;
-            ServerAction.getCurrent().addError("bitte gebe einen Passwort ein");
+            ServerAction.getCurrent().setMessage("bitte gebe einen Passwort ein");
             return new Long(-1);
         }
 
         List users = Environment.getPersistentService().getObjects(new Query(User.class, "name", Query.EQ, name).
                                                                     and(new Query(User.class, "pwd", Query.EQ, pwd)));
         if (users.size() == 0) {
-            ServerAction.getCurrent().addError("Es gibt keinen User mit der Kombination User/Passwort.");
+            ServerAction.getCurrent().setMessage("Es gibt keinen User mit der Kombination User/Passwort.");
             return new Long(-1);
         }
 
