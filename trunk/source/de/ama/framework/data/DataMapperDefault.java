@@ -13,6 +13,8 @@ import de.ama.util.Time;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author ama
@@ -41,85 +43,51 @@ public class DataMapperDefault extends DataMapper {
         DataBinding binding = DataBinding.getBinding(rootData);
         for (int i = 0; i < size; i++) {
             MethodBinding mb = binding.getMethodeBinding(keys[i], bo, rootData);
-            Object val = mb.getDataValue(rootData);
-            if (val == null) {
+            Object dataValue = mb.getDataValue(rootData);
+            if (dataValue == null) {
                 if (mb.getDataFieldType() == Data.class) {
                     mb.setBoValue(bo, null);
                 }
                 continue;
             }
-            if (val.getClass() == Date.class) {
+            if (dataValue.getClass() == Date.class) {
                 if (mb.hasBoSetter()) {
                     if (mb.getBoSetterType() == Date.class) {
-                        mb.setBoValue(bo,val);
+                        mb.setBoValue(bo,dataValue);
                     }  else if (mb.getBoSetterType() == String.class) {
-                        mb.setBoValue(bo, de.ama.util.Util.asDBString((Date) val));
+                        mb.setBoValue(bo, de.ama.util.Util.asDBString((Date) dataValue));
                     }
                 }
-            } else if (val.getClass() == Time.class) {
+            } else if (dataValue.getClass() == Time.class) {
                 if (mb.hasBoSetter()) {
                     if (mb.getBoSetterType() == Time.class) {
-                        mb.setBoValue(bo,val);
+                        mb.setBoValue(bo,dataValue);
                     }  else if (mb.getBoSetterType() == String.class) {
-                        mb.setBoValue(bo, de.ama.util.Util.asDBString((Time) val));
+                        mb.setBoValue(bo, de.ama.util.Util.asDBString((Time) dataValue));
                     }
                 }
-            } else if (val.getClass() == DataTable.class) {
+            } else if (dataValue.getClass() == List.class) {
                 if (mb.hasBoSetter()) {
-                DataTable dt = (DataTable) val;
+                List col = (List) dataValue;
                 Object container = mb.getBoValue(bo);
-                    if (mb.getBoGetterType() == String.class) {
-                        mb.setBoValue(bo, dt.convertToDelimitterSeperatedString());
-                    continue;
+                if (container == null ) {
+                    container = new ArrayList();
                 }
-                if (container == null && dt != null) {
-                    // Falls die Collection noch gar niocht existiert, hier versuchen eine ins
-                    // Bo einzutragen.
-                    if (List.class.isAssignableFrom(mb.getBoSetterType())) {
-                        container = new PersistentList(mb.getBoSetterType());
-                        mb.setBoValue(bo, container);
-                    }
-                }
-                writeObjects(container, dt);
+                writeObjects(container, col);
                 // container ist an sich ein eigenständiges Object, wir setzen es aber zurück ins bo,
                 // damit wir dort noch Verknüpfungsarbeiten leisten können.
                 mb.setBoValue(bo, container);
                 }
-            } else if (val.getClass() == DataProxy.class) {
-                DataProxy dp = (DataProxy) val;
-                if (dp.hasData()) {
-                    // Proxy ist geladen somit sind die Daten potentiell verändert.
-                    Data d = dp.getData(false);
-                    writeChildBo(bo, d, mb);
-                } else {
-                    // Proxy stellt nur eine Refferenz dar
-                    if (dp.hasReference()) {
-                        Object childBo = DB.session().getObject(dp.getOidString());
-                        mb.setBoValue(bo, childBo);
-                    } else {
-                        mb.setBoValue(bo, null);
-                    }
-                }
-            } else if (val.getClass() == DataReference.class) {
-                DataReference ref = (DataReference) val;
-                if (ref.hasReference()) {
-                    Object childBo = DB.session().getObject(ref.getOidString());
-                    mb.setBoValue(bo, childBo);
-                } else {
-                    mb.setBoValue(bo, null);
-                }
-            } else if (val instanceof Data) {
-                Data d = (Data) val;
+            } else if (dataValue instanceof Data) {
+                Data d = (Data) dataValue;
                 writeChildBo(bo, d, mb);
             } else {
-                mb.setBoValue(bo, val);
+                mb.setBoValue(bo, dataValue);
             }
         }
     }
 
     public void readDataFromBo(Object bo, Data rootData, String[] keys) throws MappingException{
-        //System.out.println("bo = " + bo);
-        //System.out.println("readDataFromBo ::::::::::::: rootData = " + rootData);
 
         DataBinding binding = DataBinding.getBinding(rootData);
         for (int i = 0; i < keys.length; i++) {
@@ -143,34 +111,12 @@ public class DataMapperDefault extends DataMapper {
                         Time time = de.ama.util.Util.timeFromDBString((String) boValue);
                         mb.setDataValue(rootData, time);
                     }
-                } else if (dataValue instanceof DataTable) {
-                    DataTable dt = (DataTable) mb.getDataValue(rootData);
-                    if (dt == null) {
-                        throw new MappingException("DataTables müssen im DataObjekt initialisiert werden Field: " + mb.getKey());
+                } else if (dataValue instanceof List) {
+                    List dataCol = (List) mb.getDataValue(rootData);
+                    if (dataCol == null) {
+                        dataCol = new ArrayList();
                     }
-                    if (mb.getBoGetterType()==String.class) {
-                        dt.readDelimitterSeperatedString((String) boValue);
-                        continue;
-                    }
-
-                    dt.setContainerId(rootData.getOidString(), mb.getKey()); // fürs directUpdate einer tabelle
-                    readObjects(boValue, dt, false);
-                } else if (dataValue instanceof DataProxy) {
-                    DataProxy dp = (DataProxy) mb.getDataValue(rootData);
-                    if (dp == null) {
-                        throw new MappingException("DataProxys oder DataReferences müssen im DataObjekt initialisiert werden Field: " + mb.getKey());
-                    }
-                    //dp.setOidString(UmgebungsObjekt.current().getOID(boValue).toString());
-                    Data data = dp.createData();
-                    data = readDataFromBo(boValue, data, REFERENCE);
-                    dp = data.getDataProxy();
-                    dp.unload();
-                    if (mb.getDataFieldType() == DataReference.class) {
-                        mb.setDataValue(rootData, dp.toReference());
-                    } else {
-                        mb.setDataValue(rootData, dp);
-                    }
-                    //                            System.out.println("DataProxy gesetzt für "+keys[i]);
+                    readObjects(dataCol, (Collection) boValue, false);
                 } else if (dataValue instanceof Data) {
                     Data data = (Data) mb.getDataValue(rootData);
                     if (data == null) {

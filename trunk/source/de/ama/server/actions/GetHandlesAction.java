@@ -6,6 +6,7 @@ import de.ama.util.Util;
 import de.ama.db.Query;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GetHandlesAction extends ServerAction {
@@ -19,7 +20,8 @@ public class GetHandlesAction extends ServerAction {
             if(Environment.getPersistentService().getObjectCount(q)>Handle.QUERY_LIMIT){
                 message = "query was limited to "+Handle.QUERY_LIMIT+" entries";
             }
-            data =  Environment.getPersistentService().getObjects(q.limit(Handle.QUERY_LIMIT));
+            List objects = Environment.getPersistentService().getObjects(q.limit(Handle.QUERY_LIMIT));
+
             return;
         }
 

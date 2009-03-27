@@ -35,4 +35,6 @@ public interface PersistentService {
     void rollback();
 
     long getNextNumber(String s);
+
+    void refresh(Object toRefresh);
 }

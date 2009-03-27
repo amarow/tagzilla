@@ -27,10 +27,9 @@ import java.util.List;
  * Data-Objecte transportiern Daten vom RmiServiceIfc zum Client und wieder zurück.
  */
 public abstract class Data implements Serializable {
-    private DataProxy dataProxy;     // dieser Proxy hängt an diesem DataObject, und liefert es auch.
     private int version = 0;
     private String oidString;
-    private boolean readOnly;
+
     private String currentUser;
 
     static final long serialVersionUID = -1L;
@@ -86,15 +85,6 @@ public abstract class Data implements Serializable {
         return data;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////
-
-    public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
-        this.readOnly = readOnly;
-    }
     ////////////////////////// abstract //////////////////////////////
 
     public abstract String getGuiRepresentation();
@@ -500,29 +490,13 @@ public abstract class Data implements Serializable {
 
         try {
             Field field = getClass().getField(key);
-
-            if (field.getType() == DataReference.class && val.getClass() == DataProxy.class) {
-                DataProxy dp = (DataProxy) val;
-                field.set(this, dp.toReference());
-            } else {
-                field.set(this, val);
-            }
+            field.set(this, val);
 
         } catch (Exception e) {
             throw new MappingException("field=" + key, e);
         }
     }
 
-    public void flushDataProxy() {
-        dataProxy = null;
-    }
-
-    public DataProxy getDataProxy() {
-        if (dataProxy == null) {
-            dataProxy = new DataProxy(this);
-        }
-        return dataProxy;
-    }
 
     public int getVersion() {
         return version;
@@ -559,16 +533,19 @@ public abstract class Data implements Serializable {
                     sb.append("DATA:\r\n");
                     Data data = (Data) val;
                     sb.append(data.asString());
-                } else if (val instanceof DataProxy) {
-                    DataProxy dataProxy = (DataProxy) val;
-                    if (dataProxy.hasData()) {
-                       sb.append("PROXY:\r\n");
-                       sb.append(dataProxy.getData(false).asString());
-                    }
-                } else if (val instanceof DataTable) {
-                    DataTable dataTable = (DataTable) val;
+                } else if (val instanceof List) {
+                    List dataCol = (List) val;
                     sb.append("TABLE:\r\n");
-                    sb.append(dataTable.asString());
+                    for (int j = 0; j < dataCol.size(); j++) {
+                        Object o = dataCol.get(j);
+                        if (o instanceof Data) {
+                            Data data = (Data) o;
+                            sb.append(data.asString());
+                        } else {
+                            sb.append(o);
+                        }
+                    }
+
                 } else {
                    sb.append(f.getName() + "=" + val + " \r\n");
                 }
@@ -735,13 +712,17 @@ public abstract class Data implements Serializable {
                 if (val instanceof Data) {
                     Data data = (Data) val;
                     sb.append(data.asXMLString(f.getName()));
-                } else if (val instanceof DataProxy) {
-                    DataProxy dataProxy = (DataProxy) val;
-                    Data data = dataProxy.getData(true);
-                    sb.append(data.asXMLString(f.getName(),printFormat));
-                } else if (val instanceof DataTable) {
-                    DataTable dataTable = (DataTable) val;
-                    sb.append(dataTable.asXMLString(printFormat));
+                } else if (val instanceof List) {
+                    List dataCol = (List) val;
+                    for (int j = 0; j < dataCol.size(); j++) {
+                        Object o = dataCol.get(j);
+                        if (o instanceof Data) {
+                            Data data = (Data) o;
+                            sb.append(data.asXMLString(f.getName(),printFormat));
+                        } else {
+                            sb.append(Util.asXMLString(f.getName(),o));
+                        }
+                    }
                 } else {
                     sb.append(indent+"   "+Util.asXMLString(f.getName(),val,printFormat)+Util.CRLF);
                 }

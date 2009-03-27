@@ -7,63 +7,66 @@
 	width="700" height="600">
 	<mx:Script>
 		<![CDATA[
-        import bom.Crawler;
-			import mx.collections.ArrayCollection;
-	        import mx.rpc.events.ResultEvent;
-            import mx.controls.Alert;
-            import actions.CrawlerAction;
+        import bom.CrawlerData;
 
-			[Bindable]
-			public var crawlers:ArrayCollection = new ArrayCollection();
-			
-			
-	        private function actionResultHandler(event:ResultEvent):void {
-	            var a:CrawlerAction = event.result as CrawlerAction;
-	
-	            if (a.detailErrorMessage != null) {
-	                Alert.show(a.detailErrorMessage);
-	            }
-	            
-	            if(a.data is ArrayCollection){
-	            	crawlers = a.data as ArrayCollection;
-	            }
-	            
-	            statusLine.text=a.message;
-	            
-	        }
+        import mx.collections.ArrayCollection;
+        import mx.rpc.events.ResultEvent;
+        import mx.controls.Alert;
 
-			
-            private function addCrawler():void  {
-            	crawlers.addItem(new Crawler(fstree.selectedPath));
+        import actions.CrawlerAction;
+
+        [Bindable]
+        public var crawlers:ArrayCollection = new ArrayCollection();
+
+
+        private function actionResultHandler(event:ResultEvent):void {
+            var a:CrawlerAction = event.result as CrawlerAction;
+
+            if (a.detailErrorMessage != null) {
+                Alert.show(a.detailErrorMessage);
             }
-            
-            private function removeCrawler():void  {
-   	            var a:CrawlerAction = new CrawlerAction();
-	            a.message="delete";
-	            a.crawler=crawlerTable.selectedItem as Crawler;
-	            actionservice.execute(a);            }
-            
-            private function startCrawler():void  {
-   	            var a:CrawlerAction = new CrawlerAction();
-	            a.message="start";
-	            a.crawler = crawlerTable.selectedItem as Crawler;
-	            actionservice.execute(a);
+
+            if (a.data is ArrayCollection) {
+                crawlers = a.data as ArrayCollection;
             }
-            
-            private function stopCrawler():void  {
-   	            var a:CrawlerAction = new CrawlerAction();
-	            a.message="stop";
-	            a.crawler=crawlerTable.selectedItem as Crawler;
-	            actionservice.execute(a);           
-	        }
-            
-                        
-            private function updateCrawlers():void  {
-   	            var a:CrawlerAction = new CrawlerAction();
-   	            a.crawler=new Crawler("");
-	            a.message="update";
-	            actionservice.execute(a);            
-	        }
+
+            statusLine.text = a.message;
+
+        }
+
+
+        private function addCrawler():void {
+            crawlers.addItem(new Crawler(fstree.selectedPath));
+        }
+
+        private function removeCrawler():void {
+            var a:CrawlerAction = new CrawlerAction();
+            a.message = "delete";
+            a.crawler = crawlerTable.selectedItem as CrawlerData;
+            actionservice.execute(a);
+        }
+
+        private function startCrawler():void {
+            var a:CrawlerAction = new CrawlerAction();
+            a.message = "start";
+            a.crawler = crawlerTable.selectedItem as CrawlerData;
+            actionservice.execute(a);
+        }
+
+        private function stopCrawler():void {
+            var a:CrawlerAction = new CrawlerAction();
+            a.message = "stop";
+            a.crawler = crawlerTable.selectedItem as CrawlerData;
+            actionservice.execute(a);
+        }
+
+
+        private function updateCrawlers():void {
+            var a:CrawlerAction = new CrawlerAction();
+            a.crawler = new Crawler("");
+            a.message = "update";
+            actionservice.execute(a);
+        }
             
 		]]>
 	</mx:Script>
