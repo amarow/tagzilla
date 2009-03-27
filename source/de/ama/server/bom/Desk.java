@@ -2,8 +2,8 @@ package de.ama.server.bom;
 
 import de.ama.db.PersistentMarker;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,14 +13,6 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class Desk implements PersistentMarker {
-    public List objects=new ArrayList();
+    public List objects = new ArrayList();
     public String name;
-
-    public Desk() {
-        System.out.println("Desk.Desk");    
-    }
-
-    public void onAfterSetOid(long oid){
-        System.out.println("Desk.onAfterSetOid "+oid );
-    }
 }

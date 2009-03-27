@@ -3,21 +3,47 @@ import actions.*;
 
 import flash.events.MouseEvent;
 import flash.geom.Point;
+import flash.utils.IDataInput;
+import flash.utils.IDataOutput;
+import flash.utils.IExternalizable;
 
 import mx.controls.Button;
 import mx.events.DragEvent;
 import mx.managers.DragManager;
 import mx.managers.PopUpManager;
 
-[RemoteClass(alias="de.ama.server.bom.Tag")]
-public class Tag extends Button{
-    public var oid:Number;
-    public var version:Number;
+
+[RemoteClass(alias="de.ama.server.data.Tag")]
+public class Tag extends Button   {
+    public var oid:String;
+    public var version:int;
     
     public var _weight:int;
     public var _tag:String;
     public var _path:String;
     private var _oldpos:Point;
+
+    public function readExternal(input:IDataInput):void {
+        oid = input.readUTF();
+        version = input.readInt();
+        
+        x = input.readInt();
+        y = input.readInt();
+        _weight = input.readInt();
+        _tag = input.readUTF();
+        _path = input.readUTF();
+    }
+
+    public function writeExternal(output:IDataOutput):void {
+        output.writeUTF(oid);
+        output.writeInt(version);
+
+        output.writeInt(x);
+        output.writeInt(y);
+        output.writeInt(_weight);
+        output.writeUTF(_tag);
+        output.writeUTF(_path);
+    }
 
 
     public function Tag(_tag:String = "", _weight:int = 5) {
@@ -130,6 +156,8 @@ public class Tag extends Button{
             ActionContext.instance.execute(a, this);
         }
     }
+    
+    
 
 }
 }

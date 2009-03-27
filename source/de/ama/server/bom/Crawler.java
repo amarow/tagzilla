@@ -127,6 +127,7 @@ public class Crawler implements Runnable {
                 DB.session().commit();
 
             } catch (Exception e) {
+                e.printStackTrace();
                 DB.session().rollback();
             }
 

@@ -7,14 +7,17 @@
            backgroundColor="#F5EED9"
            dragEnter="dragEnterHandler(event)"
            dragDrop="dragDropHandler(event)"
+           implements="flash.utils.IExternalizable"
         >
 
 
-    <mx:Metadata>
-        [RemoteClass(alias="de.ama.server.bom.Desk")]
-    </mx:Metadata>
+    <mx:Metadata>[RemoteClass(alias="de.ama.server.bom.Desk")]</mx:Metadata>
 
     <mx:Script><![CDATA[
+		import flash.utils.IExternalizable;
+		import flash.utils.IDataInput;
+		import flash.utils.IDataOutput;
+
         import actions.*;
         import mx.collections.ArrayCollection;
 
@@ -24,9 +27,24 @@
         import mx.events.DragEvent;
         import mx.managers.DragManager;
 
-        public var oid:Number;
-        public var version:Number;
+        public var oid:String;
+        public var version:int;
 
+        public function readExternal(input:IDataInput):void {
+	        oid = input.readUTF();
+	        version = input.readInt();
+
+	        objects = ArrayCollection(input.readObject());
+	        label = input.readUTF();
+	    }
+
+	    public function writeExternal(output:IDataOutput):void {
+            output.writeUTF(oid);
+            output.writeInt(version);
+            
+	        output.writeObject(ArrayCollection(objects));
+	        output.writeUTF(label);
+	    }
         
 
         private function mouseMoveHandler(event:MouseEvent):void {
@@ -106,6 +124,8 @@
             a.deskName="Thyssen";
             ActionContext.instance.execute(a, this);
         }
+        
+        
         ]]></mx:Script>
 
 
