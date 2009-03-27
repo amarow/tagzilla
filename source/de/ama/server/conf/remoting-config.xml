@@ -8,9 +8,7 @@
 
     <default-channels>
         <channel ref="my-amf">
-           <serialization>
-               <type-marshaller>de.ama.server.services.impl.Marshaller</type-marshaller>
-           </serialization>
+
         </channel>
     </default-channels>
 
