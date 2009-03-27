@@ -9,7 +9,7 @@ import de.ama.db.PersistentMarker;
  * Time: 21:16:40
  * To change this template use File | Settings | File Templates.
  */
-public class Directory implements PersistentMarker {
+public class Directory implements PersistentMarker{
     public String path;
     public long lastmodified ;
     public long size;

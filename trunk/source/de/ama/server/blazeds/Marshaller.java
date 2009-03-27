@@ -1,4 +1,6 @@
-package de.ama.server.services.impl;
+package de.ama.server.blazeds;
+
+import de.ama.db.DB;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +18,7 @@ public class Marshaller implements flex.messaging.io.TypeMarshaller{
     public Object convert(Object o, Class aClass) {
         System.out.println("Marshaller.convert"+o.getClass().getName());
 
+        DB.joinCatalog("tagzilla");
         return o;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

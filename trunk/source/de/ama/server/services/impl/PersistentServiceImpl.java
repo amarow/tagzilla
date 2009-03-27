@@ -10,6 +10,8 @@ import de.ama.util.Ini;
 
 import java.util.List;
 
+import flex.messaging.io.PropertyProxyRegistry;
+
 /**
  * User: x
  * Date: 19.05.2008

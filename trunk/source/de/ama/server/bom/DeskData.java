@@ -1,0 +1,23 @@
+package de.ama.server.bom;
+
+import de.ama.framework.data.Data;
+import de.ama.util.Util;
+
+import java.util.List;
+import java.util.ArrayList;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: x
+ * Date: 27.03.2009
+ * Time: 20:35:08
+ * To change this template use File | Settings | File Templates.
+ */
+public class DeskData extends Data {
+    public List objects = new ArrayList();
+    public String name;
+
+    public String getGuiRepresentation() {
+       return Util.saveToString(name);
+    }
+}

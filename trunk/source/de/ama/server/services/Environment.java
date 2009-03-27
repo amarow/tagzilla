@@ -1,6 +1,7 @@
 package de.ama.server.services;
 
 import de.ama.util.Util;
+import de.ama.server.blazeds.BlazedsInitialization;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,8 @@ public class Environment {
         singletons.put(CrawlerService.NAME      ,getBean("de.ama.server.services.impl.CrawlerServiceImpl"));
 
         beanDictionary.put(XmlService.NAME          ,"de.ama.server.services.impl.XmlServiceImpl");
+
+        new BlazedsInitialization();
 
 //        Endpoint.publish("http://localhost:8085/services", getBean(ActionService.NAME));
         System.out.println("WebService ActionService up and running");

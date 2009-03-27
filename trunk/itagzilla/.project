@@ -19,12 +19,12 @@
 		<link>
 			<name>[source path] src</name>
 			<type>2</type>
-			<location>/Users/ama/dev/tagzilla/client/src</location>
+			<location>D:/dev/tagzilla/client/src</location>
 		</link>
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>/Users/ama/dev/tagzilla/war/itagzilla-debug</location>
+			<location>D:/dev/tagzilla/war/itagzilla-debug</location>
 		</link>
 	</linkedResources>
 </projectDescription>
