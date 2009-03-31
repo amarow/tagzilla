@@ -58,12 +58,16 @@ public class Util
     	var info:Object = ObjectUtil.getClassInfo(src);
 
         for each(var key:String in info.properties){
-        	dst[key] = src[key];
+            try {
+                dst[key] = src[key];
+            } catch(e:Error) {
+                // macht nichts
+            }
         }
     }
 
     public static function getClass(obj:Object):Class {
-       return Class(obj.getDefinitionByName(obj.getQualifiedClassName(obj)));
+       return obj.constructor;
     }
 
 

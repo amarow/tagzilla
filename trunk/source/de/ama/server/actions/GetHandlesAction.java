@@ -22,6 +22,7 @@ public class GetHandlesAction extends ServerAction {
             }
             List objects = Environment.getPersistentService().getObjects(q.limit(Handle.QUERY_LIMIT));
             data = mapBosToDataTable(objects, new HandleData());
+            System.out.println("found "+ data + " handles");
             return;
         }
 
@@ -32,6 +33,7 @@ public class GetHandlesAction extends ServerAction {
             }
             List objects = Environment.getPersistentService().getObjects(q.limit(Handle.QUERY_LIMIT));
             data = mapBosToDataTable(objects, new HandleData());
+            System.out.println("found "+ data + " handles");
             return;
         }
 

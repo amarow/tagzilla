@@ -5,7 +5,7 @@
     <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="false" />
     <option name="USE_CUSTOM_CONFIG_FILE" value="true" />
     <option name="CUSTOM_CONFIG_FILE" value="$MODULE_DIR$/compiler-config.xml" />
-    <option name="APPLICATION_ENTRY_POINT" value="client/src/admin.mxml" />
+    <option name="APPLICATION_ENTRY_POINT" value="client/src/client.mxml" />
     <option name="OUTPUT_FILE_NAME" value="tagzilla client.swf" />
     <option name="VERSION" value="2" />
     <option name="SERVER_TECHNOLOGY" value="BlazeDS" />
@@ -21,6 +21,7 @@
       <excludeFolder url="file://$MODULE_DIR$/html-template" />
       <excludeFolder url="file://$MODULE_DIR$/libs" />
     </content>
+    <content url="file://$MODULE_DIR$/../itagzilla/src" />
     <orderEntry type="jdk" jdkName="3.2.0" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
