@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>tagzilla</name>
+	<name>client</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -10,14 +10,8 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>com.adobe.flexbuilder.apollo.apollobuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>com.adobe.flexbuilder.apollo.apollonature</nature>
 		<nature>com.adobe.flexbuilder.project.flexnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
@@ -25,7 +19,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>D:/dev/tagzilla/war/client</location>
+			<location>D:/dev/tagzilla/war/client-debug</location>
 		</link>
 	</linkedResources>
 </projectDescription>
