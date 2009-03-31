@@ -48,8 +48,14 @@
                 var data:Object = event.dragSource.dataForFormat('items');
                 var n:int = data.length;
                 var i:int;
+                var handle:Handle;
                 for (i = 0; i < n; i++) {
-                    var handle:Handle = data[i];
+                    if(data[i] is HandleData){
+                        handle = new Handle();
+                        HandleData(data[i]).writeProperties(handle);
+                    } else if(data[i] is Handle){
+                        handle = data[i];
+                    }
                     this.addChild(handle);
                     handle.x = event.localX;
                     handle.y = event.localY + i * 20;

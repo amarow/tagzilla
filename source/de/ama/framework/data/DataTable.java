@@ -53,4 +53,13 @@ public class DataTable {
     public void add(Data data) {
         collection.add(data);
     }
+
+    @Override
+    public String toString() {
+        if(protoType!=null){
+            return "DataTable of "+ Util.getUnqualifiedClassName(protoType.getClass())+" size="+collection.size();
+        } else {
+            return "DataTable size="+collection.size();
+        }
+    }
 }

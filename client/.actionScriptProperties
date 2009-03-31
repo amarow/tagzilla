@@ -9,9 +9,8 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
-<application path="client.mxml"/>
 <application path="admin.mxml"/>
-<application path="tagzilla.mxml"/>
+<application path="client.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles/>

@@ -83,8 +83,7 @@ public abstract class Data implements Serializable {
 
     ////////////////////////// abstract //////////////////////////////
 
-    public abstract String getGuiRepresentation();
-    
+
     public String getBoClassName(){
         return Util.removeTrailingStrings(getClass().getName(),"Data");
     }
@@ -156,11 +155,6 @@ public abstract class Data implements Serializable {
 
     /////////////////////////////////////////////////////////////////////////////////////////
 
-
-    public String getGuiRepresentationLong() {
-        return getGuiRepresentation();
-    }
-
     public String getType() {
         return this.getClass().getName();
     }
@@ -186,15 +180,6 @@ public abstract class Data implements Serializable {
             Log.write("Could not create Bo with name " + cName, e);
             return null;
         }
-    }
-    
-    /**
-     * Sollte überschrieben werden um den Editor-Titel oder Auflister-Titel zu bestimmen.
-     *
-     * @return der Titel dieses Data's (Material)
-     */
-    public String getDataTitle() {
-        return Util.saveToString(getGuiRepresentation());
     }
     
     /**
@@ -507,10 +492,6 @@ public abstract class Data implements Serializable {
 
     public boolean isNew() {
         return (oidString == null);
-    }
-
-    public String toString() {
-        return getGuiRepresentation();
     }
 
     public String asString() {
