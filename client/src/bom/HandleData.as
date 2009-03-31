@@ -1,6 +1,6 @@
 package bom {
 [RemoteClass(alias="de.ama.server.bom.HandleData")]
-public class HandleData extends AsData{
+public class HandleData extends Data{
 
   public var path:String ;
   public var tags:String ;

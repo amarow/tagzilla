@@ -1,16 +1,14 @@
 package de.ama.server.actions;
 
-import de.ama.db.Persistent;
-import de.ama.server.bom.User;
-import de.ama.server.services.Environment;
-import de.ama.server.services.XmlService;
-import de.ama.util.Util;
 import de.ama.framework.data.Data;
 import de.ama.framework.data.DataMapper;
+import de.ama.framework.data.DataTable;
 import de.ama.framework.data.MappingException;
+import de.ama.server.bom.User;
+import de.ama.server.services.Environment;
+import de.ama.util.Util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 
 /**
@@ -97,18 +95,21 @@ public class ServerAction {
         data.getMapper().readDataFromBo(bo, data, DataMapper.FULL_OBJECT);
     }
 
-        /**
+
+    public DataTable mapBosToDataTable(Collection bos, Data data){
+        return data.getMapper().createFromBoList(data,bos,false);
+    }
+
+
+     /**
      * transferiert die Daten eines Data-Graphen in den Bo-Graphen.
      * Wichtig ! Um Auskunft über Versionsmismatch zu bekommen, muß nach dem save() über die
      * Methode hasVersionMismatch() kontrolliert werden ob ein Versionsmismatch vorlag.
      * @param data ,das gemapped werden soll
      * @return ein refeshter Data_Graph.
      */
-    public Data save(Data data)  {
-       return writeToBo(data, true);
-    }
 
-    public Data writeToBo(Data data, boolean commit)  {
+    public Data mapDataToBo(Data data, boolean commit)  {
         versionMismatch = false;
 
         if (data == null) {
@@ -177,8 +178,7 @@ public class ServerAction {
 //            if(TRACE.ON()){ TRACE.add(this,"refreshObject: dontCommit=true !"); }
             return;
         } else {
-            String oid = Environment.getPersistentService().getOidString(toRefresh);
-            Environment.getPersistentService().getObject(oid);
+            Environment.getPersistentService().refresh(toRefresh);
         }
     }
 }

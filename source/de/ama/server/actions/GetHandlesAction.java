@@ -1,11 +1,11 @@
 package de.ama.server.actions;
 
-import de.ama.server.services.Environment;
-import de.ama.server.bom.Handle;
-import de.ama.util.Util;
 import de.ama.db.Query;
+import de.ama.server.bom.Handle;
+import de.ama.server.bom.HandleData;
+import de.ama.server.services.Environment;
+import de.ama.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,7 +21,7 @@ public class GetHandlesAction extends ServerAction {
                 message = "query was limited to "+Handle.QUERY_LIMIT+" entries";
             }
             List objects = Environment.getPersistentService().getObjects(q.limit(Handle.QUERY_LIMIT));
-
+            data = mapBosToDataTable(objects, new HandleData());
             return;
         }
 
@@ -30,7 +30,8 @@ public class GetHandlesAction extends ServerAction {
             if(Environment.getPersistentService().getObjectCount(q)>Handle.QUERY_LIMIT){
                 message = "query was limited to "+Handle.QUERY_LIMIT+" entries";
             }
-            data = Environment.getPersistentService().getObjects(q.limit(Handle.QUERY_LIMIT));
+            List objects = Environment.getPersistentService().getObjects(q.limit(Handle.QUERY_LIMIT));
+            data = mapBosToDataTable(objects, new HandleData());
             return;
         }
 

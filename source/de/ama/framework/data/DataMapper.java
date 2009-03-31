@@ -6,12 +6,14 @@
 
 package de.ama.framework.data;
 
-import de.ama.db.*;
+import de.ama.db.DB;
+import de.ama.db.OidIterator;
+import de.ama.db.Persistent;
+import de.ama.db.Query;
 import de.ama.util.StrTokenizer;
 import de.ama.util.StringDivider;
 import de.ama.util.Util;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -135,64 +137,53 @@ public abstract class DataMapper {
     }
 
 
-    public List createFromBoList(Data data, Collection boList, boolean mini) throws MappingException {
-        List ret = new ArrayList();
+    public DataTable createFromBoList(Data data, Collection boList, boolean mini) throws MappingException {
+        DataTable table = new DataTable(data);
         if (boList != null) {
-            readObjects(boList, ret , mini);
+            readObjects( table, boList, mini);
         }
-        return ret;
+        return table;
     }
 
-    public void writeObjects(Object obj, List list) throws MappingException {
-        if (obj == null) {
+    public void writeObjects(Collection bos, DataTable table) throws MappingException {
+        if (bos == null) {
             throw new MappingException("Try to write DataTable into Bo, but there is no Collection to write to !!!!" +
-                    "\n Collections in Bo's should be initialized ");
-        }
-
-        Collection container = null;
-        //System.out.println("DataMapper.writeObjects :" + obj.getClass() + " table=" + table.getGuiRepresentation());
-        // Leider kann in der Signatur keine Collection übergeben werden, weil
-        if (obj instanceof Collection) {
-            container = (Collection) obj;
-        } else if (obj instanceof Iterator) {
-            return;    // Iterator sind nur zum lesen gedacht.
-        } else {
-            throw new MappingException("writeObjects with wrong collection type :" + obj.getClass().getName());
+                    "\r\n Collections in Bo's should be initialized " +
+                    "\r\n Table-Class = " + table.protoType.getClass().getName());
         }
 
         // Wir merken uns die bisherige Collection.
-        List  oldContainer = new ArrayList();
-        for (Iterator iterator = container.iterator(); iterator.hasNext();) {
-             oldContainer.add(iterator.next());            
-        }
+        List  oldContainer = new ArrayList(bos);
 
         // Wir entleren die Collection und bauen sie neu auf.
-        container.clear();
+        bos.clear();
 
-        for (int i = 0; i < list.size(); i++) {
-            Object element = list.get(i);
-            if (element instanceof Data) {
-                Data data = (Data) element;
+        for (int i = 0; i < table.size(); i++) {
+            Object o = table.get(i);
+            if (o instanceof Data) {
+                Data data = (Data) o;
                 if(data.isNew()){
                     // bei ganz neuen Daten muß auch ein passendes Bo erzeugt werden.
-                    element = data.createEmptyBo();
+                    o = data.createEmptyBo();
                 } else {
                     // sonst nehnmen wir das alte BO.
-                    element = DB.session().getObject(data.getOidString());
+                    o = DB.session().getObject(data.getOidString());
                 }
-                data.getMapper().writeDataToBo(element, data);
+                data.getMapper().writeDataToBo(o, data);
             }
 
-            container.add(element);
-            oldContainer.remove(element);
+            bos.add(o);
+            oldContainer.remove(o);
         }
 
-        DB.session().deleteObjects(oldContainer);
+        if(table.deleting ){
+           DB.session().deleteObjects(oldContainer);
+        }
 
     }
 
 
-    public void readObjects(Collection dataCol, Collection objCol, boolean mini) throws MappingException {
+    public void readObjects(DataTable dataCol, Collection objCol, boolean mini) throws MappingException {
 
         for (Iterator iterator = objCol.iterator(); iterator.hasNext();) {
             Object bo = iterator.next();

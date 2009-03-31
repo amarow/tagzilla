@@ -1,6 +1,7 @@
 package actions
 {
 import components.*;
+import bom.DataTable;
 import mx.collections.ArrayCollection;
 
 [RemoteClass(alias="de.ama.server.actions.GetHandlesAction")]
@@ -14,7 +15,9 @@ public class GetHandlesAction extends ActionScriptAction{
 		if(data!=null && data is ArrayCollection){
 	        var doc:Object = context.invoker.document.parentDocument;
 	        var grid:HandlesGrid = doc["handlesGrid"];
-	        grid["handles"] = data;
+            var handles:ArrayCollection = new ArrayCollection();
+            DataTable(data).writeArrayCollection(handles, Handle);
+	        grid["handles"] = handles;
 		}
     }
 }

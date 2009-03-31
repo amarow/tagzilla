@@ -36,7 +36,7 @@
 
 
         private function addCrawler():void {
-            crawlers.addItem(new Crawler(fstree.selectedPath));
+            crawlers.addItem(new CrawlerData(fstree.selectedPath));
         }
 
         private function removeCrawler():void {
@@ -63,7 +63,7 @@
 
         private function updateCrawlers():void {
             var a:CrawlerAction = new CrawlerAction();
-            a.crawler = new Crawler("");
+            a.crawler = new CrawlerData("");
             a.message = "update";
             actionservice.execute(a);
         }

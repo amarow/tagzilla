@@ -3,15 +3,13 @@ package de.ama.server.services.impl;
 
 import de.ama.db.DB;
 import de.ama.db.OidIterator;
-import de.ama.db.Query;
 import de.ama.db.Persistent;
+import de.ama.db.Query;
 import de.ama.server.services.PersistentService;
 import de.ama.server.services.UserService;
 import de.ama.util.Ini;
 
 import java.util.List;
-
-import flex.messaging.io.PropertyProxyRegistry;
 
 /**
  * User: x

@@ -14,10 +14,10 @@ import java.io.Serializable;
  */
 public class Selection implements Serializable {
     static final long serialVersionUID = -1L;
-    private Class type;
+    private String type;
     private String oidString;
 
-    public Class getType() {
+    public String getType() {
         return type;
     }
 
@@ -34,7 +34,7 @@ public class Selection implements Serializable {
         this.oidString = data.getOidString();
     }
 
-    public boolean hasType(Class dataClass) {
-        return dataClass.isAssignableFrom(getType());
+    public boolean hasType(String dataClass) {
+        return dataClass==getType();
     }
 }

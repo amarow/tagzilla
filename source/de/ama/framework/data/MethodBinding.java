@@ -81,7 +81,7 @@ public class MethodBinding {
         }
 
         try {
-            Object value = boGetter.invoke(bo, (Class)null);
+            Object value = boGetter.invoke(bo);
             return value;
         } catch (InvocationTargetException e) {
             Throwable target = e.getTargetException();

@@ -1,12 +1,12 @@
 package de.ama.server.services.impl;
 
+import de.ama.db.Query;
 import de.ama.server.bom.Crawler;
-import de.ama.server.services.CrawlerService;
-import de.ama.server.services.Environment;
+import de.ama.server.bom.CrawlerData;
 import de.ama.server.bom.Directory;
 import de.ama.server.bom.Handle;
-import de.ama.db.Query;
-import de.ama.db.OidIterator;
+import de.ama.server.services.CrawlerService;
+import de.ama.server.services.Environment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,20 +16,8 @@ public class CrawlerServiceImpl implements CrawlerService {
 
     private List<Crawler> crawlers = new ArrayList<Crawler>();
 
-    public static void main(String args[]) {
-        new CrawlerServiceImpl(args);
-    }
-
     public CrawlerServiceImpl() {
     }
-
-    public CrawlerServiceImpl(String args[]) {
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
-            startCrawler(new Crawler(arg, 5000));
-        }
-    }
-
 
     private Crawler findCrawler(String path) {
         for (Iterator<Crawler> iterator = crawlers.iterator(); iterator.hasNext();) {
@@ -42,12 +30,12 @@ public class CrawlerServiceImpl implements CrawlerService {
     }
 
 
-    public void startCrawler(Crawler c) {
+    public void startCrawler(CrawlerData c) {
         Crawler crawler = findCrawler(c.rootPath);
         if (crawler == null) {
             Directory directory = getOrMakeDir(c);
             crawler = new Crawler(directory);
-            System.out.println("starting crawler " + crawler.rootPath);
+            System.out.println("starting crawler " + crawler.getRootPath());
             Thread thread = new Thread(crawler);
             thread.start();
             crawlers.add(crawler);
@@ -58,14 +46,14 @@ public class CrawlerServiceImpl implements CrawlerService {
             } else {
                 Directory directory = getOrMakeDir(c);
                 crawler = new Crawler(directory);
-                System.out.println("starting crawler " + crawler.rootPath);
+                System.out.println("starting crawler " + crawler.getRootPath());
                 Thread thread = new Thread(crawler);
                 thread.start();
             }
         }
     }
 
-    private Directory getOrMakeDir(Crawler c) {
+    private Directory getOrMakeDir(CrawlerData c) {
         Directory dir = (Directory) Environment.getPersistentService().getObject(new Query(Directory.class, "path", Query.EQ, Handle.toDBString(c.rootPath)), false);
         if (dir == null) {
             dir = new Directory();
@@ -76,7 +64,7 @@ public class CrawlerServiceImpl implements CrawlerService {
         return dir;
     }
 
-    public void stopCrawler(Crawler c) {
+    public void stopCrawler(CrawlerData c) {
         Crawler crawler = findCrawler(c.rootPath);
         if (crawler != null && crawler.isRunning()) {
             System.out.println("stopping crawler " + crawler.getRootPath());
@@ -97,14 +85,14 @@ public class CrawlerServiceImpl implements CrawlerService {
         }
     }
 
-    public void deleteCrawler(Crawler c) {
+    public void deleteCrawler(CrawlerData c) {
         Crawler crawler = findCrawler(c.rootPath);
         Environment.getPersistentService().delete(new Query(Directory.class, "path", Query.EQ, c.rootPath + "*"));
         Environment.getPersistentService().delete(new Query(Handle.class, "path", Query.LIKE, c.rootPath + "*"));
         crawlers.remove(crawler);
     }
 
-    public String infoCrawler(Crawler c) {
+    public String infoCrawler(CrawlerData c) {
         long dirs = Environment.getPersistentService().getObjectCount(new Query(Directory.class, "path", Query.EQ, c.rootPath + "*"));
         long handles = Environment.getPersistentService().getObjectCount(new Query(Handle.class, "path", Query.LIKE, c.rootPath + "*"));
         return "dirs=" + dirs + " handles=" + handles;

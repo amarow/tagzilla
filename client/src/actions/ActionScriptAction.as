@@ -10,6 +10,10 @@ public class ActionScriptAction {
     public var data:Object;
 
 
+    public function onBeforeCall(context:ActionContext):void {
+
+    }
+
     public function onAfterCall(context:ActionContext):void {
 
     }

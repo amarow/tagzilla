@@ -1,7 +1,6 @@
 package de.ama.server.services;
 
-import de.ama.server.bom.Crawler;
-import de.ama.db.OidIterator;
+import de.ama.server.bom.CrawlerData;
 
 import java.util.List;
 
@@ -15,15 +14,15 @@ import java.util.List;
 public interface CrawlerService {
     String NAME = "CrawlerService";
 
-    void startCrawler(Crawler c);
+    void startCrawler(CrawlerData c);
 
     void stopAllCrawlers();
 
-    void stopCrawler(Crawler c);
+    void stopCrawler(CrawlerData c);
 
-    void deleteCrawler(Crawler c);
+    void deleteCrawler(CrawlerData c);
 
-    String infoCrawler(Crawler c);
+    String infoCrawler(CrawlerData c);
 
     List getAllCrawlers();
 }

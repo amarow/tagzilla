@@ -2,8 +2,8 @@
 
 package de.ama.server.services;
 
-import de.ama.db.Query;
 import de.ama.db.OidIterator;
+import de.ama.db.Query;
 
 import java.util.List;
 
