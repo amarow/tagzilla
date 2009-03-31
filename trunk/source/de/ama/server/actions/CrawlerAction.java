@@ -1,13 +1,15 @@
 package de.ama.server.actions;
 
+import de.ama.server.bom.CrawlerData;
 import de.ama.server.services.Environment;
-import de.ama.server.bom.Crawler;
+
+import java.util.List;
 
 
 public class CrawlerAction extends ServerAction {
 
 
-    public Crawler crawler;
+    public CrawlerData crawler;
 
     public void execute() {
 
@@ -25,7 +27,8 @@ public class CrawlerAction extends ServerAction {
             commit();
 
         } finally {
-            data = Environment.getCrawlerService().getAllCrawlers();
+            List list = Environment.getCrawlerService().getAllCrawlers();
+            data = mapBosToDataTable(list, new CrawlerData());
             message = Environment.getCrawlerService().infoCrawler(crawler);
         }
 

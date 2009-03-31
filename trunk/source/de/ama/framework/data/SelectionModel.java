@@ -16,7 +16,7 @@ public class SelectionModel implements Serializable{
     private List   selections;
     private String containerId;
     private String condition;
-    private Class  type;
+    private String  type;
 
    /////////////////////////// C'tor //////////////////////////////////////
 
@@ -32,14 +32,11 @@ public class SelectionModel implements Serializable{
         setSelection(s);
     }
 
-    public SelectionModel(Class type) {
+    public SelectionModel(String type) {
         this.type = type;
     }
 
-    public Class getType(){
-        if(type==null && getSelectionSize()>0){
-            return getSelection(0).getType();
-        }
+    public String getType(){
         return type;
     }
 

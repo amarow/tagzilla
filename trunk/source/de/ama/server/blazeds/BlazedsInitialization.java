@@ -1,13 +1,19 @@
 package de.ama.server.blazeds;
 
-import flex.messaging.io.PropertyProxyRegistry;
-import de.ama.db.PersistentMarker;
+import de.ama.framework.data.DataDictionary;
+import de.ama.server.bom.CrawlerData;
+import de.ama.server.bom.DeskData;
+import de.ama.server.bom.HandleData;
+import de.ama.server.bom.TagData;
 
 
 public class BlazedsInitialization {
 
     public BlazedsInitialization() {
-        PropertyProxyRegistry.getRegistry().register(PersistentMarker.class, new PersistentBeanProxy());
+        DataDictionary.registerData(new CrawlerData());
+        DataDictionary.registerData(new HandleData());
+        DataDictionary.registerData(new TagData());
+        DataDictionary.registerData(new DeskData());
     }
 
 }

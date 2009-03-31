@@ -30,10 +30,6 @@ public abstract class Data implements Serializable {
     private int version = 0;
     private String oidString;
 
-    private String currentUser;
-
-    static final long serialVersionUID = -1L;
-
     private transient ArrayList queryDescriptions;
 
 
@@ -90,7 +86,7 @@ public abstract class Data implements Serializable {
     public abstract String getGuiRepresentation();
     
     public String getBoClassName(){
-        return getClass().getName()+"Data";
+        return Util.removeTrailingStrings(getClass().getName(),"Data");
     }
 
     /**
@@ -165,14 +161,9 @@ public abstract class Data implements Serializable {
         return getGuiRepresentation();
     }
 
-    public Class getType() {
-        return this.getClass();
+    public String getType() {
+        return this.getClass().getName();
     }
-
-    public String getPanelName() {
-        return getType().getName() + "Panel";
-    }
-
 
     /**
      * Erzeugt ein Leeres Bo. Bo's müssen hierfür einen No-Arg-Konstruktor haben. In dieser
@@ -656,20 +647,6 @@ public abstract class Data implements Serializable {
     public Query  buildExtendedThermQuery(String methodKey, String value)  throws MappingException {
         return null;
     }
-
-
-    public boolean hasCurrentUser() {
-        return currentUser != null;
-    }
-
-    public String getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
-    }
-
 
     public String asCsvLine() {
         StringBuffer sb = new StringBuffer();

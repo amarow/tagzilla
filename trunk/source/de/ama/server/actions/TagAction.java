@@ -1,9 +1,9 @@
 package de.ama.server.actions;
 
-import de.ama.server.services.Environment;
 import de.ama.server.bom.Handle;
-import de.ama.util.Util;
+import de.ama.server.services.Environment;
 import de.ama.util.UniversalIterator;
+import de.ama.util.Util;
 
 import java.util.List;
 

@@ -2,15 +2,13 @@ package de.ama.server.bom;
 
 import de.ama.db.DB;
 import de.ama.db.Query;
-import de.ama.server.bom.Handle;
-import de.ama.server.bom.Directory;
 import de.ama.server.services.Environment;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +18,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class Crawler implements Runnable {
-    public  String rootPath;
+    private String rootPath;
     private HashMap storeA = new HashMap();
     private HashMap storeB = new HashMap();
     private HashMap allfilesA = storeA;
@@ -148,10 +146,6 @@ public class Crawler implements Runnable {
     }
 
     public String getRootPath() {
-        return rootPath;
-    }
-
-    public String getrootPath() {
         return rootPath;
     }
 

@@ -7,14 +7,11 @@
 package de.ama.framework.data;
 
 
-import de.ama.db.DB;
-import de.ama.db.PersistentList;
 import de.ama.util.Time;
 
-import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * @author ama
@@ -38,7 +35,7 @@ public class DataMapperDefault extends DataMapper {
      * @throws MappingException
      */
 
-    public void writeDataToBo(Object bo, Data rootData, String[] keys) throws MappingException{
+    public void writeDataToBo(Object bo, Data rootData, String[] keys) throws MappingException {
         int size = keys.length;
         DataBinding binding = DataBinding.getBinding(rootData);
         for (int i = 0; i < size; i++) {
@@ -53,30 +50,30 @@ public class DataMapperDefault extends DataMapper {
             if (dataValue.getClass() == Date.class) {
                 if (mb.hasBoSetter()) {
                     if (mb.getBoSetterType() == Date.class) {
-                        mb.setBoValue(bo,dataValue);
-                    }  else if (mb.getBoSetterType() == String.class) {
+                        mb.setBoValue(bo, dataValue);
+                    } else if (mb.getBoSetterType() == String.class) {
                         mb.setBoValue(bo, de.ama.util.Util.asDBString((Date) dataValue));
                     }
                 }
             } else if (dataValue.getClass() == Time.class) {
                 if (mb.hasBoSetter()) {
                     if (mb.getBoSetterType() == Time.class) {
-                        mb.setBoValue(bo,dataValue);
-                    }  else if (mb.getBoSetterType() == String.class) {
+                        mb.setBoValue(bo, dataValue);
+                    } else if (mb.getBoSetterType() == String.class) {
                         mb.setBoValue(bo, de.ama.util.Util.asDBString((Time) dataValue));
                     }
                 }
-            } else if (dataValue.getClass() == List.class) {
+            } else if (dataValue.getClass() == DataTable.class) {
                 if (mb.hasBoSetter()) {
-                List col = (List) dataValue;
-                Object container = mb.getBoValue(bo);
-                if (container == null ) {
-                    container = new ArrayList();
-                }
-                writeObjects(container, col);
-                // container ist an sich ein eigenständiges Object, wir setzen es aber zurück ins bo,
-                // damit wir dort noch Verknüpfungsarbeiten leisten können.
-                mb.setBoValue(bo, container);
+                    DataTable dataTable = (DataTable) dataValue;
+                    Collection bos = (Collection) mb.getBoValue(bo);
+                    if (bos == null) {
+                        bos = new ArrayList();
+                    }
+                    writeObjects(bos, dataTable);
+                    // container ist an sich ein eigenständiges Object, wir setzen es aber zurück ins bo,
+                    // damit wir dort noch Verknüpfungsarbeiten leisten können.
+                    mb.setBoValue(bo, bos);
                 }
             } else if (dataValue instanceof Data) {
                 Data d = (Data) dataValue;
@@ -87,7 +84,7 @@ public class DataMapperDefault extends DataMapper {
         }
     }
 
-    public void readDataFromBo(Object bo, Data rootData, String[] keys) throws MappingException{
+    public void readDataFromBo(Object bo, Data rootData, String[] keys) throws MappingException {
 
         DataBinding binding = DataBinding.getBinding(rootData);
         for (int i = 0; i < keys.length; i++) {
@@ -99,7 +96,7 @@ public class DataMapperDefault extends DataMapper {
             if (boValue != null) {
                 if (mb.getDataFieldType() == Date.class) {
                     if (boValue instanceof Date) {
-                        mb.setDataValue(rootData,boValue);
+                        mb.setDataValue(rootData, boValue);
                     } else if (boValue instanceof String) {
                         Date date = de.ama.util.Util.fromDBString((String) boValue);
                         mb.setDataValue(rootData, date);
@@ -111,12 +108,12 @@ public class DataMapperDefault extends DataMapper {
                         Time time = de.ama.util.Util.timeFromDBString((String) boValue);
                         mb.setDataValue(rootData, time);
                     }
-                } else if (dataValue instanceof List) {
-                    List dataCol = (List) mb.getDataValue(rootData);
-                    if (dataCol == null) {
-                        dataCol = new ArrayList();
+                } else if (dataValue instanceof DataTable) {
+                    DataTable dataTable = (DataTable) dataValue;
+                    if (dataTable == null) {
+                        throw new MappingException("DataTables müssen im DataObjekt initialisiert werden Field: " + mb.getKey());
                     }
-                    readObjects(dataCol, (Collection) boValue, false);
+                    readObjects(dataTable, (Collection) boValue, false);
                 } else if (dataValue instanceof Data) {
                     Data data = (Data) mb.getDataValue(rootData);
                     if (data == null) {

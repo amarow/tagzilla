@@ -1,9 +1,8 @@
 package components
 {
 import mx.controls.Alert;
-import mx.core.Application;
 import mx.core.ApplicationGlobals;
-import mx.events.MenuEvent;
+import mx.utils.ObjectUtil;
 
 public class Util
 {
@@ -53,6 +52,18 @@ public class Util
 
     public static function getGlobal(key:String):Object{
         return globalStore[key];
+    }
+
+    public static function mapProperties(src:Object, dst:Object):void{
+    	var info:Object = ObjectUtil.getClassInfo(src);
+
+        for each(var key:String in info.properties){
+        	dst[key] = src[key];
+        }
+    }
+
+    public static function getClass(obj:Object):Class {
+       return Class(obj.getDefinitionByName(obj.getQualifiedClassName(obj)));
     }
 
 

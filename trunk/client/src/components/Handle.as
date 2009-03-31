@@ -6,6 +6,7 @@ import flash.events.MouseEvent;
 
 import mx.controls.Label;
 
+
 public class Handle extends Label 
 {
 

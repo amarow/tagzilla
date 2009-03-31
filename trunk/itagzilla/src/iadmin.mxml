@@ -7,7 +7,7 @@
 	width="100%" height="100%">
 	<mx:Script>
 		<![CDATA[
-        import bom.Crawler;
+            import bom.CrawlerData;
 			import mx.collections.ArrayCollection;
 	        import mx.rpc.events.ResultEvent;
             import mx.controls.Alert;
@@ -34,33 +34,33 @@
 
 			
             private function addCrawler():void  {
-            	crawlers.addItem(new Crawler(newpath.text));
+            	crawlers.addItem(new CrawlerData(newpath.text));
             }
             
             private function removeCrawler():void  {
    	            var a:CrawlerAction = new CrawlerAction();
 	            a.message="delete";
-	            a.crawler=crawlerTable.selectedItem as Crawler;
+	            a.crawler=crawlerTable.selectedItem as CrawlerData;
 	            actionservice.execute(a);            }
             
             private function startCrawler():void  {
    	            var a:CrawlerAction = new CrawlerAction();
 	            a.message="start";
-	            a.crawler = crawlerTable.selectedItem as Crawler;
+	            a.crawler = crawlerTable.selectedItem as CrawlerData;
 	            actionservice.execute(a);
             }
             
             private function stopCrawler():void  {
    	            var a:CrawlerAction = new CrawlerAction();
 	            a.message="stop";
-	            a.crawler=crawlerTable.selectedItem as Crawler;
+	            a.crawler=crawlerTable.selectedItem as CrawlerData;
 	            actionservice.execute(a);           
 	        }
             
                         
             private function updateCrawlers():void  {
    	            var a:CrawlerAction = new CrawlerAction();
-   	            a.crawler=new Crawler("");
+   	            a.crawler=new CrawlerData("");
 	            a.message="update";
 	            actionservice.execute(a);            
 	        }

@@ -33,11 +33,11 @@
 
         <channel-definition id="my-amf" class="mx.messaging.channels.AMFChannel">
             <endpoint url="http://localhost:8400/tagzilla/messagebroker/amf" class="flex.messaging.endpoints.AMFEndpoint"/>
-            <properties>
-                <serialization>
-                    <type-marshaller>de.ama.server.blazeds.Marshaller</type-marshaller>
-                </serialization>
-            </properties>
+            <!--<properties>-->
+                <!--<serialization>-->
+                    <!--<type-marshaller>de.ama.server.blazeds.Marshaller</type-marshaller>-->
+                <!--</serialization>-->
+            <!--</properties>-->
         </channel-definition>
 
         <channel-definition id="my-secure-amf" class="mx.messaging.channels.SecureAMFChannel">

@@ -11,6 +11,7 @@
 
     <mx:Script><![CDATA[
         import actions.*;
+        import bom.*;
         import mx.collections.ArrayCollection;
 
         import components.Handle;
@@ -18,9 +19,6 @@
 
         import mx.events.DragEvent;
         import mx.managers.DragManager;
-
-        public var oid:String;
-        public var version:int;
 
         private function mouseMoveHandler(event:MouseEvent):void {
 
@@ -88,15 +86,14 @@
 
         public function saveDesk():void{
             var a:DeskAction = new DeskAction();
-            this.name="Thyssen";
-            a.data = this;
+            a.save=true;
             ActionContext.instance.execute(a, this);
         }
 
 
         public function loadDesk():void{
             var a:DeskAction = new DeskAction();
-            a.deskName="Thyssen";
+            a.save=false;
             ActionContext.instance.execute(a, this);
         }
         

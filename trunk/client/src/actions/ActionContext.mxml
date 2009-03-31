@@ -16,6 +16,7 @@
         public function execute(action:ActionScriptAction, invoker:Object = null):void {
             this.invoker = invoker;
             this.startedAction = action;
+            action.onBeforeCall(this);
             delegate.execute(action);
         }
 
