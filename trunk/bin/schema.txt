@@ -1,0 +1,7 @@
+# Syntax: 
+# rename table oldname newname
+# rename attribute classname oldname newname
+
+
+# changes in class de.ama.server.bom.Handle
+ALTER TABLE de_ama_server_bom_Handle ADD COLUMN `tags` VARCHAR(255)   
