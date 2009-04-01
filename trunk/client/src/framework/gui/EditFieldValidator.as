@@ -1,5 +1,6 @@
-package components
+package src.framework.gui
 {
+import components.*;
 	import mx.validators.StringValidator;
 	import mx.validators.ValidationResult;
 

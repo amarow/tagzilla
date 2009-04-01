@@ -19,7 +19,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>/Users/ama/dev/tagzilla/war/client-debug</location>
+			<location>D:/dev/tagzilla/war/client</location>
 		</link>
 	</linkedResources>
 </projectDescription>
