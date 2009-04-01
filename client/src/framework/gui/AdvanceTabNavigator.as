@@ -1,4 +1,5 @@
-package components{
+package src.framework.gui{
+import components.*;
 	
 	import flash.events.MouseEvent;
 	import flash.display.DisplayObject;

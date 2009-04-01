@@ -1,4 +1,6 @@
-package actions {
+package src.framework.cs {
+import actions.*;
+
 [RemoteClass(alias="de.ama.server.actions.ServerAction")]
 public class ActionScriptAction {
 

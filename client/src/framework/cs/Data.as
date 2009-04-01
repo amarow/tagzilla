@@ -1,4 +1,6 @@
-package bom {
+package src.framework.cs {
+import bom.*;
+
 import components.Util;
 
 [RemoteClass(alias="de.ama.framework.data.Data")]

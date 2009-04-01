@@ -1,5 +1,6 @@
-package components
+package src.framework.util
 {
+import components.*;
     import flash.errors.IllegalOperationError;
     
     public class StringTokenizer 
