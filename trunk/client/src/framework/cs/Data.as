@@ -1,7 +1,5 @@
-package src.framework.cs {
-import bom.*;
-
-import components.Util;
+package framework.cs {
+import framework.util.Util;
 
 [RemoteClass(alias="de.ama.framework.data.Data")]
 public class Data{

@@ -1,10 +1,9 @@
-package src.framework.gui
+package framework.gui
 {
-import components.*;
-	import mx.validators.StringValidator;
-	import mx.validators.ValidationResult;
+import mx.validators.StringValidator;
+import mx.validators.ValidationResult;
 
-	public class EditFieldValidator extends StringValidator
+public class EditFieldValidator extends StringValidator
 	{
 		public var forbiddenChars:String = "";
 		private var results:Array;

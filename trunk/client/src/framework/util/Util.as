@@ -1,7 +1,5 @@
-package src.framework.util
+package framework.util
 {
-import components.*;
-
 import mx.controls.Alert;
 import mx.core.ApplicationGlobals;
 import mx.utils.ObjectUtil;

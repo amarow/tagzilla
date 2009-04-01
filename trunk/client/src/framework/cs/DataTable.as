@@ -1,6 +1,6 @@
-package src.framework.cs {
+package framework.cs {
 
-import f
+import framework.util.Util;
 
 import mx.collections.ArrayCollection;
 
