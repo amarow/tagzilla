@@ -1,4 +1,6 @@
 package bom {
+import framework.cs.Data;
+
 [RemoteClass(alias="de.ama.server.bom.HandleData")]
 public class HandleData extends Data{
 

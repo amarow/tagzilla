@@ -5,6 +5,7 @@ import bom.DeskData;
 import components.Desk;
 import components.Tag;
 
+import framework.cs.*;
 import mx.collections.ArrayCollection;
 
 [RemoteClass(alias="de.ama.server.actions.DeskAction")]

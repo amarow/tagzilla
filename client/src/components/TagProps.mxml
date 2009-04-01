@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-	            xmlns:comps="components.*" 
+	            xmlns:comps="framework.gui.*"
 	            layout="absolute" width="272" height="164"
                 title="Tag Properties" showCloseButton="true" 
                 close="PopUpManager.removePopUp(this)" 

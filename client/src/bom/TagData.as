@@ -1,4 +1,5 @@
 package bom {
+import framework.cs.Data;
 
 [RemoteClass(alias="de.ama.server.bom.TagData")]
 public class TagData extends Data{

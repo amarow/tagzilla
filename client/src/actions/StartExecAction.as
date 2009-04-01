@@ -1,7 +1,6 @@
 package actions
 {
-import components.*;
-
+import framework.cs.ActionScriptAction;
 [RemoteClass(alias="de.ama.server.actions.StartExecAction")]
 public class StartExecAction extends ActionScriptAction{
 	

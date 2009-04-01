@@ -2,10 +2,8 @@
 <mx:Object xmlns:mx="http://www.adobe.com/2006/mxml">
 
     <mx:Script><![CDATA[
-        import actions.ActionScriptAction;
 
-        import components.Util;
-
+        import framework.util.Util;
         import mx.rpc.events.FaultEvent;
         import mx.rpc.events.ResultEvent;
 

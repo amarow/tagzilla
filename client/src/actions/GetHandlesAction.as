@@ -1,9 +1,10 @@
 package actions
 {
 import bom.HandleData;
+
 import components.*;
-import bom.DataTable;
-import mx.collections.ArrayCollection;
+import framework.cs.*;
+import framework.cs.DataTable;
 
 [RemoteClass(alias="de.ama.server.actions.GetHandlesAction")]
 public class GetHandlesAction extends ActionScriptAction{

@@ -1,6 +1,4 @@
-package src.framework.gui {
-import actions.*;
-
+package framework.gui {
 public interface Invoker {
 
 

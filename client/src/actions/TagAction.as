@@ -2,6 +2,7 @@ package actions
 {
 import components.*;
 
+import framework.cs.*;
 import mx.collections.ArrayCollection;
 
 [RemoteClass(alias="de.ama.server.actions.TagAction")]

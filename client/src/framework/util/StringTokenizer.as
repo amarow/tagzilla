@@ -1,9 +1,6 @@
-package src.framework.util
+package framework.util
 {
-import components.*;
-    import flash.errors.IllegalOperationError;
-    
-    public class StringTokenizer 
+public class StringTokenizer
     {
         protected var source:String;
         protected var delimiter:String;
