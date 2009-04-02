@@ -41,5 +41,17 @@
         <!--<load-on-startup>1</load-on-startup>-->
     <!--</servlet>-->
 
+        <servlet>
+ 	 <description><![CDATA[Simple Servlet for Streaming Files to the Clients Browser]]></description>
+  	  <display-name>Simple DownloadServlet</display-name>
+  	  <servlet-name>downloadServlet</servlet-name>
+  	  <servlet-class>de.ama.framework.servlet.DownloadServlet</servlet-class>
+     </servlet>
+
+     <servlet-mapping>
+  	  <servlet-name>downloadServlet</servlet-name>
+  	  <url-pattern>/download</url-pattern>
+     </servlet-mapping>
+
 
 </web-app>
