@@ -43,7 +43,7 @@ public class Tag extends Canvas   {
         super.setStyle("backgroundColor", "white");
         super.setStyle("cornerRadius", "8");
         super.setStyle("borderStyle", "solid");
-        super.setStyle("borderColor", "#168DE1");
+        super.setStyle("borderColor", "white");
 
         super.addEventListener(MouseEvent.CLICK, onTagClick);
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);

@@ -80,7 +80,7 @@ public class ServerAction {
 
 
     public boolean needsUser() {
-        return true;
+        return false;
     }
 
     public String getName() {
