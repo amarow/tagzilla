@@ -13,6 +13,7 @@
 <application path="tagzilla.mxml"/>
 <application path="writeFile.mxml"/>
 <application path="readFile.mxml"/>
+<application path="loadUrl.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles/>
