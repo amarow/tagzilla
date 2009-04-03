@@ -10,14 +10,16 @@
         >
 
     <mx:Script><![CDATA[
-        import framework.cs.*;
         import actions.DeskAction;
-        import bom.*;
-        import mx.collections.ArrayCollection;
 
         import components.Handle;
         import components.Tag;
 
+        import data.HandleData;
+
+        import framework.cs.*;
+
+        import mx.collections.ArrayCollection;
         import mx.events.DragEvent;
         import mx.managers.DragManager;
 
@@ -46,16 +48,16 @@
 
         private function dragDropHandler(event:DragEvent):void {
             if (event.dragSource.hasFormat('items')) {
-                var data:Object = event.dragSource.dataForFormat('items');
-                var n:int = data.length;
+                var obj:Object = event.dragSource.dataForFormat('items');
+                var n:int = obj.length;
                 var i:int;
                 var handle:Handle;
                 for (i = 0; i < n; i++) {
-                    if(data[i] is HandleData){
+                    if (obj[i] is HandleData) {
                         handle = new Handle();
-                        HandleData(data[i]).writeProperties(handle);
-                    } else if(data[i] is Handle){
-                        handle = data[i];
+                        HandleData(obj[i]).writeProperties(handle);
+                    } else if (data[i] is Handle) {
+                        handle = obj[i];
                     }
                     this.addChild(handle);
                     handle.x = event.localX;
@@ -91,20 +93,20 @@
         }
 
 
-        public function saveDesk():void{
+        public function saveDesk():void {
             var a:DeskAction = new DeskAction();
-            a.save=true;
-            ActionContext.instance.execute(a, this);
+            a.save = true;
+            ActionStarter.instance.execute(a, this);
         }
 
 
-        public function loadDesk():void{
+        public function loadDesk():void {
             var a:DeskAction = new DeskAction();
-            a.save=false;
-            ActionContext.instance.execute(a, this);
+            a.save = false;
+            ActionStarter.instance.execute(a, this);
         }
-        
-        
+
+
         ]]></mx:Script>
 
 

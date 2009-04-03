@@ -1,8 +1,9 @@
 package actions
 {
-import bom.HandleData;
+import data.HandleData;
 
 import components.*;
+
 import framework.cs.*;
 import framework.cs.DataTable;
 
@@ -13,7 +14,7 @@ public class GetHandlesAction extends ActionScriptAction{
     public var tag:String;
 
 
-    override public function onAfterCall(context:ActionContext):void {
+    override public function onAfterCall(context:ActionStarter):void {
         var doc:Object = context.invoker.document.parentDocument;
         var grid:HandlesGrid = doc["handlesGrid"];
         grid["handles"] = DataTable(data).collection;

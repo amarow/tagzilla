@@ -7,7 +7,7 @@
 	width="100%" height="100%">
 	<mx:Script>
 		<![CDATA[
-            import bom.CrawlerData;
+            import data.CrawlerData;
 			import mx.collections.ArrayCollection;
 	        import mx.rpc.events.ResultEvent;
             import mx.controls.Alert;

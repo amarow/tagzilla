@@ -1,4 +1,4 @@
-package bom {
+package data {
 import framework.cs.Data;
 
 [RemoteClass(alias="de.ama.server.bom.HandleData")]

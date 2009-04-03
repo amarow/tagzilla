@@ -6,21 +6,25 @@
         xmlns:mx="http://www.adobe.com/2006/mxml"
         xmlns:comps="components.*"
         xmlns:fw="framework.gui.*"
+        initialize="bootstrap();"
         >
-	<fw:AdvanceTabNavigator backgroundAlpha="0.08" top="2" left="2" right="2" bottom="2" tabCloseEnable="true" tabDragEnable="true" id="mainTabs" backgroundColor="#585A5F" themeColor="#FF2A00">
-<!--	    <mx:Canvas top="0" bottom="0" left="0" right="0" label = "Start" backgroundAlpha="0.0">
-	        <mx:DataGrid width="452" right="10" top="0" bottom="40">
-	            <mx:columns>
-	                <mx:DataGridColumn headerText="Name" dataField="col1"/>
-	                <mx:DataGridColumn headerText="User" dataField="col2"/>
-	            </mx:columns>
-	        </mx:DataGrid>
-	        <mx:Button x="358" y="345" label="Edit"/>
-	        <mx:Button x="262" y="345" label="+"/>
-	        <mx:Button x="310" y="345" label="-"/>
-	    </mx:Canvas> -->
-		<comps:Project top="0" bottom="0" left="0" right="0" label = "Thyssen" />
-		<comps:Project top="0" bottom="0" left="0" right="0" label = "Porsche" />
-	</fw:AdvanceTabNavigator>
+
+
+    <mx:Script><![CDATA[
+
+        import framework.cs.Environment;
+
+        protected function bootstrap():void {
+            Environment.initForProduction();
+        }
+
+        ]]></mx:Script>
+
+
+    <fw:AdvanceTabNavigator backgroundAlpha="0.08" top="2" left="2" right="2" bottom="2" tabCloseEnable="true"
+                            tabDragEnable="true" id="mainTabs" backgroundColor="#585A5F" themeColor="#FF2A00">
+        <comps:Project top="0" bottom="0" left="0" right="0" label="Thyssen"/>
+        <comps:Project top="0" bottom="0" left="0" right="0" label="Porsche"/>
+    </fw:AdvanceTabNavigator>
 
 </mx:Application>

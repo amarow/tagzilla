@@ -16,6 +16,7 @@ public class TagData extends Data {
     public int weight;
     public int x;
     public int y;
+    public int bgcolor;
 
     public String getGuiRepresentation() {
         return Util.saveToString(tag);

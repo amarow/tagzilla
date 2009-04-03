@@ -1,17 +1,8 @@
 package components {
 
-import actions.*;
-
-import flash.events.Event;
-import flash.events.IOErrorEvent;
 import flash.events.MouseEvent;
-import flash.net.FileReference;
 
-import flash.net.URLRequest;
-import flash.net.URLVariables;
-import flash.net.navigateToURL;
-
-import framework.cs.ActionContext;
+import framework.cs.FileManager;
 import framework.util.Util;
 
 import mx.controls.Label;
@@ -19,13 +10,11 @@ import mx.controls.Label;
 public class Handle extends Label
 {
 
-    private var fr:FileReference = null;
-    private var filedata:Object;
-
 
     public var size:Number;
     public var lastmodified:Number;
     public var lastUser:String;
+
     public var _path:String;
     public var _tags:String = "";
 
@@ -42,13 +31,7 @@ public class Handle extends Label
 
     public function onClick(e:MouseEvent):void {
 
-//        if (filedata == null) {
-//            var a:GetFileAction = new GetFileAction();
-//            a.fileName = path;
-//            ActionContext.instance.execute(a, this);
-//        } else {
-            showFile();
-//        }
+         new FileManager().showFile(path);
 
     }
 
@@ -83,51 +66,6 @@ public class Handle extends Label
 
     private function stopDragging(event:MouseEvent):void {
         super.stopDrag();
-    }
-
-
-    public function setData(obj:Object):void {
-        filedata = obj;
-        setStyle("color", "white");
-
-    }
-
-    public function saveFile():void {
-        fr = new FileReference();
-        fr.addEventListener(Event.COMPLETE, onFileSave);
-        fr.addEventListener(Event.CANCEL, onCancel);
-        fr.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-        fr.save(filedata, "demfile.txt");
-    }
-
-    private function onFileSave(e:Event):void {
-        fr = null;
-        filedata = null;
-        setStyle("color", "red");
-    }
-
-    private function onCancel(e:Event):void {
-        fr = null;
-    }
-
-    private function onSaveError(e:IOErrorEvent):void {
-        Util.showError("Error Saving File : " + e.text);
-        fr = null;
-    }
-
-    public function showFile() {
-
-        var request:URLRequest = new URLRequest("http://localhost:8400/tagzilla/download");
-        var variables:URLVariables = new URLVariables();
-        variables.path = path;
-        request.method = "POST";
-        request.data = variables;
-        try {
-            navigateToURL(request,"view");
-        }
-        catch (e:Error) {
-            Util.showError(e.message);
-        }
     }
 
 }

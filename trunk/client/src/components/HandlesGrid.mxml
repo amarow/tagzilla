@@ -7,7 +7,7 @@
              itemClick="itemClickEvent(event);">
 
     <mx:Script><![CDATA[
-    	import bom.HandleData;
+    	import data.HandleData;
 
         import framework.util.Util;
 
@@ -33,7 +33,7 @@
 
     <mx:columns>
         <mx:DataGridColumn headerText="Path" dataField="path"/>
-        <mx:DataGridColumn headerText="Tags" dataField="tags" width="100"/>
+        <mx:DataGridColumn headerText="Tag" dataField="tags" width="100"/>
         <mx:DataGridColumn headerText="Oid" dataField="oidString" width="100"/>
         <mx:DataGridColumn headerText="Version" dataField="version" width="100"/>
     </mx:columns>
