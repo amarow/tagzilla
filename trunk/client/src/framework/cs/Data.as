@@ -3,7 +3,7 @@ import framework.util.Util;
 
 [RemoteClass(alias="de.ama.framework.data.Data")]
 public class Data{
-    public var oid:Number;
+    public var oidString:String;
     public var version:int;
 
     public function readProperties(src:Object):void{
