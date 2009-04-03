@@ -1,6 +1,6 @@
 package actions
 {
-import bom.CrawlerData;
+import data.CrawlerData;
 
 import framework.cs.ActionScriptAction;
 

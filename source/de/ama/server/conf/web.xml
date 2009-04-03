@@ -42,7 +42,7 @@
     <!--</servlet>-->
 
     <servlet>
-        <description><![CDATA[Simple Servlet for Streaming Files to the Clients Browser]]></description>
+        <description>DownloadServlet</description>
         <display-name>Simple DownloadServlet</display-name>
         <servlet-name>downloadServlet</servlet-name>
         <servlet-class>de.ama.framework.servlet.DownloadServlet</servlet-class>

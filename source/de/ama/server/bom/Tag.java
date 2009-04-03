@@ -15,6 +15,7 @@ public class Tag implements PersistentMarker {
     private int weight;
     private int x;
     private int y;
+    private int bgcolor;
 
     public String getPath() {
         return path;
@@ -46,6 +47,14 @@ public class Tag implements PersistentMarker {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public int getBgcolor() {
+        return bgcolor;
+    }
+
+    public void setBgcolor(int bgcolor) {
+        this.bgcolor = bgcolor;
     }
 
     public int getY() {

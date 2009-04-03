@@ -4,11 +4,10 @@ import actions.*;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 
-import framework.cs.ActionContext;
+import framework.cs.ActionStarter;
 import framework.util.Util;
 
 import mx.containers.Canvas;
-import mx.controls.Image;
 import mx.controls.Label;
 import mx.events.DragEvent;
 import mx.managers.DragManager;
@@ -108,7 +107,7 @@ public class Tag extends Canvas   {
         var a:GetHandlesAction = new GetHandlesAction();
         a.path = path;
         a.tag = tag;
-        ActionContext.instance.execute(a, this);
+        ActionStarter.instance.execute(a, this);
     }
 
     public function showConfig():void {
@@ -149,11 +148,17 @@ public class Tag extends Canvas   {
             var a:TagAction = new TagAction();
             a.data = event.dragSource.dataForFormat('items');
             a.tag = tag;
-            ActionContext.instance.execute(a, this);
+            ActionStarter.instance.execute(a, this);
         }
     }
-    
-    
 
+
+    public function get bgcolor():uint {
+        return getStyle("backgroundColor");
+    }
+
+    public function set bgcolor(val:uint):void {
+        setStyle("backgroundColor",val);
+    }
 }
 }

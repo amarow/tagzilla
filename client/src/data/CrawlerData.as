@@ -1,4 +1,4 @@
-package bom {
+package data {
 [RemoteClass(alias="de.ama.server.bom.CrawlerData")]
 	public class CrawlerData
 	{

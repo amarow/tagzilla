@@ -1,11 +1,12 @@
 package actions
 {
-import bom.DeskData;
+import data.DeskData;
 
 import components.Desk;
 import components.Tag;
 
 import framework.cs.*;
+
 import mx.collections.ArrayCollection;
 
 [RemoteClass(alias="de.ama.server.actions.DeskAction")]
@@ -13,7 +14,7 @@ public class DeskAction extends ActionScriptAction{
 	
     public var save:Boolean;
 
-    override public function onBeforeCall(context:ActionContext):void {
+    override public function onBeforeCall(context:ActionStarter):void {
       var dd:DeskData = new DeskData();
       dd.name = "Thyssen";
       super.data = dd;	
@@ -25,8 +26,9 @@ public class DeskAction extends ActionScriptAction{
 
     }
 
-    override public function onAfterCall(context:ActionContext):void {
+    override public function onAfterCall(context:ActionStarter):void {
        var desk:Desk = Desk(context.invoker);
+
        var dd:DeskData = DeskData(super.data);
        var tags:ArrayCollection = new ArrayCollection();
        dd.objects.writeArrayCollection(tags, Tag);

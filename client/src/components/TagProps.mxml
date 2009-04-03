@@ -20,7 +20,7 @@
 			} else {
                _tag.tag  = tagInput.text;
 			}
-            _tag.setStyle("backgroundColor",color.selectedColor);
+            _tag.bgcolor=color.selectedColor;
             PopUpManager.removePopUp(this);
         }
 
@@ -31,7 +31,7 @@
             } else {
                tagInput.text  = tag.path;
             }
-            color.selectedColor=tag.getStyle("backgroundColor");
+            color.selectedColor=tag.bgcolor;
         }
 
         private function handleValid(eventObj:ValidationResultEvent):void {

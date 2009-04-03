@@ -7,14 +7,16 @@
         import mx.rpc.events.FaultEvent;
         import mx.rpc.events.ResultEvent;
 
+
         public var startedAction:ActionScriptAction;
         public var invoker:Object;
         public static var instance:ActionContext = new ActionContext();
 
         public function execute(action:ActionScriptAction, invoker:Object = null):void {
+            delegate.endpoint=Environment.getServerUrl()+"/messagebroker/amf";
             this.invoker = invoker;
             this.startedAction = action;
-            action.onBeforeCall(this);
+//            action.onBeforeCall(this);
             delegate.execute(action);
         }
 
@@ -24,7 +26,7 @@
             if (action.detailErrorMessage != null) {
                 Util.showError(action.detailErrorMessage);
             }
-            action.onAfterCall(this);
+//            action.onAfterCall(this);
         }
 
         public function actionFaultHandler(event:FaultEvent):void {
@@ -39,7 +41,8 @@
                      result="actionResultHandler(event)"
                      fault="actionFaultHandler(event)"
                      showBusyCursor="true"
-                     concurrency="single"/>
+                     concurrency="single"
+                     />
 
 
 
