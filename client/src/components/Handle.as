@@ -1,25 +1,21 @@
 package components {
 
+import data.HandleData;
+
 import flash.events.MouseEvent;
 
 import framework.cs.FileManager;
-import framework.util.Util;
 
 import mx.controls.Label;
 
 public class Handle extends Label
 {
 
-
-    public var size:Number;
-    public var lastmodified:Number;
-    public var lastUser:String;
-
-    public var _path:String;
-    public var _tags:String = "";
+    private var dto:HandleData;
 
 
-    public function Handle(path:String = "") {
+    public function Handle(aData:HandleData) {
+        dto=aData;
         super.text = path;
         super.setStyle("color", "red");
         super.setStyle("textAlign", "right");
@@ -36,29 +32,15 @@ public class Handle extends Label
     }
 
 
-    public function set path(val:String):void {
-        _path = val;
-        super.text = Util.shrinkString(val, 30, "...");
-    }
-
-
     public function get path():String {
-        return _path;
+        return dto.path;
     }
 
+    public function set path(val:String):void{
+        dto.path=val;
 
-    public function get tags():String {
-
-        return Util.saveToString(_tags).replace("§", ".");
     }
 
-    public function set tags(val:String):void {
-        _tags = val;
-    }
-
-    public function addTag(val:String):void {
-        _tags = val;
-    }
 
     private function startDragging(event:MouseEvent):void {
         super.startDrag();
@@ -68,5 +50,9 @@ public class Handle extends Label
         super.stopDrag();
     }
 
+
+    public function getData():HandleData {
+        return dto;
+    }
 }
 }

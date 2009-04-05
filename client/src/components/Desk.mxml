@@ -15,13 +15,17 @@
         import components.Handle;
         import components.Tag;
 
+        import data.DeskData;
         import data.HandleData;
+        import data.TagData;
 
         import framework.cs.*;
 
-        import mx.collections.ArrayCollection;
         import mx.events.DragEvent;
         import mx.managers.DragManager;
+
+        private var dto:DeskData = new DeskData();
+
 
         private function mouseMoveHandler(event:MouseEvent):void {
 
@@ -54,42 +58,23 @@
                 var handle:Handle;
                 for (i = 0; i < n; i++) {
                     if (obj[i] is HandleData) {
-                        handle = new Handle();
-                        HandleData(obj[i]).writeProperties(handle);
-                    } else if (data[i] is Handle) {
+                        handle = new Handle(HandleData(obj[i]));
+                    } else if (dto[i] is Handle) {
                         handle = obj[i];
                     }
                     this.addChild(handle);
+
                     handle.x = event.localX;
                     handle.y = event.localY + i * 20;
                 }
             }
         }
 
-        public function addTag():void {
-            var tag:Tag = new Tag("Tag");
+        public function createNewTag():void {
+            var tag:Tag = new Tag();
             this.addChild(tag);
+            tag.tag = "new tag";
             tag.showConfig();
-        }
-
-
-        public function get objects():ArrayCollection {
-            var ret:ArrayCollection = new ArrayCollection();
-            var arr:Array = getChildren();
-            var n:int = arr.length;
-            for (var i:int = 0; i < n; i++) {
-                if (arr[i] is Handle || arr[i] is Tag) {
-                    ret.addItem(arr[i]);
-                }
-            }
-            return ret
-        }
-
-        public function set objects(objects:ArrayCollection):void {
-            var n:int = objects.length;
-            for (var i:int = 0; i < n; i++) {
-                addChild(DisplayObject(objects.getItemAt(i)))
-            }
         }
 
 
@@ -101,17 +86,66 @@
 
 
         public function loadDesk():void {
+        	whipeOut();
             var a:DeskAction = new DeskAction();
             a.save = false;
             ActionStarter.instance.execute(a, this);
         }
 
 
+        public function whipeOut():void {
+            var arr:Array = getChildren();
+            var n:int = arr.length;
+            for (var i:int = 0; i < n; i++) {
+                if (arr[i] is Handle || arr[i] is Tag) {
+                    removeChild(arr[i]);
+                }
+            }
+
+        }
+
+        public function setData(adata:DeskData):void {
+            whipeOut();
+            dto = adata;
+
+            var n:int = dto.objects.length;
+            for (var i:int = 0; i < n; i++) {
+                var temp:Data = dto.objects.getItemAt(i);
+                if (temp is HandleData) {
+                    addChild(new Handle(HandleData(temp)));
+                }
+                if (temp is TagData) {
+                    addChild(new Tag(TagData(temp)));
+                }
+            }
+
+
+        }
+
+        public function getData():DeskData {
+            dto.objects = new DataTable();
+            dto.name = "Harry";
+            var arr:Array = getChildren();
+            var n:int = arr.length;
+            for (var i:int = 0; i < n; i++) {
+                var temp:Object = arr[i];
+                if (temp is Handle) {
+                    dto.objects.addItem(Handle(temp).getData());
+                }
+                if (temp is Tag) {
+                    dto.objects.addItem(Tag(temp).getData());
+                }
+            }
+            return dto;
+        }
+
+
         ]]></mx:Script>
 
 
-    <mx:Button label="+" click="addTag()" top="10" left="10"/>
-    <mx:Button label="Save" click="saveDesk()" right="10" bottom="10"/>
-    <mx:Button label="Load" click="loadDesk()" right="110" bottom="10"/>
+    <mx:Button label="+" click="createNewTag()" top="10" left="10" color="#3C110B"/>
+    <mx:Button label="Save" click="saveDesk()" right="10" bottom="10" color="#2F0D07"/>
+    <mx:Button label="Load" click="loadDesk()" right="72" bottom="10" color="#3B1B0B"/>
+    <mx:Button label="clean" click="whipeOut()" bottom="10" right="133" fillAlphas="[1.0, 1.0, 1.0, 1.0]" color="#3C150B"/>
 
 </mx:Canvas>
