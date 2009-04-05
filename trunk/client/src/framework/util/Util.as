@@ -70,9 +70,10 @@ public class Util
        return obj.constructor;
     }
 
-    
 
-
-
-}
+    public static function isEmpty(val:String):Boolean {
+        if(val==null) return true;
+        if(val.length==0) return true;
+        return false;
+    }}
 }

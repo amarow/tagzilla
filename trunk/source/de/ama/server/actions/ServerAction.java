@@ -6,10 +6,10 @@ import de.ama.framework.data.DataTable;
 import de.ama.framework.data.MappingException;
 import de.ama.server.bom.User;
 import de.ama.server.services.Environment;
+import de.ama.server.services.PersistentService;
 import de.ama.util.Util;
 
 import java.util.Collection;
-import java.util.List;
 
 
 /**
@@ -164,7 +164,7 @@ public class ServerAction {
 
     public Data reload(Class type, Object obj)  {
         try {
-            refreshObject(obj);
+            Object o = Environment.getPersistentService().getObject(getOid(obj));
             Data data = Data.createEmptyData(type);
             data = data.getMapper().readDataFromBo(obj, data, DataMapper.FULL_OBJECT);
             return data;
@@ -172,6 +172,10 @@ public class ServerAction {
             rollback();
             throw new RuntimeException("could not reload Bo from DB <" + type.getName() + ">  ",e);
         }
+    }
+
+    private String getOid(Object obj) {
+        return Environment.getPersistentService().getOidString(obj);
     }
 
     public  void refreshObject(Object toRefresh) {

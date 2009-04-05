@@ -35,9 +35,25 @@ public class DataTable {
         }
     }
 
+    public function addItem(data:Data):void{
+        collection.addItem(data);
+    }
+
+    public function get length():int{
+        return collection.length;
+    }
+
     public function getTypeClass():Class{
         return Util.getClass(protoType);
     }
 
+
+    public function getItemAt(i:int):Data {
+        return Data(collection.getItemAt(i));
+    }
+
+    public function clear():void{
+        collection.removeAll();
+    }
 }
 }

@@ -1,6 +1,8 @@
 package components {
 import actions.*;
 
+import data.TagData;
+
 import flash.events.MouseEvent;
 import flash.geom.Point;
 
@@ -14,32 +16,31 @@ import mx.managers.DragManager;
 import mx.managers.PopUpManager;
 
 public class Tag extends Canvas   {
-    public var oid:String;
-    public var version:int;
-    
-    public var _weight:int;
-    public var _tag:String;
-    public var _path:String;
+
+    private var dto:TagData;
+
     private var _oldpos:Point;
     private var mylabel:Label = new Label();
     private var openConfig:Label = new Label();
 
-    public function Tag(_tag:String = "", _weight:int = 5) {
-        super();
-        
+    public function Tag(aData:TagData = null) {
+        dto = aData;
+        if (dto == null) {
+            dto = new TagData();
+        }
 
-        super.x = 50;
-        super.y = 50;
-        super.width = 200;
-        super.height=20+_weight;
+        x = dto.x;
+        y = dto.y;
+        bgcolor = dto.bgcolor;
+        path = dto.path;
+        tag = dto.tag;
+
+        super.height = 20 + dto.weight;
         _oldpos = new Point(x, y);
 
-        _weight = _weight
-        tag = _tag;
 
         super.setStyle("color", "black");
         super.setStyle("textAlign", "center");
-        super.setStyle("backgroundColor", "white");
         super.setStyle("cornerRadius", "8");
         super.setStyle("borderStyle", "solid");
         super.setStyle("borderColor", "white");
@@ -49,47 +50,41 @@ public class Tag extends Canvas   {
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
         super.addEventListener(DragEvent.DRAG_DROP, dragDropHandler);
         super.addEventListener(DragEvent.DRAG_ENTER, dragEnterHandler);
-        
-        mylabel.x=5; 
-        mylabel.setStyle("verticalCenter","0");
+
+        mylabel.x = 5;
+        mylabel.setStyle("verticalCenter", "0");
         addChild(mylabel);
 
-        openConfig.text="+";
-        openConfig.setStyle("right","1")
-        openConfig.setStyle("verticalCenter","0");
+        openConfig.text = "+";
+        openConfig.setStyle("right", "1")
+        openConfig.setStyle("verticalCenter", "0");
         openConfig.addEventListener(MouseEvent.CLICK, openConfigClick);
         addChild(openConfig);
     }
 
 
     public function get tag():String {
-        return _tag;
+        return dto.tag;
     }
 
     public function set tag(val:String):void {
-        _tag = val;
-        mylabel.text = Util.shrinkString(_tag, 20);
-        width = 28 + _tag.length * 8;
+        if (Util.isEmpty(val)) return;
+        dto.tag = val;
+        mylabel.text = Util.shrinkString(tag, 20);
+        width = 28 + tag.length * 8;
     }
 
     public function get path():String {
-        return _path;
+        return dto.path;
     }
 
     public function set path(val:String):void {
-        _path = val;
-        mylabel.text = Util.shrinkString(_path, 20);
-        width = 28 + _path.length * 8;
+        if (Util.isEmpty(val)) return;
+        dto.path = val;
+        mylabel.text = Util.shrinkString(path, 20);
+        width = 28 + path.length * 8;
     }
 
-    public function get weight():int {
-        return _weight;
-    }
-
-    public function set weight(val:int):void {
-        _weight = val;
-        height = 20 + _weight;
-    }
 
     public function onTagClick(event:MouseEvent):void {
 
@@ -98,7 +93,7 @@ public class Tag extends Canvas   {
             _oldpos.y = y;
             return;
         }
- 
+
         loadHandles()
 
     }
@@ -158,7 +153,18 @@ public class Tag extends Canvas   {
     }
 
     public function set bgcolor(val:uint):void {
-        setStyle("backgroundColor",val);
+        setStyle("backgroundColor", val);
+    }
+
+
+    public function getData():TagData {
+        if (dto == null)dto = new TagData();
+        dto.bgcolor = bgcolor;
+        dto.x = x;
+        dto.y = y;
+        dto.tag = tag;
+        dto.path = path;
+        return dto;
     }
 }
 }

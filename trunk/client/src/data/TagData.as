@@ -7,10 +7,10 @@ import mx.utils.ColorUtil;
 public class TagData extends Data{
 	
     public var path:String ;
-    public var tag:String ;
-    public var weight:int;
-    public var bgcolor:uint;
-    public var x:int;
-    public var y:int;
+    public var tag:String="Tag" ;
+    public var weight:int=5;
+    public var bgcolor:uint=0xffffff;
+    public var x:int=100;
+    public var y:int=100;
 }
 }
