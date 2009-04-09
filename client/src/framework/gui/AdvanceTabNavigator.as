@@ -63,7 +63,7 @@ import mx.managers.DragManager;
 			tabCloseButton.setStyle("upSkin", WINDOW_CLOSE_BUTTON_1);
 			tabCloseButton.setStyle("overSkin", WINDOW_CLOSE_BUTTON_2);
 			tabCloseButton.setStyle("downSkin", WINDOW_CLOSE_BUTTON_2);
-			tabCloseButton.setStyle("horizontalGap","15");
+		
 			tabCloseButton.visible = false;
 			//Creating a hand cursor over a component
 			tabCloseButton.buttonMode = true;

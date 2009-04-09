@@ -13,7 +13,7 @@ import de.ama.db.PersistentMarker;
 public class Handle implements PersistentMarker {
 
     public static String DELIM ="|";
-    public static long QUERY_LIMIT = 1000 ;
+    public static long QUERY_LIMIT = 200 ;
 
     private String path;
     private String tags;

@@ -16,8 +16,6 @@ public class StartExecAction extends ServerAction {
 
     }
 
-    public boolean needsUser() {
-        return false;
-    }
+
 
 }
