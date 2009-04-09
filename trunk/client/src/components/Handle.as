@@ -5,6 +5,7 @@ import data.HandleData;
 import flash.events.MouseEvent;
 
 import framework.cs.FileManager;
+import framework.util.Util;
 
 import mx.controls.Label;
 
@@ -16,7 +17,10 @@ public class Handle extends Label
 
     public function Handle(aData:HandleData) {
         dto=aData;
-        super.text = path;
+        x=dto.x;
+        y=dto.y;
+        path=dto.path;
+
         super.setStyle("color", "red");
         super.setStyle("textAlign", "right");
 
@@ -38,7 +42,7 @@ public class Handle extends Label
 
     public function set path(val:String):void{
         dto.path=val;
-
+        text = Util.shrinkString(val, 30, "...");
     }
 
 
@@ -52,6 +56,8 @@ public class Handle extends Label
 
 
     public function getData():HandleData {
+        dto.x=x;
+        dto.y=y;
         return dto;
     }
 }

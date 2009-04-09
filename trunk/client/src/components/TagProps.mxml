@@ -4,9 +4,11 @@
                 layout="absolute" width="272" height="236"
                 title="Tag Properties" showCloseButton="true"
                 close="PopUpManager.removePopUp(this)"
-                borderAlpha="0.75" backgroundColor="#DFD2C3" backgroundAlpha="1.0">
+                borderAlpha="0.75" backgroundColor="#DFD2C3" backgroundAlpha="0.38">
 
     <mx:Script><![CDATA[
+        import framework.util.Util;
+
         import mx.managers.PopUpManager;
         import mx.events.ValidationResultEvent;
 
@@ -31,7 +33,7 @@
 
         public function set tag(tag:Tag):void {
             _tag = tag;
-            if (tag.tag.length > 0) {
+            if (!Util.isEmpty(tag.tag)) {
                 tagInput.text = tag.tag;
             } else {
                 tagInput.text = tag.path;

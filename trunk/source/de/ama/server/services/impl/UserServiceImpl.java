@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
             return user.getId();
         }
 
-        ServerAction.getCurrent().setMessage("Es gibt schon einen User mit der Kombination User/Passwort. Bitte w‰hlen Sie ein anderes Passwort ");
+        ServerAction.getCurrent().setMessage("Es gibt schon einen User mit der Kombination User/Passwort. Bitte wählen Sie ein anderes Passwort ");
         return null;
     }
 

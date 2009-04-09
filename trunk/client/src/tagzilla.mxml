@@ -11,18 +11,23 @@
 
 
     <mx:Script><![CDATA[
+    	import components.LoginDialog;
 
         import framework.cs.Environment;
+        import mx.managers.PopUpManager;
 
         protected function bootstrap():void {
             Environment.initForProduction();
+            var logindlg:LoginDialog = LoginDialog(PopUpManager.createPopUp(parent, LoginDialog, true));
+            logindlg.x=(width/2-(logindlg.width/2));
+            logindlg.y=100;      
         }
 
         ]]></mx:Script>
 
 
-    <fw:AdvanceTabNavigator backgroundAlpha="0.08" top="2" left="2" right="2" bottom="2" tabCloseEnable="true"
-                            tabDragEnable="true" id="mainTabs" backgroundColor="#585A5F" themeColor="#FF2A00">
+    <fw:AdvanceTabNavigator left="2" right="2" bottom="2" tabCloseEnable="true"
+                            tabDragEnable="true" id="mainTabs" backgroundColor="#5F553E" color="#EAC06E" backgroundDisabledColor="#BEA9A9" top="0">
         <comps:Project top="0" bottom="0" left="0" right="0" label="Thyssen"/>
         <comps:Project top="0" bottom="0" left="0" right="0" label="Porsche"/>
     </fw:AdvanceTabNavigator>

@@ -23,7 +23,4 @@ public class DeskAction extends ServerAction {
 
     }
 
-    public boolean needsUser() {
-        return false;
-    }
 }

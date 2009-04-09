@@ -7,10 +7,12 @@
            backgroundColor="#F5EED9"
            dragEnter="dragEnterHandler(event)"
            dragDrop="dragDropHandler(event)"
-        >
+           width="1000" height="800">
 
     <mx:Script><![CDATA[
         import actions.DeskAction;
+
+        import actions.GetHandlesAction;
 
         import components.Handle;
         import components.Tag;
@@ -23,6 +25,28 @@
 
         import mx.events.DragEvent;
         import mx.managers.DragManager;
+
+
+        private function searchChanged(event:Event):void {
+            var a:GetHandlesAction = new GetHandlesAction();
+            a.path="";
+
+            if (searchInput1.text.length > 0) {
+                a.path += searchInput1.text+"*";
+            }
+
+            if (searchInput2.text.length > 0) {
+                if(a.path.length==0) a.path="*";
+                a.path += searchInput2.text+"*";
+            }
+            if (searchInput3.text.length > 0) {
+                if(a.path.length==0) a.path="*";
+                a.path += searchInput3.text;
+            }
+            
+            ActionStarter.instance.execute(a, this);
+
+        }
 
         private var dto:DeskData = new DeskData();
 
@@ -86,7 +110,7 @@
 
 
         public function loadDesk():void {
-        	whipeOut();
+            whipeOut();
             var a:DeskAction = new DeskAction();
             a.save = false;
             ActionStarter.instance.execute(a, this);
@@ -146,6 +170,14 @@
     <mx:Button label="+" click="createNewTag()" top="10" left="10" color="#3C110B"/>
     <mx:Button label="Save" click="saveDesk()" right="10" bottom="10" color="#2F0D07"/>
     <mx:Button label="Load" click="loadDesk()" right="72" bottom="10" color="#3B1B0B"/>
-    <mx:Button label="clean" click="whipeOut()" bottom="10" right="133" fillAlphas="[1.0, 1.0, 1.0, 1.0]" color="#3C150B"/>
+    <mx:Button label="clean" click="whipeOut()" bottom="10" right="133" fillAlphas="[1.0, 1.0, 1.0, 1.0]"
+               color="#3C150B"/>
+    <mx:TextInput left="58" bottom="10" id="searchInput1" change="searchChanged(event);" cornerRadius="4"
+                  color="#6E1506" width="232"/>
+    <mx:Label text="count" width="40" color="#F4410A" textAlign="right" left="10" bottom="12" id="count"/>
+    <mx:TextInput left="298" bottom="10" id="searchInput2" change="searchChanged(event);" cornerRadius="4"
+                  color="#6E1506" width="232"/>
+    <mx:TextInput left="540" bottom="10" id="searchInput3" change="searchChanged(event);" cornerRadius="4"
+                  color="#6E1506" width="116"/>
 
 </mx:Canvas>

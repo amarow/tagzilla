@@ -19,10 +19,10 @@
         import mx.events.ListEvent;
 
         private function itemClickEvent(event:ListEvent):void {
-        	var handle:HandleData = HandleData(event.itemRenderer.data);
+//        	var handle:HandleData = HandleData(event.itemRenderer.data);
            // if(event.)
 
-                        Util.showMessage(handle.path);
+//                        Util.showMessage(handle.path);
             
             //  clickColumn.text=String(event.columnIndex);
             //  clickRow.text=String(event.rowIndex);

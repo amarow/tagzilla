@@ -26,7 +26,4 @@ public class TagAction extends ServerAction {
 
     }
 
-    public boolean needsUser() {
-        return false;
-    }
 }

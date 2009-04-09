@@ -70,6 +70,7 @@ public class Tag extends Canvas   {
     public function set tag(val:String):void {
         if (Util.isEmpty(val)) return;
         dto.tag = val;
+        dto.path=null;
         mylabel.text = Util.shrinkString(tag, 20);
         width = 28 + tag.length * 8;
     }
@@ -81,6 +82,7 @@ public class Tag extends Canvas   {
     public function set path(val:String):void {
         if (Util.isEmpty(val)) return;
         dto.path = val;
+        dto.tag=null;
         mylabel.text = Util.shrinkString(path, 20);
         width = 28 + path.length * 8;
     }
@@ -100,7 +102,7 @@ public class Tag extends Canvas   {
 
     public function loadHandles():void {
         var a:GetHandlesAction = new GetHandlesAction();
-        a.path = path;
+        a.path = path+"*";
         a.tag = tag;
         ActionStarter.instance.execute(a, this);
     }
