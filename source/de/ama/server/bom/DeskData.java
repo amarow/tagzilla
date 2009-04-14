@@ -17,6 +17,7 @@ import java.util.List;
 public class DeskData extends Data {
     public DataTable objects = new DataTable();
     public String name;
+    public int sliderPos;
 
     public String getGuiRepresentation() {
        return Util.saveToString(name);

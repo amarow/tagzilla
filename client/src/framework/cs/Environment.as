@@ -52,5 +52,13 @@ public class Environment {
        _userId=la.userId;
     }
 
+    public static function eraseLoginData(la:LogoutAction):void{
+        if(la.success){
+            _user="";
+            _pwd="";
+            _userId=-1;
+        }
+    }
+
 }
 }

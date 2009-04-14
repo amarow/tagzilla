@@ -54,6 +54,10 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    public boolean logout(User user){
+        return (activeUsers.remove(user.getId())!=null);
+    }
+
     public Long login(String name, String pwd) {
 
         if(Util.isEmpty(name)){

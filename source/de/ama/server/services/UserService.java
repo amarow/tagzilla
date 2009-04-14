@@ -18,4 +18,5 @@ public interface UserService {
     public Long newUser(String name, String pwd);
     public Long login(String name, String pwd);
     public void removeUser(User user);
+    public boolean logout(User user);
 }

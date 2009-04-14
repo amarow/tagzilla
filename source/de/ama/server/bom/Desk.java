@@ -15,6 +15,15 @@ import java.util.List;
 public class Desk implements PersistentMarker {
     private  List objects = new ArrayList();
     private  String name;
+    private  int sliderPos;
+
+    public int getSliderPos() {
+        return sliderPos;
+    }
+
+    public void setSliderPos(int sliderPos) {
+        this.sliderPos = sliderPos;
+    }
 
     public List getObjects() {
         return objects;
