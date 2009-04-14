@@ -6,5 +6,6 @@ import framework.cs.DataTable;
 public class DeskData extends Data{
     public var objects:DataTable = new DataTable();
     public var name:String;
+    public var sliderPos:int;
 }
 }

@@ -4,6 +4,8 @@ import data.HandleData;
 
 import flash.events.MouseEvent;
 
+import flash.geom.Point;
+
 import framework.cs.FileManager;
 import framework.util.Util;
 
@@ -16,23 +18,23 @@ public class Handle extends Label
 
 
     public function Handle(aData:HandleData) {
-        dto=aData;
-        x=dto.x;
-        y=dto.y;
-        path=dto.path;
+        dto = aData;
+        x = dto.x;
+        y = dto.y;
+        path = dto.path;
 
         super.setStyle("color", "red");
         super.setStyle("textAlign", "right");
 
+
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
-        super.addEventListener(MouseEvent.CLICK, onClick);
+        super.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
+        super.doubleClickEnabled=true;
     }
 
-    public function onClick(e:MouseEvent):void {
-
-         new FileManager().showFile(path);
-
+    public function onDoubleClick(e:MouseEvent):void {
+        new FileManager().showFile(path);
     }
 
 
@@ -40,8 +42,8 @@ public class Handle extends Label
         return dto.path;
     }
 
-    public function set path(val:String):void{
-        dto.path=val;
+    public function set path(val:String):void {
+        dto.path = val;
         text = Util.shrinkString(val, 30, "...");
     }
 
@@ -56,8 +58,8 @@ public class Handle extends Label
 
 
     public function getData():HandleData {
-        dto.x=x;
-        dto.y=y;
+        dto.x = x;
+        dto.y = y;
         return dto;
     }
 }

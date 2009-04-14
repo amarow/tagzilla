@@ -1,17 +1,17 @@
 <?xml version="1.0" ?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
            xmlns:ns1="bom.*" xmlns:comps="components.*"
-           backgroundAlpha="0.86"
+           backgroundAlpha="1.0"
            bottom="0" top="2" left="2" right="2"
            cornerRadius="11" borderStyle="solid" alpha="0.84" themeColor="#ACBCC6"
            backgroundColor="#F5EED9"
            dragEnter="dragEnterHandler(event)"
            dragDrop="dragDropHandler(event)"
-           width="1000" height="800">
+           width="1000" height="800"
+           initialize="addContextMenu()">
 
     <mx:Script><![CDATA[
         import actions.DeskAction;
-
         import actions.GetHandlesAction;
 
         import components.Handle;
@@ -26,24 +26,29 @@
         import mx.events.DragEvent;
         import mx.managers.DragManager;
 
+        private function logout():void {
+            var a:LogoutAction = new LogoutAction();
+            ActionStarter.instance.execute(a, this);
+
+        }
 
         private function searchChanged(event:Event):void {
             var a:GetHandlesAction = new GetHandlesAction();
-            a.path="";
+            a.path = "";
 
             if (searchInput1.text.length > 0) {
-                a.path += searchInput1.text+"*";
+                a.path += searchInput1.text + "*";
             }
 
             if (searchInput2.text.length > 0) {
-                if(a.path.length==0) a.path="*";
-                a.path += searchInput2.text+"*";
+                if (a.path.length == 0) a.path = "*";
+                a.path += searchInput2.text + "*";
             }
             if (searchInput3.text.length > 0) {
-                if(a.path.length==0) a.path="*";
+                if (a.path.length == 0) a.path = "*";
                 a.path += searchInput3.text;
             }
-            
+
             ActionStarter.instance.execute(a, this);
 
         }
@@ -163,15 +168,46 @@
             return dto;
         }
 
+        private function addContextMenu():void {
+            var menu:ContextMenu = new ContextMenu();
 
-        ]]></mx:Script>
 
 
-    <mx:Button label="+" click="createNewTag()" top="10" left="10" color="#3C110B"/>
-    <mx:Button label="Save" click="saveDesk()" right="10" bottom="10" color="#2F0D07"/>
-    <mx:Button label="Load" click="loadDesk()" right="72" bottom="10" color="#3B1B0B"/>
-    <mx:Button label="clean" click="whipeOut()" bottom="10" right="133" fillAlphas="[1.0, 1.0, 1.0, 1.0]"
-               color="#3C150B"/>
+            var menuItem:ContextMenuItem = new ContextMenuItem('add Tag');
+            menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
+                createNewTag();
+            });
+            menu.customItems.push(menuItem);
+
+
+            menuItem = new ContextMenuItem('clean Desk');
+            menuItem.separatorBefore=true;
+            menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
+                whipeOut();
+            });
+            menu.customItems.push(menuItem);
+
+
+            menuItem = new ContextMenuItem('load Desk');
+            menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
+                loadDesk();
+            });
+            menu.customItems.push(menuItem);
+
+            menuItem = new ContextMenuItem('save Desk');
+            menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
+                saveDesk();
+            });
+            menu.customItems.push(menuItem);
+
+
+            menu.hideBuiltInItems();
+            this.contextMenu = menu;
+        }
+
+
+        ]]>
+    </mx:Script>
     <mx:TextInput left="58" bottom="10" id="searchInput1" change="searchChanged(event);" cornerRadius="4"
                   color="#6E1506" width="232"/>
     <mx:Label text="count" width="40" color="#F4410A" textAlign="right" left="10" bottom="12" id="count"/>
@@ -179,5 +215,6 @@
                   color="#6E1506" width="232"/>
     <mx:TextInput left="540" bottom="10" id="searchInput3" change="searchChanged(event);" cornerRadius="4"
                   color="#6E1506" width="116"/>
+    <mx:LinkButton label="logout" click="logout()" fontSize="8" color="#0D1796" right="3" top="5"/>
 
 </mx:Canvas>

@@ -52,8 +52,8 @@
     <mx:Label x="10" y="14" text="User"/>
     <mx:Label x="10" y="49" text="Password"/>
 
-    <mx:TextInput x="74" y="47" id="pwdInput" displayAsPassword="true"/>
-    <mx:TextInput x="74" y="12" id="userInput"/>
+    <mx:TextInput x="74" y="12" id="userInput" tabIndex="1"/>
+    <mx:TextInput x="74" y="47" id="pwdInput" displayAsPassword="true" tabIndex="2"/>
 
     <comps:EditFieldValidator source="{userInput}" property="text"
                               required="true" minLength="6" trigger="{userInput}" triggerEvent="change"
@@ -64,7 +64,7 @@
                               valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>
 
 
-    <mx:Button x="161" y="77" label="OK" click="tryLogin()" id="okButton" width="73" color="#0F6B08"/>
+    <mx:Button x="161" y="77" label="OK" click="tryLogin()" id="okButton" width="73" color="#0F6B08" tabIndex="3"/>
 
 
 </mx:TitleWindow>
