@@ -11,7 +11,7 @@
 
 			private static const DEFAULT_FILE_NAME:String = "example.txt";
 
-			//FileReference Class well will use to save data
+			//FileReference Class well will use to save de.ama.tagzilla.data
 			private var fr:FileReference;
 
 			/********** UI Event Handlers **************/

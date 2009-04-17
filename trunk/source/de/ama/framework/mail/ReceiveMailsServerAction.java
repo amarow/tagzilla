@@ -1,6 +1,6 @@
 package de.ama.framework.mail;
 
-import de.ama.server.actions.ServerAction;
+import de.ama.framework.action.ActionScriptAction;
 import de.ama.util.Environment;
 import de.ama.util.Ini;
 
@@ -17,7 +17,7 @@ import java.util.Map;
  * Time: 22:30:56
  * To change this template use File | Settings | File Templates.
  */
-public class ReceiveMailsServerAction extends ServerAction{
+public class ReceiveMailsServerAction extends ActionScriptAction {
 
     public void executeOnServer() throws MessagingException, IOException {
         Map map = new HashMap();

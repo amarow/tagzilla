@@ -1,10 +1,10 @@
 package de.ama.server.services.impl;
 
 import de.ama.db.Query;
-import de.ama.server.bom.Crawler;
-import de.ama.server.bom.CrawlerData;
-import de.ama.server.bom.Directory;
-import de.ama.server.bom.Handle;
+import de.ama.tagzilla.data.Crawler;
+import de.ama.tagzilla.data.CrawlerData;
+import de.ama.tagzilla.data.Directory;
+import de.ama.tagzilla.data.Handle;
 import de.ama.server.services.CrawlerService;
 import de.ama.server.services.Environment;
 

@@ -6,6 +6,9 @@ import org.mortbay.jetty.Server;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.handler.AbstractHandler;
+import org.mortbay.jetty.handler.ResourceHandler;
+import org.mortbay.jetty.handler.HandlerList;
+import org.mortbay.jetty.handler.DefaultHandler;
 import org.mortbay.xml.XmlConfiguration;
 
 import javax.servlet.ServletException;
@@ -34,7 +37,7 @@ public class Starter {
         starter.start();
     }
 
-    private Handler createHandler(){
+    private Handler createHandler() {
         Handler handler = new AbstractHandler() {
             public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
                     throws IOException, ServletException {
@@ -47,20 +50,40 @@ public class Starter {
         return handler;
     }
 
-    private void start(){
+    private void start() {
 
 
         try {
+
+
+
             Environment.initProduction();
 
+
             Server server = new Server(8080);
-//            server.setHandler(createHandler());
-            Context root = new Context(server,"/tagzilla",Context.SESSIONS);
-            root.addServlet(new ServletHolder(new DownloadServlet()),"/download/*");
-            root.addServlet(new ServletHolder(new ActionServiceImpl()),"/action/*");
-            root.addServlet(new ServletHolder(new HelloWorldImpl()),"/hello/*");
+
+
+            ResourceHandler resource_handler = new ResourceHandler();
+            resource_handler.setResourceBase("/Users/ama/dev/tagzilla");
+
+            HandlerList handlers = new HandlerList();
+
+
+
+            Context servletContext = new Context(server, "/tagzilla", Context.SESSIONS);
+            servletContext.addServlet(new ServletHolder(new DownloadServlet()), "/download/*");
+            servletContext.addServlet(new ServletHolder(new ActionServiceImpl()), "/action/*");
+            servletContext.addServlet(new ServletHolder(new HelloWorldImpl()), "/hello/*");
+
+
+            handlers.setHandlers(new Handler[]{resource_handler, servletContext, new DefaultHandler()});
+            server.setHandler(handlers);
+
+
 
             server.start();
+            server.join();
+
             System.out.println("**********************************************");
             System.out.println("* OK up and running");
             System.out.println("**********************************************");

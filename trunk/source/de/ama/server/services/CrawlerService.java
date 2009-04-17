@@ -1,6 +1,6 @@
 package de.ama.server.services;
 
-import de.ama.server.bom.CrawlerData;
+import de.ama.tagzilla.data.CrawlerData;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package de.ama.server.blazeds;
 
 import de.ama.framework.data.DataDictionary;
-import de.ama.server.bom.CrawlerData;
-import de.ama.server.bom.DeskData;
-import de.ama.server.bom.HandleData;
-import de.ama.server.bom.TagData;
+import de.ama.tagzilla.data.CrawlerData;
+import de.ama.tagzilla.data.DeskData;
+import de.ama.tagzilla.data.HandleData;
+import de.ama.tagzilla.data.TagData;
 
 
 public class BlazedsInitialization {

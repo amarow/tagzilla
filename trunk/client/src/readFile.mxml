@@ -11,7 +11,7 @@
 
 			import flash.utils.ByteArray;
 
-			//FileReference Class well will use to load data
+			//FileReference Class well will use to load de.ama.tagzilla.data
 			private var fr:FileReference;
 
 			//File types which we want the user to open

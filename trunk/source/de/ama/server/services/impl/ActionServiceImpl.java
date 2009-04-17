@@ -5,7 +5,7 @@ package de.ama.server.services.impl;
  * Date: 16.05.2008
  */
 
-import de.ama.server.actions.ServerAction;
+import de.ama.framework.action.ActionScriptAction;
 import de.ama.server.services.ActionService;
 import de.ama.server.services.Environment;
 import com.caucho.hessian.server.HessianServlet;
@@ -14,12 +14,12 @@ import com.caucho.hessian.server.HessianServlet;
 public class ActionServiceImpl extends HessianServlet implements ActionService {
 
 
-    public ServerAction execute(ServerAction a) {
+    public ActionScriptAction execute(ActionScriptAction a) {
         System.out.println("ActionServiceImpl.remote_execute " + a.getName());
 
         try {
             Environment.getPersistentService().join(a.getCatalog());
-            ServerAction.setCurrent(a);
+            ActionScriptAction.setCurrent(a);
 
             if (a.needsUser()) {
                 a.setUser(Environment.getUserService().getActiveUser(a.userId));
@@ -37,7 +37,7 @@ public class ActionServiceImpl extends HessianServlet implements ActionService {
         } finally {
             Environment.getPersistentService().rollback();
             Environment.getPersistentService().leave();
-            ServerAction.setCurrent(null);
+            ActionScriptAction.setCurrent(null);
         }
 
     }
