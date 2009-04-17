@@ -24,8 +24,8 @@ public class EmailData extends Data{
     public String replyToAddress;
     public Date   date;
     public int    msgNum;
-    public DataTable attachmentsString= new DataTable(new StringData());
-    public DataTable   toAdressats  = new DataTable(new AdressatData());
+    public DataTable attachmentsString= new DataTable();
+    public DataTable   toAdressats  = new DataTable();
 
     public String[] getTableColKeys() {
         return new String[]{"msgNum","fromName","date","subject","attachmentsString"};
