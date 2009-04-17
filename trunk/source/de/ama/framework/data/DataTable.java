@@ -53,7 +53,7 @@ public class DataTable implements java.io.Serializable {
             Data d = collection[i];
             datas[i]=d;
         }
-        datas[collection.length+1]=data;
+        datas[collection.length]=data;
         collection = datas;
     }
 

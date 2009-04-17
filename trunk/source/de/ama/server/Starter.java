@@ -37,34 +37,19 @@ public class Starter {
         starter.start();
     }
 
-    private Handler createHandler() {
-        Handler handler = new AbstractHandler() {
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
-                    throws IOException, ServletException {
-                response.setContentType("text/html");
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().println("<h1>Tagzilla Server</h1>");
-                ((Request) request).setHandled(true);
-            }
-        };
-        return handler;
-    }
-
     private void start() {
 
 
         try {
-
-
 
             Environment.initProduction();
 
 
             Server server = new Server(8080);
 
-
             ResourceHandler resource_handler = new ResourceHandler();
-            resource_handler.setResourceBase("/Users/ama/dev/tagzilla");
+//            "/Users/ama/dev/tagzilla"
+            resource_handler.setResourceBase(Environment.getHomeDir().getAbsolutePath());
 
             HandlerList handlers = new HandlerList();
 

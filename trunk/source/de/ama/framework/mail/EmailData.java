@@ -44,9 +44,6 @@ public class EmailData extends Data{
         return Util.saveToString(subject);
     }
 
-    public String getBoClassName() {
-        return Email.class.getName();
-    }
 
     public String getClearText() {
         StringDivider sd = new StringDivider(Util.saveToString(message),"<br>");

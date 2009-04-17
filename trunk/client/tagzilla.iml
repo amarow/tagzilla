@@ -2,17 +2,14 @@
 <module relativePaths="true" type="Flex" version="4">
   <component name="Flex.Build.Configuration">
     <option name="DO_BUILD" value="true" />
-    <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="false" />
-    <option name="USE_CUSTOM_CONFIG_FILE" value="true" />
     <option name="CUSTOM_CONFIG_FILE" value="$MODULE_DIR$/compiler-config.xml" />
-    <option name="APPLICATION_ENTRY_POINT" value="client/src/admin.mxml" />
-    <option name="OUTPUT_FILE_NAME" value="tagzilla client.swf" />
+    <option name="APPLICATION_ENTRY_POINT" value="client/src/tagzilla.mxml" />
+    <option name="OUTPUT_FILE_NAME" value="tagzilla.swf" />
     <option name="VERSION" value="2" />
-    <option name="SERVER_TECHNOLOGY" value="BlazeDS" />
     <option name="PATH_TO_SERVICES_CONFIG_XML" value="source/de/ama/server/conf/services-config.xml" />
     <option name="CONTEXT_ROOT" value="client" />
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
     <output url="file://$MODULE_DIR$/../out/production/tagzilla client" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">

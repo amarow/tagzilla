@@ -2,9 +2,11 @@ package de.ama.server.services;
 
 import de.ama.server.blazeds.BlazedsInitialization;
 import de.ama.util.Util;
+import de.ama.framework.util.PreMainInitializer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 
 /**
  * User: x
@@ -18,17 +20,13 @@ public class Environment {
      * Common Umgebung "hochfahren"
      */
     public static void initCommon(){
+
+        PreMainInitializer.initForServer();
+        
         singletons.put(PersistentService.NAME   ,getBean("de.ama.server.services.impl.PersistentServiceImpl"));
         singletons.put(UserService.NAME         ,getBean("de.ama.server.services.impl.UserServiceImpl"));
         singletons.put(ActionService.NAME       ,getBean("de.ama.server.services.impl.ActionServiceImpl"));
         singletons.put(CrawlerService.NAME      ,getBean("de.ama.server.services.impl.CrawlerServiceImpl"));
-
-        beanDictionary.put(XmlService.NAME          ,"de.ama.server.services.impl.XmlServiceImpl");
-
-//        new BlazedsInitialization();
-
-//        Endpoint.publish("http://localhost:8085/services", getBean(ActionService.NAME));
-//        System.out.println("WebService ActionService up and running");
     }
     /**
      * Produktionsumgebung "hochfahren"
@@ -44,8 +42,16 @@ public class Environment {
      * In der TEstclasse muss eben initTest anstatt initProduction()  gerufen werden.
      */
     public static void initTest(){
-        if(!beanDictionary.isEmpty()) return ;
+        if(!singletons.isEmpty()) return ;
         initCommon();
+    }
+
+    public static File getHomeDir(){
+        return de.ama.util.Environment.getHomeDir();
+    }
+
+    public static File getHomeRelativDir(String path){
+        return de.ama.util.Environment.getHomeRelativDir(path);
     }
 
     public static PersistentService getPersistentService(){
