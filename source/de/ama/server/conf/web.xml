@@ -45,7 +45,7 @@
         <description>DownloadServlet</description>
         <display-name>Simple DownloadServlet</display-name>
         <servlet-name>downloadServlet</servlet-name>
-        <servlet-class>de.ama.framework.servlet.DownloadServlet</servlet-class>
+        <servlet-class>de.ama.de.ama.framework.servlet.DownloadServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

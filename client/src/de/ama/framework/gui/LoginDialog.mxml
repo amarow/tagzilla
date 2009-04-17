@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                xmlns:comps="de.ama.framework.gui.*"
+                layout="absolute" width="272" height="150"
+                title="Login" showCloseButton="false"
+                close="PopUpManager.removePopUp(this)"
+                borderAlpha="0.75" backgroundColor="#DFD2C3" backgroundAlpha="0.38">
+
+
+    <mx:Script><![CDATA[
+        import de.ama.framework.action.ActionStarter;
+        import de.ama.framework.action.LoginAction;
+        import de.ama.framework.util.Util;
+
+        import mx.events.ValidationResultEvent;
+        import mx.managers.PopUpManager;
+
+
+        public function finish(la:LoginAction):void {
+            if (la.success) {
+                PopUpManager.removePopUp(this);
+            } else {
+                Util.showMessage("Login failed");
+                pwdInput.text = "";
+            }
+
+        }
+
+        private function handleValid(eventObj:ValidationResultEvent):void {
+            if (eventObj.type == ValidationResultEvent.VALID)
+            // Enable Submit button.
+            okButton.enabled = true;
+        else
+            okButton.enabled = false;
+        }
+
+        public function tryLogin():void {
+            var la:LoginAction = new LoginAction();
+            la._user = userInput.text;
+            la._pwd = pwdInput.text;
+            ActionStarter.instance.execute(la, this);
+        }
+
+        private function tryClose():void {
+        }
+
+
+        ]]></mx:Script>
+
+
+    <mx:Label x="10" y="14" text="User"/>
+    <mx:Label x="10" y="49" text="Password"/>
+
+    <mx:TextInput x="74" y="12" id="userInput" tabIndex="1"/>
+    <mx:TextInput x="74" y="47" id="pwdInput" displayAsPassword="true" tabIndex="2"/>
+
+    <comps:EditFieldValidator source="{userInput}" property="text"
+                              required="true" minLength="6" trigger="{userInput}" triggerEvent="change"
+                              valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>
+
+    <comps:EditFieldValidator source="{pwdInput}" property="text"
+                              required="true" minLength="6" trigger="{pwdInput}" triggerEvent="change"
+                              valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>
+
+
+    <mx:Button x="161" y="77" label="OK" click="tryLogin()" id="okButton" width="73" color="#0F6B08" tabIndex="3"/>
+
+
+</mx:TitleWindow>

@@ -25,10 +25,10 @@ public class Environment {
 
         beanDictionary.put(XmlService.NAME          ,"de.ama.server.services.impl.XmlServiceImpl");
 
-        new BlazedsInitialization();
+//        new BlazedsInitialization();
 
 //        Endpoint.publish("http://localhost:8085/services", getBean(ActionService.NAME));
-        System.out.println("WebService ActionService up and running");
+//        System.out.println("WebService ActionService up and running");
     }
     /**
      * Produktionsumgebung "hochfahren"

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<flexProperties flexServerType="2" serverContextRoot="/client" serverRoot="D:/dev/tagzilla/war" serverRootURL="http://localhost:8400/tagzilla" toolCompile="true" useServerFlexSDK="false" version="1"/>
+<flexProperties flexServerType="64" serverContextRoot="" serverRoot="/Users/ama/dev/tagzilla/tagzilla" serverRootURL="http://localhost:8080/tagzilla/" toolCompile="true" useServerFlexSDK="false" version="1"/>

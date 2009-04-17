@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                xmlns:comps="de.ama.framework.gui.*"
+                layout="absolute" width="272" height="236"
+                title="Tag Properties" showCloseButton="true"
+                close="PopUpManager.removePopUp(this)"
+                borderAlpha="0.75" backgroundColor="#DFD2C3" backgroundAlpha="0.38">
+
+    <mx:Script><![CDATA[
+        import de.ama.framework.util.Util;
+
+        import mx.managers.PopUpManager;
+        import mx.events.ValidationResultEvent;
+
+        public  var _tag:Tag;
+
+        private function onOK():void {
+            _tag.path = "";
+            _tag.tag = "";
+            if (tagInput.text.indexOf("/") >= 0 || tagInput.text.indexOf(":") == 1) {
+                _tag.path = tagInput.text;
+            } else {
+                _tag.tag = tagInput.text;
+            }
+            _tag.bgcolor = color.selectedColor;
+            PopUpManager.removePopUp(this);
+        }
+
+        private function onDelete():void {
+            _tag.parent.removeChild(_tag);
+            PopUpManager.removePopUp(this);
+        }
+
+        public function set tag(tag:Tag):void {
+            _tag = tag;
+            if (!Util.isEmpty(tag.tag)) {
+                tagInput.text = tag.tag;
+            } else {
+                tagInput.text = tag.path;
+            }
+            color.selectedColor = tag.bgcolor;
+        }
+
+        private function handleValid(eventObj:ValidationResultEvent):void {
+            if (eventObj.type == ValidationResultEvent.VALID)
+            // Enable Submit button.
+                okButton.enabled = true;
+            else
+                okButton.enabled = false;
+        }
+
+        ]]></mx:Script>
+
+
+    <mx:Label x="10" y="14" text="Color"/>
+    <mx:Label x="10" y="49" text="Tag"/>
+
+    <mx:ColorPicker x="66" y="10" id="color"/>
+
+    <mx:TextInput x="66" y="47" id="tagInput"/>
+    <comps:EditFieldValidator source="{tagInput}" property="text"
+                              required="true" minLength="2" trigger="{tagInput}" triggerEvent="change"
+                              valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>
+
+
+    <mx:Button x="153" y="149" label="OK" click="onOK()" id="okButton" width="73" color="#0F6B08"/>
+    <mx:Button x="24" y="149" label="Delete" color="#F22D13" click="onDelete()"/>
+
+
+</mx:TitleWindow>

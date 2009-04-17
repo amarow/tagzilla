@@ -4,23 +4,24 @@
         backgroundGradientColors="[#5D5252, #39261F]"
         layout="absolute" width="100%" height="100%"
         xmlns:mx="http://www.adobe.com/2006/mxml"
-        xmlns:comps="components.*"
-        xmlns:fw="framework.gui.*"
+        xmlns:comps="de.ama.tagzilla.components.*"
+        xmlns:fw="de.ama.framework.gui.*"
         initialize="bootstrap();"
         >
 
 
     <mx:Script><![CDATA[
-    	import components.LoginDialog;
 
-        import framework.cs.Environment;
+        import de.ama.framework.util.Environment;
+        import de.ama.framework.gui.*;
+
         import mx.managers.PopUpManager;
 
         protected function bootstrap():void {
             Environment.initForProduction();
             var logindlg:LoginDialog = LoginDialog(PopUpManager.createPopUp(parent, LoginDialog, true));
-            logindlg.x=(width/2-(logindlg.width/2));
-            logindlg.y=100;      
+            logindlg.x = (width / 2 - (logindlg.width / 2));
+            logindlg.y = 100;
         }
 
         ]]></mx:Script>

@@ -1,6 +1,6 @@
 package de.ama.server.services;
 
-import de.ama.server.bom.User;
+import de.ama.tagzilla.data.User;
 
 /**
  * Created by IntelliJ IDEA.

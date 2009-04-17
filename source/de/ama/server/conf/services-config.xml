@@ -97,7 +97,7 @@
             <watch-file>{context.root}/WEB-INF/flex/proxy-config.xml</watch-file>
             <watch-file>{context.root}/WEB-INF/flex/remoting-config.xml</watch-file>
             <watch-file>{context.root}/WEB-INF/flex/messaging-config.xml</watch-file>
-            <watch-file>{context.root}/WEB-INF/flex/data-management-config.xml</watch-file>
+            <watch-file>{context.root}/WEB-INF/flex/de.ama.tagzilla.data-management-config.xml</watch-file>
             <touch-file>{context.root}/WEB-INF/web.xml</touch-file>
              -->
         </redeploy>
