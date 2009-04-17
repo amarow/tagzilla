@@ -65,7 +65,8 @@
     </target>
 
 
-    <target name="build.server" description="make server and deploy to tomcat" depends="server.compile.environment,server.enhance,deploy" />
+    <target name="build.tomcat" description="make server and deploy to tomcat" depends="server.compile.environment,server.enhance,deploy" />
+    <target name="build.jetty" description="make server " depends="server.compile.environment,server.enhance" />
 
 </project>
 

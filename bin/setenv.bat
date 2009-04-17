@@ -8,6 +8,7 @@ set CP=%CP%;%LIB%\mysql-connector-java-5.1.0-bin.jar
 set CP=%CP%;%LIB%\jdom.jar
 set CP=%CP%;%LIB%\gna-jorm-runtime-05.08.jar
 set CP=%CP%;%LIB%\junit.jar
+set CP=%CP%;%LIB%\jetty-6.1.15.rc3.jar
 
 
 
