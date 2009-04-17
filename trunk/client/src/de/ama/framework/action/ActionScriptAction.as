@@ -9,6 +9,9 @@ public class ActionScriptAction {
     public var detailErrorMessage:String;
     public var data:Object;
 
+    public var versionMismatch:Boolean;
+    public var dontCommit:Boolean;
+
 
     public function onBeforeCall(context:ActionStarter):void {
 

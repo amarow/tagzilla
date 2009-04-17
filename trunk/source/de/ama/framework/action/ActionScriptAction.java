@@ -18,7 +18,7 @@ import java.util.Collection;
 
  *
  */
-public class ActionScriptAction {
+public class ActionScriptAction implements java.io.Serializable {
 
     // ************** ActionScript Members *********************
 
@@ -32,7 +32,7 @@ public class ActionScriptAction {
     // *********************************************************
 
     private static ThreadLocal currentActionHolder;
-    private User    user;
+    private transient User    user;
 
     private boolean versionMismatch;
     private boolean dontCommit;

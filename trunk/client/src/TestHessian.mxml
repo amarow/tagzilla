@@ -5,6 +5,8 @@
   <mx:Script>
     <![CDATA[
       import de.ama.framework.util.Util;
+      import de.ama.tagzilla.data.DeskData;
+import de.ama.tagzilla.data.HandleData;
 import hessian.client.HessianService;
 
       import mx.rpc.AsyncToken;
@@ -14,7 +16,18 @@ import hessian.client.HessianService;
 
       private function sendText():void
       {
-          var token:AsyncToken = service.hello.send(who.text);
+          var token:AsyncToken = service.xxxhello.send(who.text);
+          token.addResponder(this);
+      }
+
+      private function sendData():void
+      {
+          var root:DeskData = new DeskData();
+          root.objects.addItem(new HandleData());
+          root.objects.addItem(new HandleData());
+
+
+          var token:AsyncToken = service.dataTest.send(root);
           token.addResponder(this);
       }
 
@@ -26,7 +39,7 @@ import hessian.client.HessianService;
 
       public function fault(info:Object):void
       {
-          Util.showError(info.toString());
+          //Util.showError(info.toString());
       }
     ]]>
   </mx:Script>
@@ -39,6 +52,7 @@ import hessian.client.HessianService;
       <mx:Label text='Whom do you want to say "Hello" to?'/>
       <mx:TextInput id="who" maxChars="20" enter="sendText()"/>
       <mx:Button label="Say Hello" click="sendText()"/>
+      <mx:Button label="send data" click="sendData()"/>
     </mx:HBox>
 
     <mx:Label id="resultLabel" text='The server said: "null"'/>

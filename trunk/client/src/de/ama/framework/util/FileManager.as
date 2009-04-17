@@ -6,7 +6,7 @@ import flash.net.URLRequest;
 import flash.net.URLVariables;
 import flash.net.navigateToURL;
 
-import framework.util.*;
+import de.ama.framework.util.*;
 
 public class FileManager {
 

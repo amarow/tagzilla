@@ -5,8 +5,9 @@ import mx.collections.ArrayCollection;
 
 [RemoteClass(alias="de.ama.framework.data.DataTable")]
 public class DataTable {
-	public var collection:ArrayCollection = new ArrayCollection();
+	public var collection:Array = new Array();
     public var protoType:Data;
+    public var deleting:Boolean;
 
 
     public function DataTable(protoType:Data=null) {
@@ -15,12 +16,12 @@ public class DataTable {
 
     public function readArrayCollection(src:ArrayCollection, clazz:Class=null):void{
     	if(clazz==null) {clazz = getTypeClass(); }
-        collection.removeAll();
+        clear();
         var data:Data;
         for each (var obj:Object in src){
             data = new clazz();
             data.readProperties(obj);
-            collection.addItem(data);
+            collection.push(data);
         }
     }
 
@@ -35,7 +36,7 @@ public class DataTable {
     }
 
     public function addItem(data:Data):void{
-        collection.addItem(data);
+        collection.push(data);
     }
 
     public function get length():int{
@@ -48,11 +49,11 @@ public class DataTable {
 
 
     public function getItemAt(i:int):Data {
-        return Data(collection.getItemAt(i));
+        return Data(collection[i]);
     }
 
     public function clear():void{
-        collection.removeAll();
+        while(collection.length>0){ collection.pop(); }
     }
 }
 }

@@ -3,13 +3,10 @@ package de.ama.framework.data;
 
 import de.ama.util.Util;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class DataTable {
+public class DataTable implements java.io.Serializable {
     public Data protoType;
-    public List collection = new ArrayList();
+    public Data[] collection = new Data[0];
     public boolean deleting;
 
     public DataTable() {
@@ -33,8 +30,8 @@ public class DataTable {
 
         sb.append(indent+"<"+Util.saveToString(getName())+"Table>"+Util.CRLF);
 
-        for (int i = 0; i < collection.size(); i++) {
-            Data data = (Data) collection.get(i);
+        for (int i = 0; i < collection.length; i++) {
+            Data data = (Data) collection[i];
             sb.append( data.asXMLString("element",printFormat) );
         }
         sb.append(indent+"</"+Util.saveToString(getName())+"Table>").append(Util.CRLF);
@@ -43,23 +40,29 @@ public class DataTable {
     }
 
     public int size() {
-        return collection.size();
+        return collection.length;
     }
 
     public Object get(int i) {
-        return collection.get(i);
+        return collection[i];
     }
 
     public void add(Data data) {
-        collection.add(data);
+        Data[] datas = new Data[collection.length+1];
+        for (int i = 0; i < collection.length; i++) {
+            Data d = collection[i];
+            datas[i]=d;
+        }
+        datas[collection.length+1]=data;
+        collection = datas;
     }
 
     @Override
     public String toString() {
         if(protoType!=null){
-            return "DataTable of "+ Util.getUnqualifiedClassName(protoType.getClass())+" size="+collection.size();
+            return "DataTable of "+ Util.getUnqualifiedClassName(protoType.getClass())+" size="+size();
         } else {
-            return "DataTable size="+collection.size();
+            return "DataTable size="+size();
         }
     }
 }
