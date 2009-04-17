@@ -138,7 +138,7 @@ public abstract class DataMapper {
 
 
     public DataTable createFromBoList(Data data, Collection boList, boolean mini) throws MappingException {
-        DataTable table = new DataTable(data);
+        DataTable table = new DataTable();
         if (boList != null) {
             readObjects( table, boList, mini);
         }
@@ -148,8 +148,7 @@ public abstract class DataMapper {
     public void writeObjects(Collection bos, DataTable table) throws MappingException {
         if (bos == null) {
             throw new MappingException("Try to write DataTable into Bo, but there is no Collection to write to !!!!" +
-                    "\r\n Collections in Bo's should be initialized " +
-                    "\r\n Table-Class = " + table.protoType.getClass().getName());
+                    "\r\n Collections in Bo's should be initialized ");
         }
 
         // Wir merken uns die bisherige Collection.
