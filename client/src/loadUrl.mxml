@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+
+<mx:Script>
+	<![CDATA[
+		
+		
+		public function load():void {
+            
+            var variables:URLVariables = new URLVariables();
+            variables.path = ui.text;
+            var request:URLRequest = new URLRequest("http://localhost:8080/tagzilla/download");
+            request.method="POST";
+            request.data = variables;
+            try {            
+                navigateToURL(request);
+            }
+            catch (e:Error) {
+                // handle error here
+            }
+        }
+
+	]]>
+</mx:Script>
+	<mx:Button x="73" y="75" label="load" click="load()"/>
+	<mx:TextInput id="ui" x="73" y="45" width="480" text="/Users/ama/dev/test/demfile.pdf"/>
+	
+</mx:Application>
