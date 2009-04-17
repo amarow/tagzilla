@@ -2,46 +2,64 @@ package de.ama.framework.action {
 import de.ama.framework.util.Environment;
 
 import de.ama.framework.util.Util;
+import hessian.client.HessianService;
 
+import mx.rpc.AsyncToken;
+import mx.rpc.IResponder;
 import mx.rpc.events.FaultEvent;
 import mx.rpc.events.ResultEvent;
 import mx.rpc.remoting.mxml.RemoteObject;
 
-public class ActionStarter {
+public class ActionStarter implements IResponder{
 
     private static var _instance:ActionStarter = null;
 
-    private  var stub:RemoteObject = new RemoteObject();
+    private  var blazedsStub:RemoteObject = null;
+    private  var hessianStub:HessianService = null;
+
     private  var startedAction:ActionScriptAction;
     private  var _invoker:Object;
 
 
     public static function get instance():ActionStarter {
-    	if(_instance==null){
-    	   _instance= new ActionStarter();	
-    	}
+        if (_instance == null) {
+            _instance = new ActionStarter();
+        }
         return _instance;
     }
 
     public function ActionStarter() {
-        stub.endpoint = Environment.getServerUrl() + "/messagebroker/amf";
-        stub.destination = "ActionService";
-        stub.addEventListener("result", actionResultHandler);
-        stub.addEventListener("fault", actionFaultHandler);
-        stub.showBusyCursor = true;
-        stub.concurrency = "single";
+
+        if (Environment.useHessianProtocoll()) {
+            hessianStub = new HessianService(Environment.getServerUrl() + "/action");
+//            hessianStub.showBusyCursor = true;
+//            hessianStub.concurrency = "single";
+        } else {
+            blazedsStub = new RemoteObject();
+            blazedsStub.endpoint = Environment.getServerUrl() + "/messagebroker/amf";
+            blazedsStub.destination = "ActionService";
+            blazedsStub.addEventListener("result", actionResultHandler);
+            blazedsStub.addEventListener("fault",  actionFaultHandler);
+            blazedsStub.showBusyCursor = true;
+            blazedsStub.concurrency = "single";
+        }
     }
 
 
     public function execute(action:ActionScriptAction, invoker:Object = null):void {
         _invoker = invoker;
         this.startedAction = action;
-        action.message=null;
-        action.detailErrorMessage=null;
-        action.userId=Environment.userId;
-
+        action.message = null;
+        action.detailErrorMessage = null;
+        action.userId = Environment.userId;
         action.onBeforeCall(this);
-        stub.execute(action);
+
+        if (hessianStub != null) {
+            var token:AsyncToken = hessianStub.execute.send(action);
+            token.addResponder(this);
+        } else {
+            blazedsStub.execute(action);
+        }
     }
 
 
@@ -51,16 +69,27 @@ public class ActionStarter {
             Util.showError(action.detailErrorMessage);
         }
 
-        
         action.onAfterCall(this);
     }
 
     public function actionFaultHandler(event:FaultEvent):void {
-        Util.showError(event.fault.faultString)
+       // Util.showError(event.fault.faultString)
     }
 
 
     public function get invoker():Object {
         return _invoker;
-    }}
+    }
+
+
+    public function result(data:Object):void {
+        actionResultHandler(ResultEvent(data))
+    }
+
+    public function fault(info:Object):void {
+        if (info is FaultEvent) {
+            actionFaultHandler(FaultEvent(info))
+        }
+    }
+}
 }

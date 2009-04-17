@@ -1,7 +1,6 @@
 package de.ama.framework.action {
 import de.ama.framework.gui.*;
 import de.ama.framework.util.Environment;
-
 import de.ama.framework.util.Util;
 
 [RemoteClass(alias="de.ama.framework.action.LoginAction")]

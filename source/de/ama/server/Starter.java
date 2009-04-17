@@ -74,11 +74,11 @@ public class Starter {
             servletContext.addServlet(new ServletHolder(new DownloadServlet()), "/download/*");
             servletContext.addServlet(new ServletHolder(new ActionServiceImpl()), "/action/*");
             servletContext.addServlet(new ServletHolder(new HelloWorldImpl()), "/hello/*");
+            servletContext.setClassLoader(Thread.currentThread().getContextClassLoader());
 
 
             handlers.setHandlers(new Handler[]{resource_handler, servletContext, new DefaultHandler()});
             server.setHandler(handlers);
-
 
 
             server.start();
