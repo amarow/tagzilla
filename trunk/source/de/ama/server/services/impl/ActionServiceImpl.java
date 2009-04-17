@@ -8,9 +8,10 @@ package de.ama.server.services.impl;
 import de.ama.server.actions.ServerAction;
 import de.ama.server.services.ActionService;
 import de.ama.server.services.Environment;
+import com.caucho.hessian.server.HessianServlet;
 
 
-public class ActionServiceImpl implements ActionService {
+public class ActionServiceImpl extends HessianServlet implements ActionService {
 
 
     public ServerAction execute(ServerAction a) {
