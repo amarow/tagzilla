@@ -11,10 +11,10 @@ public class LoginAction extends ActionScriptAction {
 
     public void execute() {
         userId = Environment.getUserService().login(_user, _pwd);
-        if (userId < 0) {
-            Environment.getUserService().newUser(_user, _pwd);
-            commit();
-        }
+//        if (userId < 0) {
+//            Environment.getUserService().newUser(_user, _pwd);
+//            commit();
+//        }
 
     }
 

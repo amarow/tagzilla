@@ -19,7 +19,4 @@ public class AdressatData extends Data{
         return Util.saveToString(name);
     }
 
-    public String getBoClassName() {
-        return Adressat.class.getName();
-    }
 }
