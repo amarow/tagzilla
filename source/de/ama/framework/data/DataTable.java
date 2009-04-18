@@ -5,21 +5,9 @@ import de.ama.util.Util;
 
 
 public class DataTable implements java.io.Serializable {
-    public Data protoType;
     public Data[] collection = new Data[0];
     public boolean deleting;
 
-    public DataTable() {
-        protoType = null;
-    }
-
-    public DataTable(Data protoType) {
-        this.protoType = protoType;
-    }
-
-    public String getName(){
-        return Util.getUnqualifiedClassName(protoType.getClass());
-    }
 
     public String asXMLString(boolean printFormat) throws IllegalAccessException {
         Data.level++;
@@ -28,13 +16,13 @@ public class DataTable implements java.io.Serializable {
         for(int x=0;x<Data.level;x++)
             indent +="  ";
 
-        sb.append(indent+"<"+Util.saveToString(getName())+"Table>"+Util.CRLF);
+        sb.append(indent+"<DataTable>"+Util.CRLF);
 
         for (int i = 0; i < collection.length; i++) {
             Data data = (Data) collection[i];
             sb.append( data.asXMLString("element",printFormat) );
         }
-        sb.append(indent+"</"+Util.saveToString(getName())+"Table>").append(Util.CRLF);
+        sb.append(indent+"</DataTable>").append(Util.CRLF);
         Data.level--;
         return sb.toString();
     }
@@ -59,10 +47,6 @@ public class DataTable implements java.io.Serializable {
 
     @Override
     public String toString() {
-        if(protoType!=null){
-            return "DataTable of "+ Util.getUnqualifiedClassName(protoType.getClass())+" size="+size();
-        } else {
-            return "DataTable size="+size();
-        }
+        return "DataTable size="+size();
     }
 }

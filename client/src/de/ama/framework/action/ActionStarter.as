@@ -73,7 +73,7 @@ public class ActionStarter implements IResponder{
     }
 
     public function actionFaultHandler(event:FaultEvent):void {
-       // Util.showError(event.fault.faultString)
+       Util.showError(event.fault.faultString)
     }
 
 
@@ -87,9 +87,9 @@ public class ActionStarter implements IResponder{
     }
 
     public function fault(info:Object):void {
-        if (info is FaultEvent) {
-            actionFaultHandler(FaultEvent(info))
-        }
+//        if (info is FaultEvent) {
+//            actionFaultHandler(FaultEvent(info))
+//        }
     }
 }
 }
