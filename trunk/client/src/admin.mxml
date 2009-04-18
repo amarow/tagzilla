@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:actions="actions.*" 
 	layout="absolute" backgroundGradientAlphas="[1.0, 1.0]" 
 	backgroundGradientColors="[#103107, #6A8762]"
-	width="100%" height="100%">
+	width="100%" height="100%"
+	initialize="bootstrap();"
+	>
 	<mx:Script>
 		<![CDATA[
+        import de.ama.framework.action.ActionStarter;
+        import de.ama.framework.data.DataTable;
+        import de.ama.framework.gui.LoginDialog;
+        import de.ama.framework.util.Environment;
         import de.ama.tagzilla.actions.CrawlerAction;
         import de.ama.tagzilla.data.CrawlerData;
 
-        import mx.collections.ArrayCollection;
-        import mx.controls.Alert;
-        import mx.rpc.events.ResultEvent;
+        import mx.managers.PopUpManager;
+
+        ;
 
         [Bindable]
-        public var crawlers:ArrayCollection = new ArrayCollection();
+        public var crawlers:DataTable = new DataTable();
 
 
-        private function actionResultHandler(event:ResultEvent):void {
-            var a:CrawlerAction = event.result as CrawlerAction;
-
-            if (a.detailErrorMessage != null) {
-                Alert.show(a.detailErrorMessage);
-            }
-
-            if (data is ArrayCollection) {
-                crawlers = data as ArrayCollection;
-            }
-
-            statusLine.text = a.message;
-
+        protected function bootstrap():void {
+            Environment.initForProduction();
+            var logindlg:LoginDialog = LoginDialog(PopUpManager.createPopUp(parent, LoginDialog, true));
+            logindlg.x = (width / 2 - (logindlg.width / 2));
+            logindlg.y = 100;
         }
-
 
         private function addCrawler():void {
             crawlers.addItem(new CrawlerData(newpath.text));
@@ -40,37 +36,39 @@
 
         private function removeCrawler():void {
             var a:CrawlerAction = new CrawlerAction();
-            a.message = "delete";
+            a.code = "delete";
             a.crawler = crawlerTable.selectedItem as CrawlerData;
-            actionservice.execute(a);
+            ActionStarter.instance.execute(a, this);
         }
 
         private function startCrawler():void {
             var a:CrawlerAction = new CrawlerAction();
-            a.message = "start";
+            a.code = "start";
             a.crawler = crawlerTable.selectedItem as CrawlerData;
-            actionservice.execute(a);
+            ActionStarter.instance.execute(a, this);
         }
 
         private function stopCrawler():void {
             var a:CrawlerAction = new CrawlerAction();
-            a.message = "stop";
+            a.code = "stop";
             a.crawler = crawlerTable.selectedItem as CrawlerData;
-            actionservice.execute(a);
+            ActionStarter.instance.execute(a, this);
         }
 
 
         private function updateCrawlers():void {
             var a:CrawlerAction = new CrawlerAction();
             a.crawler = new CrawlerData("");
-            a.message = "update";
-            actionservice.execute(a);
+            a.code = "update";
+            ActionStarter.instance.execute(a, this);
+        }
+
+        public function setStatusText(msg:String):void{
+            statusLine.text = msg;
         }
             
 		]]>
 	</mx:Script>
-
-    <mx:RemoteObject id="actionservice" destination="ActionService" result="actionResultHandler(event)"/>
 
 	<mx:TabNavigator left="5" right="5" top="5" bottom="5" backgroundColor="#97AA8E" color="#B5D9AF" cornerRadius="5">
 		<mx:Canvas label="Properties" width="100%" height="100%" backgroundAlpha="0.27" cornerRadius="5" borderStyle="none" color="#EF0E0E">

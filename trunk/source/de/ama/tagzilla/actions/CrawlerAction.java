@@ -11,16 +11,17 @@ public class CrawlerAction extends ActionScriptAction {
 
 
     public CrawlerData crawler;
+    public String code;
 
     public void execute() {
 
         try {
 
-            if (message.equals("start")) {
+            if (code.equals("start")) {
                     Environment.getCrawlerService().startCrawler(crawler);
-            } else if (message.equals("stop")) {
+            } else if (code.equals("stop")) {
                     Environment.getCrawlerService().stopCrawler(crawler);
-            } else if (message.equals("delete")) {
+            } else if (code.equals("delete")) {
                     Environment.getCrawlerService().stopCrawler(crawler);
                     Environment.getCrawlerService().deleteCrawler(crawler);
             }

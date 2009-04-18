@@ -1,6 +1,7 @@
 package de.ama.tagzilla.data {
+import de.ama.framework.data.Data;
 [RemoteClass(alias="de.ama.server.bom.CrawlerData")]
-	public class CrawlerData
+	public class CrawlerData extends Data
 	{
 		public var rootPath:String;
         public var pause:Number;
