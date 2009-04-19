@@ -30,7 +30,7 @@ public class GetHandlesAction extends ActionScriptAction {
         }
 
         if(!Util.isEmpty(path)) {
-            Query q = new Query(Handle.class, "path", Query.LIKE, Handle.toDBString(path));
+            Query q = new Query(Handle.class, "path", Query.LIKE, de.ama.framework.util.Util.toDBString(path));
             count = Environment.getPersistentService().getObjectCount(q);
             if(count >Handle.QUERY_LIMIT){
                 message = "query was limited to "+Handle.QUERY_LIMIT+" entries";

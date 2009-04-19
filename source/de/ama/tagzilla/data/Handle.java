@@ -1,6 +1,7 @@
 package de.ama.tagzilla.data;
 
 import de.ama.db.PersistentMarker;
+import de.ama.framework.util.Util;
 
 
 /**
@@ -17,36 +18,8 @@ public class Handle implements PersistentMarker {
 
     private String path;
     private String tags;
-    public String lastUser;
-    public long lastmodified ;
-    public long size;
-    public long userId;
-    public  int    x;
-    public  int    y;
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public String getPath() {
-        return fromDbString(path);
-    }
-
-    public void setPath(String path) {
-        this.path = toDBString(path);
-    }
-
-    public String getLastUser() {
-        return lastUser;
-    }
-
-    public void setLastUser(String lastUser) {
-        this.lastUser = lastUser;
-    }
+    private long lastmodified ;
+    private long size;
 
     public long getLastmodified() {
         return lastmodified;
@@ -62,6 +35,15 @@ public class Handle implements PersistentMarker {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    
+    public String getPath() {
+        return Util.fromDbString(path);
+    }
+
+    public void setPath(String path) {
+        this.path = Util.toDBString(path);
     }
 
     public String getTags() {
@@ -84,61 +66,5 @@ public class Handle implements PersistentMarker {
         tags += tag+ DELIM;
     }
 
-    public static String toDBString(String path){
-        path=replaceSubString(path,"\\","/");
-        path=replaceSubString(path,"ä", "&au");
-        path=replaceSubString(path,"Ä", "&AU");
-        path=replaceSubString(path,"ö", "&ou");
-        path=replaceSubString(path,"Ö", "&OU");
-        path=replaceSubString(path,"ü", "&uu");
-        path=replaceSubString(path,"Ü", "&UU");
-        path=replaceSubString(path,"ß", "&sz");
-        return path;
-    }
 
-    public static String fromDbString(String path){
-        path=replaceSubString(path,"&au","ä" );
-        path=replaceSubString(path,"&AU","Ä" );
-        path=replaceSubString(path,"&ou","ö" );
-        path=replaceSubString(path,"&OU","Ö" );
-        path=replaceSubString(path,"&uu","ü" );
-        path=replaceSubString(path,"&UU","Ü" );
-        path=replaceSubString(path,"&sz","ß" );
-        return path;
-    }
-
-    public static String replaceSubString(String gesamt, String oldString, String newString) {
-        String result = "";
-        if (gesamt == null)    return gesamt;
-        if (newString == null) newString = "";
-        if (oldString == null) oldString = "";
-        if (oldString.equals("")) return gesamt;
-        if (oldString.equals(newString)) return gesamt;
-
-        int indexOldStr = gesamt.indexOf(oldString);
-        int oldStringLength = oldString.length();
-        while (indexOldStr > -1) {
-            result += gesamt.substring(0, indexOldStr) + newString;
-            gesamt = gesamt.substring(indexOldStr + oldStringLength);
-            indexOldStr = gesamt.indexOf(oldString);
-        }
-        result += gesamt;
-        return result;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 }

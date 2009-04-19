@@ -9,18 +9,16 @@
 	<mx:Script>
 		<![CDATA[
         import de.ama.framework.action.ActionStarter;
-        import de.ama.framework.data.DataTable;
         import de.ama.framework.gui.LoginDialog;
         import de.ama.framework.util.Environment;
         import de.ama.tagzilla.actions.CrawlerAction;
         import de.ama.tagzilla.data.CrawlerData;
 
+        import mx.collections.ArrayCollection;
         import mx.managers.PopUpManager;
 
-        ;
-
         [Bindable]
-        public var crawlers:DataTable = new DataTable();
+        public var crawlers:ArrayCollection = new ArrayCollection();
 
 
         protected function bootstrap():void {
@@ -63,7 +61,7 @@
             ActionStarter.instance.execute(a, this);
         }
 
-        public function setStatusText(msg:String):void{
+        public function setStatusText(msg:String):void {
             statusLine.text = msg;
         }
             

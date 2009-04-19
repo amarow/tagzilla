@@ -3,5 +3,5 @@
 # rename attribute classname oldname newname
 
 
-# changes in class de.ama.tagzilla.de.ama.tagzilla.data.Handle
-ALTER TABLE de_ama_server_bom_Handle ADD COLUMN `tags` VARCHAR(255)   
+# changes in class de.ama.tagzilla.data.Desk
+ALTER TABLE de_ama_tagzilla_data_Desk ADD COLUMN `objects` (35)   

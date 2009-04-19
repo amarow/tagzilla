@@ -3,9 +3,12 @@ package de.ama.framework.data;
 
 import de.ama.util.Util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class DataTable implements java.io.Serializable {
-    public Data[] collection = new Data[0];
+    public List collection = new ArrayList();
     public boolean deleting;
 
 
@@ -18,8 +21,8 @@ public class DataTable implements java.io.Serializable {
 
         sb.append(indent+"<DataTable>"+Util.CRLF);
 
-        for (int i = 0; i < collection.length; i++) {
-            Data data = (Data) collection[i];
+        for (int i = 0; i < collection.size(); i++) {
+            Data data = (Data) collection.get(i);
             sb.append( data.asXMLString("element",printFormat) );
         }
         sb.append(indent+"</DataTable>").append(Util.CRLF);
@@ -28,21 +31,22 @@ public class DataTable implements java.io.Serializable {
     }
 
     public int size() {
-        return collection.length;
+        return collection.size();
     }
 
     public Object get(int i) {
-        return collection[i];
+        return collection.get(i);
     }
 
     public void add(Data data) {
-        Data[] datas = new Data[collection.length+1];
-        for (int i = 0; i < collection.length; i++) {
-            Data d = collection[i];
-            datas[i]=d;
-        }
-        datas[collection.length]=data;
-        collection = datas;
+//        Data[] datas = new Data[collection.length+1];
+//        for (int i = 0; i < collection.length; i++) {
+//            Data d = collection[i];
+//            datas[i]=d;
+//        }
+//        datas[collection.length]=data;
+//        collection = datas;
+        collection.add(data);
     }
 
     @Override

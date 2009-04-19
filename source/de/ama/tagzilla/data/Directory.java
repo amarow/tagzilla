@@ -1,6 +1,7 @@
 package de.ama.tagzilla.data;
 
 import de.ama.db.PersistentMarker;
+import de.ama.framework.util.Util;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,11 +18,11 @@ public class Directory implements PersistentMarker{
     public long pause;
 
     public String getPath() {
-        return Handle.fromDbString(path);
+        return Util.fromDbString(path);
     }
 
     public void setPath(String path) {
-        this.path = Handle.toDBString(path);
+        this.path = Util.toDBString(path);
     }
 
     public long getLastmodified() {

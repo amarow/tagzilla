@@ -1,6 +1,5 @@
 package de.ama.server.services;
 
-import de.ama.server.blazeds.BlazedsInitialization;
 import de.ama.util.Util;
 import de.ama.framework.util.PreMainInitializer;
 

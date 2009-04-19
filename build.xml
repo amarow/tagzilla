@@ -4,9 +4,7 @@
 
     <property file="./build.properties" />
 
-    <property name="deploy.dir" value="${home.dir}/war"/>
-    <property name="cfg.dir" value="${home.dir}/source/de/ama/server/conf"/>
-    <property name="client.src.dir" value="${home.dir}/client/src"/>
+    <!--<property name="client.src.dir" value="${home.dir}/client/src"/>-->
 
     <target name="server.compile.environment" description="compiles the java sources">
          <delete dir="classes" failonerror="false"/>
@@ -36,37 +34,7 @@
         </java>
     </target>
     
-    <target name="deploy" description="deploy to tomcat">
-        <copy overwrite="true" todir="${deploy.dir}/WEB-INF/classes">
-            <fileset dir="classes">
-                <include name="**/**"/>
-                <exclude name="generator/**"/>
-                <exclude name="logic/**"/>
-            </fileset>
-        </copy>
-        <copy overwrite="false" todir="${deploy.dir}/WEB-INF/lib">
-            <fileset dir="lib">
-                <include name="**/*.jar"/>
-            </fileset>
-        </copy>
-        <copy overwrite="false" todir="${deploy.dir}/WEB-INF/flex">
-            <fileset dir="${cfg.dir}">
-                <include name="**/messaging-config.xml"/>
-                <include name="**/proxy-config.xml"/>
-                <include name="**/remoting-config.xml"/>
-                <include name="**/services-config.xml"/>
-            </fileset>
-        </copy>
-        <copy overwrite="false" todir="${deploy.dir}/WEB-INF">
-            <fileset dir="${cfg.dir}">
-                <include name="**/web.xml"/>
-            </fileset>
-        </copy>
-    </target>
-
-
-    <target name="build.tomcat" description="make server and deploy to tomcat" depends="server.compile.environment,server.enhance,deploy" />
-    <target name="build.jetty" description="make server " depends="server.compile.environment,server.enhance" />
+    <target name="server.build" description="make server " depends="server.compile.environment,server.enhance" />
 
 </project>
 

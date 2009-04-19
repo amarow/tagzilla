@@ -42,36 +42,31 @@ public class Starter {
 
         try {
 
+            // DB Connection ....
             Environment.initProduction();
-
 
             Server server = new Server(8080);
 
+            // the Files from the webroot are served with a standard ResourceHandler
             ResourceHandler resource_handler = new ResourceHandler();
-//            "/Users/ama/dev/tagzilla"
             resource_handler.setResourceBase(Environment.getHomeDir().getAbsolutePath());
 
+            // Servlet Contexts are here
+            Context servletContexts = new Context(server, "/tagzilla", Context.SESSIONS);
+            servletContexts.addServlet(new ServletHolder(new DownloadServlet()), "/download/*");
+            servletContexts.addServlet(new ServletHolder(new ActionServiceImpl()), "/action/*");
+            servletContexts.addServlet(new ServletHolder(new HelloWorldImpl()), "/hello/*");
+//            servletContexts.setClassLoader(Thread.currentThread().getContextClassLoader());
+
+            // put it all together
             HandlerList handlers = new HandlerList();
-
-
-
-            Context servletContext = new Context(server, "/tagzilla", Context.SESSIONS);
-            servletContext.addServlet(new ServletHolder(new DownloadServlet()), "/download/*");
-            servletContext.addServlet(new ServletHolder(new ActionServiceImpl()), "/action/*");
-            servletContext.addServlet(new ServletHolder(new HelloWorldImpl()), "/hello/*");
-            servletContext.setClassLoader(Thread.currentThread().getContextClassLoader());
-
-
-            handlers.setHandlers(new Handler[]{resource_handler, servletContext, new DefaultHandler()});
+            handlers.setHandlers(new Handler[]{resource_handler, servletContexts, new DefaultHandler()});
             server.setHandler(handlers);
-
-
+            
+            // and go
             server.start();
             server.join();
 
-            System.out.println("**********************************************");
-            System.out.println("* OK up and running");
-            System.out.println("**********************************************");
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

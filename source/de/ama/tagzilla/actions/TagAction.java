@@ -16,7 +16,7 @@ public class TagAction extends ActionScriptAction {
     public void execute() {
         if (!Util.isEmpty(tag)) {
 
-            List handles = (List) new UniversalIterator((Object[]) data).asList();
+            List handles = (List) data;
             for (int i = 0; i < handles.size(); i++) {
                 HandleData data = (HandleData) handles.get(i);
                 Handle handle = (Handle) Environment.getPersistentService().getObject(data.getOidString());

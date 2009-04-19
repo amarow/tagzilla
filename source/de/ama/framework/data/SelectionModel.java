@@ -11,10 +11,8 @@ import java.util.List;
  * Date: 15.07.2003
  */
 public class SelectionModel implements Serializable{
-    static final long serialVersionUID = -1L;
- 
+
     private List   selections;
-    private String containerId;
     private String condition;
     private String  type;
 
@@ -22,7 +20,6 @@ public class SelectionModel implements Serializable{
 
     public SelectionModel(SelectionModel sm) {
         setSelections(sm.getSelections());
-        setContainerId(sm.getContainerId());
         setCondition(sm.getCondition());
         type=sm.type;
     }
@@ -46,10 +43,6 @@ public class SelectionModel implements Serializable{
     public void setCondition(String condition)  {    this.condition = condition;   }
     public boolean hasCondition()               {    return condition!=null && condition.length() > 0;    }
 
-    public String getContainerId()                {  return containerId;    }
-    public void setContainerId(String containerId){  this.containerId = containerId;    }
-    public boolean inContainer()                  {  return containerId!=null && containerId.length()> 0;    }
-
     /////////////////////////////////////////////////////
 
 
@@ -63,11 +56,6 @@ public class SelectionModel implements Serializable{
     }
 
     public void setSelections(List selectionList){
-//        if(selectionList!=null){
-//           this.selections=new ArrayList( selectionList );
-//        }else{
-//           this.selections=new ArrayList();
-//        }
         selections=selectionList;
     }
 
@@ -92,7 +80,6 @@ public class SelectionModel implements Serializable{
 
     public void clear() {
       getSelections().clear();
-      setContainerId(null);
     }
 
 
