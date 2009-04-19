@@ -1,13 +1,13 @@
 package de.ama.server.services.impl;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+//import com.thoughtworks.xstream.XStream;
+//import com.thoughtworks.xstream.io.xml.DomDriver;
 import de.ama.server.services.XmlService;
 
 
 public class XmlServiceImpl implements XmlService {
 
-    XStream xstream = new XStream(new DomDriver());
+//    XStream xstream = new XStream(new DomDriver());
 
     public XmlServiceImpl() {
     }
@@ -30,11 +30,13 @@ public class XmlServiceImpl implements XmlService {
 
 
     private String readXMLFromBO(Object o) {
-        return xstream.toXML(o);
+//        return xstream.toXML(o);
+        return "";
     }
 
     private Object readBOFromXML(String xml) {
-        return xstream.fromXML(xml);
+//        return xstream.fromXML(xml);
+        return null;
     }
 
 }

@@ -18,9 +18,10 @@
         import de.ama.framework.data.Data;
         import de.ama.framework.data.DataTable;
         import de.ama.tagzilla.actions.DeskAction;
-import de.ama.tagzilla.actions.GetHandlesAction;
-import de.ama.tagzilla.data.DeskData;
-        import de.ama.tagzilla.data.HandleData;
+        import de.ama.tagzilla.actions.GetHandlesAction;
+        import de.ama.tagzilla.data.DeskData;
+        import de.ama.tagzilla.data.DeskHandleData;
+import de.ama.tagzilla.data.HandleData;
         import de.ama.tagzilla.data.TagData;
 
         import mx.events.DragEvent;
@@ -87,7 +88,9 @@ import de.ama.tagzilla.data.DeskData;
                 var handle:Handle;
                 for (i = 0; i < n; i++) {
                     if (obj[i] is HandleData) {
-                        handle = new Handle(HandleData(obj[i]));
+                        handle = new Handle(new DeskHandleData(HandleData(obj[i])));
+                    } else if (dto[i] is DeskHandleData) {
+                        handle = new Handle(DeskHandleData(obj[i]));
                     } else if (dto[i] is Handle) {
                         handle = obj[i];
                     }
@@ -140,8 +143,8 @@ import de.ama.tagzilla.data.DeskData;
             var n:int = dto.objects.length;
             for (var i:int = 0; i < n; i++) {
                 var temp:Data = dto.objects.getItemAt(i);
-                if (temp is HandleData) {
-                    addChild(new Handle(HandleData(temp)));
+                if (temp is DeskHandleData) {
+                    addChild(new Handle(DeskHandleData(temp)));
                 }
                 if (temp is TagData) {
                     addChild(new Tag(TagData(temp)));

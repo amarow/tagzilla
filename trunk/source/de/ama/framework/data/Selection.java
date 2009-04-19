@@ -13,12 +13,9 @@ import java.io.Serializable;
  * @author Andreas Marochow
  */
 public class Selection implements Serializable {
-    static final long serialVersionUID = -1L;
-    private String type;
     private String oidString;
 
-    public String getType() {
-        return type;
+    public Selection() {
     }
 
     public Selection(Data data) {
@@ -30,11 +27,6 @@ public class Selection implements Serializable {
     }
 
     public void setData(Data data) {
-        this.type = data.getType();
         this.oidString = data.getOidString();
-    }
-
-    public boolean hasType(String dataClass) {
-        return dataClass==getType();
     }
 }

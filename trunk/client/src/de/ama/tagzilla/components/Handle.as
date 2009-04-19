@@ -2,6 +2,7 @@ package de.ama.tagzilla.components {
 
 import de.ama.framework.util.FileManager;
 import de.ama.framework.util.Util;
+import de.ama.tagzilla.data.DeskHandleData;
 import de.ama.tagzilla.data.HandleData;
 
 import flash.events.MouseEvent;
@@ -11,10 +12,10 @@ import mx.controls.Label;
 public class Handle extends Label
 {
 
-    private var dto:HandleData;
+    private var dto:DeskHandleData;
 
 
-    public function Handle(aData:HandleData) {
+    public function Handle(aData:DeskHandleData) {
         dto = aData;
         x = dto.x;
         y = dto.y;

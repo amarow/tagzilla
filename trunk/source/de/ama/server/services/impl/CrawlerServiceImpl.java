@@ -7,6 +7,7 @@ import de.ama.tagzilla.data.Directory;
 import de.ama.tagzilla.data.Handle;
 import de.ama.server.services.CrawlerService;
 import de.ama.server.services.Environment;
+import de.ama.framework.util.Util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,7 +55,7 @@ public class CrawlerServiceImpl implements CrawlerService {
     }
 
     private Directory getOrMakeDir(CrawlerData c) {
-        Directory dir = (Directory) Environment.getPersistentService().getObject(new Query(Directory.class, "path", Query.EQ, Handle.toDBString(c.rootPath)), false);
+        Directory dir = (Directory) Environment.getPersistentService().getObject(new Query(Directory.class, "path", Query.EQ, Util.toDBString(c.rootPath)), false);
         if (dir == null) {
             dir = new Directory();
             dir.setPath(c.rootPath);

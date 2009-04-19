@@ -51,8 +51,8 @@
     <mx:Label x="10" y="14" text="User"/>
     <mx:Label x="10" y="49" text="Password"/>
 
-    <mx:TextInput x="74" y="12" id="userInput" tabIndex="1"/>
-    <mx:TextInput x="74" y="47" id="pwdInput" displayAsPassword="true" tabIndex="2"/>
+    <mx:TextInput x="74" y="12" id="userInput" tabIndex="1" text="aaaaaa"/>
+    <mx:TextInput x="74" y="47" id="pwdInput" displayAsPassword="true" tabIndex="2" text="aaaaaa"/>
 
     <comps:EditFieldValidator source="{userInput}" property="text"
                               required="true" minLength="6" trigger="{userInput}" triggerEvent="change"

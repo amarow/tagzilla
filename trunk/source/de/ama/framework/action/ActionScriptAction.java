@@ -1,9 +1,6 @@
 package de.ama.framework.action;
 
-import de.ama.framework.data.Data;
-import de.ama.framework.data.DataMapper;
-import de.ama.framework.data.DataTable;
-import de.ama.framework.data.MappingException;
+import de.ama.framework.data.*;
 import de.ama.tagzilla.data.User;
 import de.ama.server.services.Environment;
 import de.ama.util.Util;
@@ -25,6 +22,7 @@ public class ActionScriptAction implements java.io.Serializable {
     public Long   userId;
     public String catalog;
 
+    public SelectionModel selectionModel;
     public Object data;
     public String message;
     public String detailErrorMessage;

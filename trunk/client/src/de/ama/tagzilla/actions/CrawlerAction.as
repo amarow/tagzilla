@@ -17,7 +17,7 @@ public class CrawlerAction extends ActionScriptAction
     override public function onAfterCall(context:ActionStarter):void {
 
         if (data is DataTable) {
-            Application.application.crawlers = DataTable(data);
+            Application.application.crawlers = DataTable(data).toArrayCollection();
         }
 
         Application.application.setStatusText(message);

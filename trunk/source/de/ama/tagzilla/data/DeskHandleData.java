@@ -11,11 +11,11 @@ import de.ama.util.Util;
  * Time: 14:53:26
  * To change this template use File | Settings | File Templates.
  */
-public class HandleData extends Data {
-    public String path;
-    public String tags;
-
-    public String getGuiRepresentation() {
-        return Util.saveToString(path);
-    }
+public class DeskHandleData extends HandleData {
+    public String lastUser;
+    public long lastmodified ;
+    public long size;
+    public long userId;
+    public  int    x;
+    public  int    y;
 }

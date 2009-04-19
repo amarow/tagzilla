@@ -14,7 +14,16 @@ public class DataTable {
         this.protoType = protoType;
     }
 
-    public function readArrayCollection(src:ArrayCollection, clazz:Class=null):void{
+    public function fromArrayCollection(src:ArrayCollection):void{
+        collection = src.source;
+    }
+
+    public function toArrayCollection(): ArrayCollection {
+        return new ArrayCollection(collection);
+    }
+
+
+    public function transformFromArrayCollection(src:ArrayCollection, clazz:Class=null):void{
     	if(clazz==null) {clazz = getTypeClass(); }
         clear();
         var data:Data;
@@ -25,7 +34,7 @@ public class DataTable {
         }
     }
 
-    public function writeArrayCollection(dst:ArrayCollection, clazz:Class):void{
+    public function transformToArrayCollection(dst:ArrayCollection, clazz:Class):void{
         dst.removeAll();
         var obj:Object;
         for each (var data:Data in collection){
