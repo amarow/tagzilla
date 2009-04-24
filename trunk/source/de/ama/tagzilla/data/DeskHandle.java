@@ -10,12 +10,42 @@ import de.ama.db.PersistentMarker;
  * Time: 14:53:26
  * To change this template use File | Settings | File Templates.
  */
-public class DeskHandle extends Handle {
+public class DeskHandle implements PersistentMarker {
 
+    private String path;
+    private long lastmodified ;
+    private long size;
     private String lastUser;
     private long userId;
     private  int    x;
     private  int    y;
+
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public long getLastmodified() {
+        return lastmodified;
+    }
+
+    public void setLastmodified(long lastmodified) {
+        this.lastmodified = lastmodified;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+
+
 
     public long getUserId() {
         return userId;

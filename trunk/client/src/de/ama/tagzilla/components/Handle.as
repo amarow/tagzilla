@@ -55,10 +55,10 @@ public class Handle extends Label
     }
 
 
-    public function getData():HandleData {
-        dto.x = x;
-        dto.y = y;
-        return dto;
-    }
+//    public function getData():HandleData {
+//        dto.x = x;
+//        dto.y = y;
+//        return dto;
+//    }
 }
 }

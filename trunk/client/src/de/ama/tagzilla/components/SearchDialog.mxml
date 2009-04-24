@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                xmlns:comps="de.ama.framework.gui.*"
+                layout="absolute" width="694" height="102"
+                title="Search" showCloseButton="true"
+                close="PopUpManager.removePopUp(this)"
+                borderAlpha="0.75" backgroundColor="#DFD7C4" backgroundAlpha="1.0" borderColor="#BC8C19" borderStyle="solid" borderThickness="8">
+
+
+    <mx:Script><![CDATA[
+        import de.ama.framework.action.ActionStarter;
+        import de.ama.tagzilla.actions.GetHandlesAction;
+
+        import mx.managers.PopUpManager;
+
+        private function searchChanged(event:Event):void {
+            var a:GetHandlesAction = new GetHandlesAction();
+            a.path = "";
+
+            if (searchInput1.text.length > 0) {
+                a.path += searchInput1.text + "*";
+            }
+
+            if (searchInput2.text.length > 0) {
+                if (a.path.length == 0) a.path = "*";
+                a.path += searchInput2.text + "*";
+            }
+            if (searchInput3.text.length > 0) {
+                if (a.path.length == 0) a.path = "*";
+                a.path += searchInput3.text;
+            }
+
+            ActionStarter.instance.execute(a, this.parent);
+
+        }
+
+
+        ]]></mx:Script>
+
+    <mx:TextInput left="58" id="searchInput1" change="searchChanged(event);" cornerRadius="4"
+                  color="#6E1506" width="232" bottom="20"/>
+    <mx:Label text="count" width="40" color="#F4410A" textAlign="right" left="0" bottom="22" id="count"/>
+    <mx:TextInput left="298" bottom="20" id="searchInput2" change="searchChanged(event);" cornerRadius="4"
+                  color="#6E1506" width="232"/>
+    <mx:TextInput left="538" bottom="20" id="searchInput3" change="searchChanged(event);" cornerRadius="4"
+                  color="#6E1506" width="116"/>
+
+
+</mx:TitleWindow>
