@@ -3,9 +3,8 @@ package de.ama.tagzilla.actions
 import de.ama.framework.action.ActionScriptAction;
 import de.ama.framework.action.ActionStarter;
 import de.ama.framework.data.DataTable;
+import de.ama.tagzilla.components.AdminPage;
 import de.ama.tagzilla.data.CrawlerData;
-
-import mx.core.Application;
 
 [RemoteClass(alias="de.ama.server.actions.CrawlerAction")]
 public class CrawlerAction extends ActionScriptAction
@@ -15,12 +14,13 @@ public class CrawlerAction extends ActionScriptAction
 
 
     override public function onAfterCall(context:ActionStarter):void {
+        var ap:AdminPage = AdminPage(context.invoker);
 
         if (data is DataTable) {
-            Application.application.crawlers = DataTable(data).toArrayCollection();
+            ap.crawlers = DataTable(data).toArrayCollection();
         }
 
-        Application.application.setStatusText(message);
+        ap.setStatusText(message);
     }
 }
 }
