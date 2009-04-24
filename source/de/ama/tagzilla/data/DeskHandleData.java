@@ -11,10 +11,11 @@ import de.ama.util.Util;
  * Time: 14:53:26
  * To change this template use File | Settings | File Templates.
  */
-public class DeskHandleData extends HandleData {
+public class DeskHandleData extends Data {
+    public String path;
     public String lastUser;
-    public long lastmodified ;
     public long size;
+    public long lastmodified ;
     public long userId;
     public  int    x;
     public  int    y;

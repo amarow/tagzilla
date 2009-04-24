@@ -4,30 +4,23 @@
              dataProvider="{handles}"
              color="#111212" alternatingItemColors="[#F7F7F7, #D9DFE1]" borderStyle="none" themeColor="#B89853"
              dragEnabled="true" allowMultipleSelection="true"
-             itemClick="itemClickEvent(event);">
+             itemDoubleClick="itemDoubleClickEvent(event)">
 
     <mx:Script><![CDATA[
-    	import de.ama.tagzilla.data.HandleData;
-
-        import de.ama.framework.util.Util;
+        import de.ama.framework.util.FileManager;
+        import de.ama.tagzilla.data.HandleData;
 
         import mx.collections.ArrayCollection;
+        import mx.events.ListEvent;
+
+        private function itemDoubleClickEvent(event:ListEvent):void {
+            var handle:HandleData = HandleData(event.itemRenderer.data);
+            new FileManager().showFile(handle.path);
+        }
 
         [Bindable]
         public var handles:ArrayCollection = new ArrayCollection();
 
-        import mx.events.ListEvent;
-
-        private function itemClickEvent(event:ListEvent):void {
-//        	var handle:HandleData = HandleData(event.itemRenderer.de.ama.tagzilla.data);
-           // if(event.)
-
-//                        Util.showMessage(handle.path);
-            
-            //  clickColumn.text=String(event.columnIndex);
-            //  clickRow.text=String(event.rowIndex);
-            //  eventType.text=event.type;
-        }
 
         ]]></mx:Script>
 

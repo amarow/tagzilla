@@ -8,7 +8,7 @@
            dragEnter="dragEnterHandler(event)"
            dragDrop="dragDropHandler(event)"
            width="1000" height="800"
-           initialize="addContextMenu()">
+           initialize="bootstrap()">
 
     <mx:Script><![CDATA[
 
@@ -17,15 +17,22 @@
         import de.ama.framework.action.LogoutAction;
         import de.ama.framework.data.Data;
         import de.ama.framework.data.DataTable;
-        import de.ama.tagzilla.actions.DeskAction;
+        import de.ama.framework.util.Util;
+import de.ama.tagzilla.actions.DeskAction;
         import de.ama.tagzilla.actions.GetHandlesAction;
         import de.ama.tagzilla.data.DeskData;
         import de.ama.tagzilla.data.DeskHandleData;
-import de.ama.tagzilla.data.HandleData;
+        import de.ama.tagzilla.data.HandleData;
         import de.ama.tagzilla.data.TagData;
 
         import mx.events.DragEvent;
         import mx.managers.DragManager;
+        import mx.managers.PopUpManager;
+
+        private function bootstrap():void {
+            addContextMenu();
+            addEventListener(KeyboardEvent.KEY_DOWN, reportKeyDown);
+        }
 
         private function logout():void {
             var a:LogoutAction = new LogoutAction();
@@ -85,12 +92,12 @@ import de.ama.tagzilla.data.HandleData;
                 var obj:Object = event.dragSource.dataForFormat('items');
                 var n:int = obj.length;
                 var i:int;
-                var handle:Handle;
+                var handle:DeskHandle;
                 for (i = 0; i < n; i++) {
                     if (obj[i] is HandleData) {
-                        handle = new Handle(new DeskHandleData(HandleData(obj[i])));
+                        handle = new DeskHandle(new DeskHandleData(HandleData(obj[i])));
                     } else if (dto[i] is DeskHandleData) {
-                        handle = new Handle(DeskHandleData(obj[i]));
+                        handle = new DeskHandle(DeskHandleData(obj[i]));
                     } else if (dto[i] is Handle) {
                         handle = obj[i];
                     }
@@ -129,7 +136,7 @@ import de.ama.tagzilla.data.HandleData;
             var arr:Array = getChildren();
             var n:int = arr.length;
             for (var i:int = 0; i < n; i++) {
-                if (arr[i] is Handle || arr[i] is Tag) {
+                if (arr[i] is DeskHandle || arr[i] is Tag) {
                     removeChild(arr[i]);
                 }
             }
@@ -144,7 +151,7 @@ import de.ama.tagzilla.data.HandleData;
             for (var i:int = 0; i < n; i++) {
                 var temp:Data = dto.objects.getItemAt(i);
                 if (temp is DeskHandleData) {
-                    addChild(new Handle(DeskHandleData(temp)));
+                    addChild(new DeskHandle(DeskHandleData(temp)));
                 }
                 if (temp is TagData) {
                     addChild(new Tag(TagData(temp)));
@@ -161,8 +168,8 @@ import de.ama.tagzilla.data.HandleData;
             var n:int = arr.length;
             for (var i:int = 0; i < n; i++) {
                 var temp:Object = arr[i];
-                if (temp is Handle) {
-                    dto.objects.addItem(Handle(temp).getData());
+                if (temp is DeskHandle) {
+                    dto.objects.addItem(DeskHandle(temp).getData());
                 }
                 if (temp is Tag) {
                     dto.objects.addItem(Tag(temp).getData());
@@ -175,14 +182,14 @@ import de.ama.tagzilla.data.HandleData;
             var menu:ContextMenu = new ContextMenu();
 
 
-            var menuItem:ContextMenuItem = new ContextMenuItem('add Tag');
+            var menuItem:ContextMenuItem = new ContextMenuItem('Add Tag');
             menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
                 createNewTag();
             });
             menu.customItems.push(menuItem);
 
 
-            menuItem = new ContextMenuItem('clean Desk');
+            menuItem = new ContextMenuItem('Clean Desk');
             menuItem.separatorBefore = true;
             menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
                 whipeOut();
@@ -190,13 +197,13 @@ import de.ama.tagzilla.data.HandleData;
             menu.customItems.push(menuItem);
 
 
-            menuItem = new ContextMenuItem('load Desk');
+            menuItem = new ContextMenuItem('Load Desk');
             menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
                 loadDesk();
             });
             menu.customItems.push(menuItem);
 
-            menuItem = new ContextMenuItem('save Desk');
+            menuItem = new ContextMenuItem('Save Desk');
             menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
                 saveDesk();
             });
@@ -207,6 +214,19 @@ import de.ama.tagzilla.data.HandleData;
             this.contextMenu = menu;
         }
 
+
+        private function reportKeyDown(event:KeyboardEvent):void{
+
+            if (event.ctrlKey && event.charCode == 102) {
+                var dlg:SearchDialog = SearchDialog(PopUpManager.createPopUp(parent, SearchDialog, false));
+                dlg.x = (width / 2 - (dlg.width / 2));
+                dlg.y = 250;
+            } else {
+                if (event.ctrlKey && event.charCode > 0) {
+                    Util.showMessage("Key Pressed: " + event.charCode + " / " + event.keyCode);
+                }
+            }
+        }
 
         ]]>
     </mx:Script>
