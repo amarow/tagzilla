@@ -67,6 +67,7 @@ public class DeskHandle extends Canvas   {
     }
 
     private function saveButtonClick(e:MouseEvent):void {
+        new FileManager().uploadFile(path);
     }
 
 

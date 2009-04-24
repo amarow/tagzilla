@@ -50,4 +50,9 @@ public class Util {
         result += gesamt;
         return result;
     }
+
+    public static String normalizeFileName(String in){
+        String ret = replaceSubString(in," ","_");
+        return ret;
+    }
 }

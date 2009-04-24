@@ -14,6 +14,7 @@ import de.ama.util.Util;
 public class HandleData extends Data {
     public String path;
     public String tags;
+    public long size;
 
     public String getGuiRepresentation() {
         return Util.saveToString(path);

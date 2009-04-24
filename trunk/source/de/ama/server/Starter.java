@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 
 import de.ama.framework.servlet.DownloadServlet;
 import de.ama.framework.servlet.HelloWorldImpl;
+import de.ama.framework.servlet.UploadServlet;
 import de.ama.server.services.Environment;
 import de.ama.server.services.impl.ActionServiceImpl;
 
@@ -54,6 +55,7 @@ public class Starter {
             // Servlet Contexts are here
             Context servletContexts = new Context(server, "/tagzilla", Context.SESSIONS);
             servletContexts.addServlet(new ServletHolder(new DownloadServlet()), "/download/*");
+            servletContexts.addServlet(new ServletHolder(new UploadServlet()), "/upload/*");
             servletContexts.addServlet(new ServletHolder(new ActionServiceImpl()), "/action/*");
             servletContexts.addServlet(new ServletHolder(new HelloWorldImpl()), "/hello/*");
 //            servletContexts.setClassLoader(Thread.currentThread().getContextClassLoader());
