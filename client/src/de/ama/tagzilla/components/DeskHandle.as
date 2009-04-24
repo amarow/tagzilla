@@ -7,14 +7,24 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 
 import mx.containers.Canvas;
+import mx.controls.Button;
+import mx.controls.Image;
 import mx.controls.Label;
 
 public class DeskHandle extends Canvas   {
 
+    [Embed(source="/de/ama/tagzilla/components/img/blog.png")]
+    private static const OPEN_PNG:Class;
+
+    [Embed(source="/de/ama/tagzilla/components/img/backward.png")]
+    private static const BACK_PNG:Class;
+
+    [Embed(source="/de/ama/tagzilla/components/img/stop.png")]
+    private static const STOP_PNG:Class;
+
     private var dto:DeskHandleData;
 
     private var mylabel:Label = new Label();
-    private var openConfig:Label = new Label();
 
     public function DeskHandle(aData:DeskHandleData = null) {
         dto = aData;
@@ -26,34 +36,52 @@ public class DeskHandle extends Canvas   {
         y = dto.y;
         path = dto.path;
 
-        super.height = 18 ;
+        super.height = 18;
 
-        super.setStyle("backgroundColor", "0x996633");
+        super.setStyle("backgroundColor", "0xFFFFCC");
         super.setStyle("backgroundAlpha", "0.9");
-//        super.setStyle("color", "white");
         super.setStyle("cornerRadius", "4");
         super.setStyle("borderStyle", "solid");
         super.setStyle("borderColor", "white");
-
-//        super.addEventListener(MouseEvent.CLICK, onClick);
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
-//        super.addEventListener(DragEvent.DRAG_DROP, dragDropHandler);
-//        super.addEventListener(DragEvent.DRAG_ENTER, dragEnterHandler);
 
 
-        mylabel.x = 5;
+        mylabel.x = 2;
         mylabel.setStyle("verticalCenter", "0");
-        mylabel.setStyle("color", "black");
+        mylabel.setStyle("color", "0x003333");
         mylabel.setStyle("textAlign", "right");
-        mylabel.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
         addChild(mylabel);
 
-        openConfig.text = "+";
-        openConfig.setStyle("right", "1")
-        openConfig.setStyle("verticalCenter", "0");
-        openConfig.addEventListener(MouseEvent.CLICK, openConfigClick);
-        addChild(openConfig);
+        addChild(createButton("open",OPEN_PNG,openButtonClick,"2"));
+        addChild(createButton("save",BACK_PNG,saveButtonClick,"20"));
+        addChild(createButton("delete",STOP_PNG,deleteButtonClick,"40"));
+    }
+
+    public function openButtonClick(e:MouseEvent):void {
+        new FileManager().showFile(path);
+    }
+
+    private function deleteButtonClick(e:MouseEvent):void {
+        this.parent.removeChild(this);
+    }
+
+    private function saveButtonClick(e:MouseEvent):void {
+    }
+
+
+    private function createButton(tip:String, png:Class, callback:Function, pos:String):Button{
+        var ret:Button = new Button();
+        ret.label = tip;
+        ret.width = 16;
+        ret.height = 16;
+        ret.setStyle("right", pos)
+        ret.setStyle("verticalCenter", "0");
+        ret.setStyle("upSkin", png);
+        ret.setStyle("overSkin", png);
+        ret.setStyle("downSkin", png);
+        ret.addEventListener(MouseEvent.CLICK, callback);
+        return ret; 
     }
 
     public function get path():String {
@@ -64,28 +92,7 @@ public class DeskHandle extends Canvas   {
         if (Util.isEmpty(val)) return;
         dto.path = val;
         mylabel.text = val;
-        width = val.length*7+20;
-    }
-    public function onDoubleClick(e:MouseEvent):void {
-        new FileManager().showFile(path);
-    }
-
-    public function showConfig():void {
-        new FileManager().showFile(path);
-//        var props:TagProps = TagProps(PopUpManager.createPopUp(parent, TagProps, true));
-//        props.x = this.x;
-//        props.y = this.y + this.height + 5;
-//        if (props.x + props.width > parent.width) {
-//            props.x = parent.width - props.width;
-//        }
-//        if (props.y + props.height > parent.height) {
-//            props.y = parent.height - props.height;
-//        }
-//        props.tag = this;
-    }
-
-    private function openConfigClick(event:MouseEvent):void {
-        showConfig();
+        width = val.length * 7 + 30;
     }
 
     private function startDragging(event:MouseEvent):void {
@@ -95,15 +102,6 @@ public class DeskHandle extends Canvas   {
     private function stopDragging(event:MouseEvent):void {
         super.stopDrag();
     }
-
-    public function get bgcolor():uint {
-        return getStyle("backgroundColor");
-    }
-
-    public function set bgcolor(val:uint):void {
-        setStyle("backgroundColor", val);
-    }
-
 
     public function getData():DeskHandleData {
         if (dto == null)dto = new DeskHandleData();
