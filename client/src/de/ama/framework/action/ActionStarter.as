@@ -69,7 +69,11 @@ public class ActionStarter implements IResponder{
             Util.showError(action.detailErrorMessage);
         }
 
-        action.onAfterCall(this);
+        if(_invoker is Function){
+            Function(_invoker)(action);
+        } else {
+            action.onAfterCall(this);
+        }
     }
 
     public function actionFaultHandler(event:FaultEvent):void {

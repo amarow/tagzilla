@@ -1,4 +1,5 @@
 package de.ama.framework.util {
+import de.ama.framework.action.ActionScriptAction;
 import de.ama.framework.action.ActionStarter;
 import de.ama.framework.action.FileAction;
 
@@ -23,7 +24,7 @@ public class FileManager {
 
 
         try {
-            navigateToURL(request, "Tagzilla-Preview");
+            navigateToURL(request);
         } catch (e:Error) {
             Util.showError(e.message);
         }
@@ -32,12 +33,14 @@ public class FileManager {
     ///////////////////////////////// upload File ////////////////////////////////////////
 
 
-    private var serverPath:String;
-    var fileRef:FileReference = new FileReference();
+    public  var serverPath:String;
+    private var fileRef:FileReference = new FileReference();
+    private var callback:Function;
 
-    public function uploadFile(serverPath:String):void {
+    public function uploadFile(serverPath:String, callback:Function=null):void {
         fileRef.addEventListener(Event.SELECT, fileRef_select);
         fileRef.addEventListener(Event.COMPLETE, fileRef_loadComplete);
+        this.callback = callback;
         this.serverPath = serverPath;
         fileRef.browse();
     }
@@ -48,10 +51,23 @@ public class FileManager {
 
     private function fileRef_loadComplete(e:Event):void {
         var fa:FileAction = new FileAction();
+
+        fa.fileName = serverPath;
+
+        if(serverPath.lastIndexOf("/")== serverPath.length-1) {
+            serverPath += fileRef.name;
+        }
         fa.fileName = serverPath;
         fa.data = fileRef.data;
-        ActionStarter.instance.execute(fa) ;
+        ActionStarter.instance.execute(fa, actionReturned) ;
     }
+
+    private function actionReturned(a:ActionScriptAction):void {
+        if(callback!=null){
+            callback(this);
+        }
+    }
+
 
     //    private function fileRef_select(e:Event):void {
     //        try {

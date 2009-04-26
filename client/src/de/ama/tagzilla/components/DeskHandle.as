@@ -1,35 +1,36 @@
 package de.ama.tagzilla.components {
+import de.ama.framework.action.ActionScriptAction;
+import de.ama.framework.action.ActionStarter;
+import de.ama.framework.action.FileAction;
+import de.ama.framework.util.BroadcastEvent;
 import de.ama.framework.util.FileManager;
 import de.ama.framework.util.Util;
+import de.ama.tagzilla.components.img.Images;
 import de.ama.tagzilla.data.DeskHandleData;
 
 import flash.events.MouseEvent;
-import flash.geom.Point;
 
 import mx.containers.Canvas;
 import mx.controls.Button;
-import mx.controls.Image;
 import mx.controls.Label;
 
 public class DeskHandle extends Canvas   {
 
-    [Embed(source="/de/ama/tagzilla/components/img/blog.png")]
-    private static const OPEN_PNG:Class;
-
-    [Embed(source="/de/ama/tagzilla/components/img/backward.png")]
-    private static const BACK_PNG:Class;
-
-    [Embed(source="/de/ama/tagzilla/components/img/stop.png")]
-    private static const STOP_PNG:Class;
 
     private var dto:DeskHandleData;
 
     private var mylabel:Label = new Label();
+    private var saveButton:Button ;
+    private var newButton:Button ;
+    private var deleteButton:Button ;
+    private var openButton:Button ;
+    private var _incomplete:Boolean = false;
 
     public function DeskHandle(aData:DeskHandleData = null) {
         dto = aData;
         if (dto == null) {
             dto = new DeskHandleData();
+            path = "move near other file, to retreive a location";
         }
 
         x = dto.x;
@@ -37,7 +38,6 @@ public class DeskHandle extends Canvas   {
         path = dto.path;
 
         super.height = 18;
-
         super.setStyle("backgroundColor", "0xFFFFCC");
         super.setStyle("backgroundAlpha", "0.9");
         super.setStyle("cornerRadius", "4");
@@ -45,6 +45,8 @@ public class DeskHandle extends Canvas   {
         super.setStyle("borderColor", "white");
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
+        super.addEventListener(BroadcastEvent.BROADCAST, fileUploadCompleted);
+        //  super.addEventListener(DragEvent.DRAG_ENTER, dragEnterHandler);
 
 
         mylabel.x = 2;
@@ -53,10 +55,26 @@ public class DeskHandle extends Canvas   {
         mylabel.setStyle("textAlign", "right");
         addChild(mylabel);
 
-        addChild(createButton("open",OPEN_PNG,openButtonClick,"2"));
-        addChild(createButton("save",BACK_PNG,saveButtonClick,"20"));
-        addChild(createButton("delete",STOP_PNG,deleteButtonClick,"40"));
+        openButton = Button(addChild(createButton("open", Images.OPEN_PNG, openButtonClick, "2")));
+        saveButton = Button(addChild(createButton("save", Images.BACK_PNG, saveButtonClick, "20")));
+        deleteButton = Button(addChild(createButton("delete", Images.STOP_PNG, deleteButtonClick, "40")));
+        newButton = Button(addChild(createButton("new", Images.NEW_PNG, newButtonClick, "58")));
     }
+
+
+    private function newButtonClick(e:MouseEvent):void {
+        var handle:DeskHandle = new DeskHandle();
+        this.parent.addChild(handle);
+        handle.x = this.x;
+        handle.y = this.y+22;
+        handle.incomplete = true;
+        handle.path = extractServerPath();
+    }
+
+    private function extractServerPath():String {
+        return path.substr(0,path.lastIndexOf("/"));
+    }
+
 
     public function openButtonClick(e:MouseEvent):void {
         new FileManager().showFile(path);
@@ -67,13 +85,19 @@ public class DeskHandle extends Canvas   {
     }
 
     private function saveButtonClick(e:MouseEvent):void {
-        new FileManager().uploadFile(path);
+        var fm:FileManager = new FileManager();
+        fm.uploadFile(path+"/",fileUploadCompleted );
     }
 
+    private function fileUploadCompleted(fm:FileManager):void {
+        path=fm.serverPath;
+        incomplete=false;
+    }
 
-    private function createButton(tip:String, png:Class, callback:Function, pos:String):Button{
+    private function createButton(tip:String, png:Class, callback:Function, pos:String):Button {
         var ret:Button = new Button();
         ret.label = tip;
+        ret.id = tip;
         ret.width = 16;
         ret.height = 16;
         ret.setStyle("right", pos)
@@ -82,7 +106,7 @@ public class DeskHandle extends Canvas   {
         ret.setStyle("overSkin", png);
         ret.setStyle("downSkin", png);
         ret.addEventListener(MouseEvent.CLICK, callback);
-        return ret; 
+        return ret;
     }
 
     public function get path():String {
@@ -96,7 +120,28 @@ public class DeskHandle extends Canvas   {
         width = val.length * 7 + 30;
     }
 
+    public function get incomplete():Boolean {
+        return _incomplete;
+    }
+
+    public function set incomplete(b:Boolean):void {
+        _incomplete=b;
+        if(_incomplete){
+            mylabel.setStyle("color", "red");
+            openButton.visible = false;
+            newButton.visible = false;
+        } else {
+            mylabel.setStyle("color", "0x003333");
+            openButton.visible = true;
+            newButton.visible = true;
+        }
+
+    }
+
     private function startDragging(event:MouseEvent):void {
+        //        var ds:DragSource = new DragSource();
+        //        ds.addData(this, "deskhandle");
+        //        DragManager.doDrag(this, ds, event)
         super.startDrag();
     }
 
@@ -111,5 +156,11 @@ public class DeskHandle extends Canvas   {
         dto.path = path;
         return dto;
     }
+
+    public function needsPath():Boolean {
+        return (path.indexOf("move near other") > 0);
+    }
+
+
 }
 }
