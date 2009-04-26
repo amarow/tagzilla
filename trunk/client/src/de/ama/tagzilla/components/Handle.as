@@ -24,11 +24,9 @@ public class Handle extends Label
         super.setStyle("color", "red");
         super.setStyle("textAlign", "right");
 
-
         super.addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
         super.addEventListener(MouseEvent.MOUSE_UP, stopDragging);
         super.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick);
-        super.doubleClickEnabled=true;
     }
 
     public function onDoubleClick(e:MouseEvent):void {

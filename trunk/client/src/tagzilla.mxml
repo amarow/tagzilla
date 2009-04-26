@@ -29,9 +29,9 @@
 
     <fw:AdvanceTabNavigator left="2" right="2" bottom="2" tabCloseEnable="true"
                             tabDragEnable="true" id="mainTabs" backgroundColor="#948D7B" color="#EAC06E" backgroundDisabledColor="#BEA9A9" top="0" backgroundAlpha="0.87">
-        <comps:AdminPage   top="0" bottom="0" left="0" right="0" />
         <comps:Project top="0" bottom="0" left="0" right="0" label="Thyssen" backgroundAlpha="0.51" color="#EEDE30"/>
         <comps:Project top="0" bottom="0" left="0" right="0" label="Porsche"/>
+        <comps:AdminPage   top="0" bottom="0" left="0" right="0" />
     </fw:AdvanceTabNavigator>
 
 </mx:Application>

@@ -4,7 +4,8 @@
              dataProvider="{handles}"
              color="#111212" alternatingItemColors="[#F7F7F7, #D9DFE1]" borderStyle="none" themeColor="#B89853"
              dragEnabled="true" allowMultipleSelection="true"
-             itemDoubleClick="itemDoubleClickEvent(event)">
+             itemDoubleClick="itemDoubleClickEvent(event)"
+            doubleClickEnabled="true">
 
     <mx:Script><![CDATA[
         import de.ama.framework.util.FileManager;
@@ -25,7 +26,7 @@
         ]]></mx:Script>
 
     <mx:columns>
-        <mx:DataGridColumn headerText="Path" dataField="path"/>
+        <mx:DataGridColumn headerText="Path" dataField="path" />
         <mx:DataGridColumn headerText="Tag" dataField="tags" width="100"/>
         <mx:DataGridColumn headerText="Size" dataField="size" width="100"/>
         <mx:DataGridColumn headerText="Version" dataField="version" width="100"/>

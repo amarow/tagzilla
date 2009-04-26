@@ -109,6 +109,14 @@ import de.ama.tagzilla.actions.DeskAction;
             }
         }
 
+        private function createNewFile():void {
+            var handle:DeskHandle = new DeskHandle();
+            this.addChild(handle);
+            handle.x=100;
+            handle.y=100;
+        }
+
+
         public function createNewTag():void {
             var tag:Tag = new Tag();
             this.addChild(tag);
@@ -178,11 +186,18 @@ import de.ama.tagzilla.actions.DeskAction;
             return dto;
         }
 
+
         private function addContextMenu():void {
             var menu:ContextMenu = new ContextMenu();
 
 
-            var menuItem:ContextMenuItem = new ContextMenuItem('Add Tag');
+            var menuItem:ContextMenuItem = new ContextMenuItem('Add File');
+            menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
+                createNewFile();
+            });
+            menu.customItems.push(menuItem);
+
+            menuItem = new ContextMenuItem('Add Tag');
             menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(e:ContextMenuEvent):void {
                 createNewTag();
             });
@@ -231,12 +246,12 @@ import de.ama.tagzilla.actions.DeskAction;
         ]]>
     </mx:Script>
     <mx:TextInput left="58" bottom="10" id="searchInput1" change="searchChanged(event);" cornerRadius="4"
-                  color="#6E1506" width="232"/>
+    color="#6E1506" width="232"/>
     <mx:Label text="count" width="40" color="#F4410A" textAlign="right" left="10" bottom="12" id="count"/>
     <mx:TextInput left="298" bottom="10" id="searchInput2" change="searchChanged(event);" cornerRadius="4"
-                  color="#6E1506" width="232"/>
+    color="#6E1506" width="232"/>
     <mx:TextInput left="540" bottom="10" id="searchInput3" change="searchChanged(event);" cornerRadius="4"
-                  color="#6E1506" width="116"/>
+    color="#6E1506" width="116"/>
     <mx:LinkButton label="logout" click="logout()" fontSize="8" color="#0D1796" right="3" top="5"/>
 
 </mx:Canvas>
