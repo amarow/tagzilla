@@ -3,6 +3,7 @@ import de.ama.framework.action.ActionScriptAction;
 import de.ama.framework.action.ActionStarter;
 import de.ama.framework.action.FileAction;
 import de.ama.framework.util.BroadcastEvent;
+import de.ama.framework.util.Callback;
 import de.ama.framework.util.FileManager;
 import de.ama.framework.util.Util;
 import de.ama.tagzilla.components.img.Images;
@@ -86,7 +87,7 @@ public class DeskHandle extends Canvas   {
 
     private function saveButtonClick(e:MouseEvent):void {
         var fm:FileManager = new FileManager();
-        fm.uploadFile(path+"/",fileUploadCompleted );
+        fm.uploadFile(path+"/",new Callback(this, fileUploadCompleted ));
     }
 
     private function fileUploadCompleted(fm:FileManager):void {

@@ -35,9 +35,9 @@ public class FileManager {
 
     public  var serverPath:String;
     private var fileRef:FileReference = new FileReference();
-    private var callback:Function;
+    private var callback:Callback;
 
-    public function uploadFile(serverPath:String, callback:Function=null):void {
+    public function uploadFile(serverPath:String, callback:Callback=null):void {
         fileRef.addEventListener(Event.SELECT, fileRef_select);
         fileRef.addEventListener(Event.COMPLETE, fileRef_loadComplete);
         this.callback = callback;
@@ -59,12 +59,12 @@ public class FileManager {
         }
         fa.fileName = serverPath;
         fa.data = fileRef.data;
-        ActionStarter.instance.execute(fa, actionReturned) ;
+        ActionStarter.instance.execute(fa,new Callback(this, actionReturned)) ;
     }
 
     private function actionReturned(a:ActionScriptAction):void {
         if(callback!=null){
-            callback(this);
+            callback.execute(this);
         }
     }
 

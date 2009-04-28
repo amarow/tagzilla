@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<mx:Canvas label="Properties" backgroundAlpha="0.27"
+           cornerRadius="5" borderStyle="none"
+           color="#EF0E0E" xmlns:mx="http://www.adobe.com/2006/mxml"
+           width="100%" height="100%"
+           initialize="bootstrap();"
+        >
+    <mx:Script>
+		<![CDATA[
+        import de.ama.framework.action.ActionStarter;
+        import de.ama.tagzilla.actions.CrawlerAction;
+        import de.ama.tagzilla.data.CrawlerData;
+
+        import mx.collections.ArrayCollection;
+
+        [Bindable]
+        public var crawlers:ArrayCollection = new ArrayCollection();
+
+
+        protected function bootstrap():void {
+        }
+
+        private function addCrawler():void {
+            crawlers.addItem(new CrawlerData(newpath.text));
+        }
+
+        private function removeCrawler():void {
+            var a:CrawlerAction = new CrawlerAction();
+            a.code = "delete";
+            a.crawler = crawlerTable.selectedItem as CrawlerData;
+            ActionStarter.instance.execute(a, this);
+        }
+
+        private function startCrawler():void {
+            var a:CrawlerAction = new CrawlerAction();
+            a.code = "start";
+            a.crawler = crawlerTable.selectedItem as CrawlerData;
+            ActionStarter.instance.execute(a, this);
+        }
+
+        private function stopCrawler():void {
+            var a:CrawlerAction = new CrawlerAction();
+            a.code = "stop";
+            a.crawler = crawlerTable.selectedItem as CrawlerData;
+            ActionStarter.instance.execute(a, this);
+        }
+
+
+        private function updateCrawlers():void {
+            var a:CrawlerAction = new CrawlerAction();
+            a.crawler = new CrawlerData("");
+            a.code = "update";
+            ActionStarter.instance.execute(a, this);
+        }
+
+        public function setStatusText(msg:String):void {
+            statusLine.text = msg;
+        }
+
+		]]>
+	</mx:Script>
+
+
+    <mx:Button label="+" click="addCrawler()" enabled="true" themeColor="#A0D692" color="#0F2F09" top="20" height="22"
+               right="20" width="36"/>
+    <mx:Button label="U" click="updateCrawlers()" enabled="true" themeColor="#A0D692" color="#0F2F09" height="25"
+               left="10" width="40" bottom="10"/>
+    <mx:Button label="-" click="removeCrawler()" enabled="true" themeColor="#A0D692" color="#0F2F09" width="42"
+               height="25" left="58" bottom="10"/>
+    <mx:Button label="Stop" click="stopCrawler()" enabled="true" themeColor="#A0D692" color="#F02E0E" width="100"
+               height="25" fillAlphas="[1.0, 1.0]" fillColors="[#6B0C0C, #6B0C0C, #AC5959, #D33333]" cornerRadius="7"
+               right="20" bottom="10"/>
+    <mx:DataGrid id="crawlerTable" dataProvider="{crawlers}" borderStyle="solid" borderThickness="2"
+                 borderColor="#101518" themeColor="#70A75D" color="#16440E" left="20" right="20" bottom="69" top="71">
+        <mx:columns>
+            <mx:DataGridColumn headerText="Path" dataField="rootPath"/>
+            <mx:DataGridColumn headerText="Pause" dataField="pause"/>
+            <mx:DataGridColumn headerText="Running" dataField="running"/>
+            <mx:DataGridColumn headerText="scannedFilesCount" dataField="scannedFilesCount"/>
+        </mx:columns>
+    </mx:DataGrid>
+    <mx:Button label="Start" click="startCrawler()" enabled="true" themeColor="#A0D692" color="#B4ECA8" width="100"
+               height="25" fillAlphas="[1.0, 1.0]" fillColors="[#409925, #409925, #80A874, #80A874]" cornerRadius="7"
+               right="128" bottom="10"/>
+    <mx:Text text="Text" id="statusLine" left="10" bottom="43" color="#080808" right="20"/>
+    <mx:Label y="22" text="Path" width="49" color="#090A09" left="20"/>
+    <mx:TextInput y="20" id="newpath" color="#090A09" right="80" left="80"/>
+</mx:Canvas>
