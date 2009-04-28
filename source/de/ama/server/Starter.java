@@ -1,28 +1,16 @@
 package de.ama.server;
 
-import org.mortbay.jetty.Handler;
-import org.mortbay.jetty.Request;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.servlet.Context;
-import org.mortbay.jetty.servlet.ServletHolder;
-import org.mortbay.jetty.handler.AbstractHandler;
-import org.mortbay.jetty.handler.ResourceHandler;
-import org.mortbay.jetty.handler.HandlerList;
-import org.mortbay.jetty.handler.DefaultHandler;
-import org.mortbay.xml.XmlConfiguration;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileInputStream;
-
 import de.ama.framework.servlet.DownloadServlet;
-import de.ama.framework.servlet.HelloWorldImpl;
 import de.ama.framework.servlet.UploadServlet;
 import de.ama.server.services.Environment;
 import de.ama.server.services.impl.ActionServiceImpl;
+import org.mortbay.jetty.Handler;
+import org.mortbay.jetty.Server;
+import org.mortbay.jetty.handler.DefaultHandler;
+import org.mortbay.jetty.handler.HandlerList;
+import org.mortbay.jetty.handler.ResourceHandler;
+import org.mortbay.jetty.servlet.Context;
+import org.mortbay.jetty.servlet.ServletHolder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -57,8 +45,6 @@ public class Starter {
             servletContexts.addServlet(new ServletHolder(new DownloadServlet()), "/download/*");
             servletContexts.addServlet(new ServletHolder(new UploadServlet()), "/upload/*");
             servletContexts.addServlet(new ServletHolder(new ActionServiceImpl()), "/action/*");
-            servletContexts.addServlet(new ServletHolder(new HelloWorldImpl()), "/hello/*");
-//            servletContexts.setClassLoader(Thread.currentThread().getContextClassLoader());
 
             // put it all together
             HandlerList handlers = new HandlerList();

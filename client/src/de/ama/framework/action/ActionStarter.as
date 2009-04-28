@@ -1,4 +1,5 @@
 package de.ama.framework.action {
+import de.ama.framework.util.Callback;
 import de.ama.framework.util.Environment;
 
 import de.ama.framework.util.Util;
@@ -46,7 +47,7 @@ public class ActionStarter implements IResponder{
     }
 
 
-    public function execute(action:ActionScriptAction, invoker:Object = null):void {
+    public function execute(action:ActionScriptAction, invoker:Object = null ):void {
         _invoker = invoker;
         this.startedAction = action;
         action.message = null;
@@ -69,8 +70,8 @@ public class ActionStarter implements IResponder{
             Util.showError(action.detailErrorMessage);
         }
 
-        if(_invoker is Function){
-            Function(_invoker)(action);
+        if(_invoker is Callback){
+            Callback(_invoker).execute(action);
         } else {
             action.onAfterCall(this);
         }
