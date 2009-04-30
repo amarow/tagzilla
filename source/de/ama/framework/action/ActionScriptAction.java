@@ -111,7 +111,7 @@ public class ActionScriptAction implements java.io.Serializable {
         versionMismatch = false;
 
         if (data == null) {
-            throw new RuntimeException("NO DATA in SaveBoAction");
+            throw new RuntimeException("NO DATA to map to BO");
         }
 
         Object obj = null;
@@ -122,7 +122,6 @@ public class ActionScriptAction implements java.io.Serializable {
             if (obj == null) {
                 throw new RuntimeException("could not CREATE BO : " + msg);
             }
-//            getPersistentService().makePersistent(obj);
         } else {
             obj = Environment.getPersistentService().getObject(data.getOidString());
             if (obj == null) {
@@ -133,7 +132,6 @@ public class ActionScriptAction implements java.io.Serializable {
         try {
             DataMapper mapper = data.getMapper();
             mapper.checkVersion(obj, data);
-//          checkUniqueness(obj,data);
             if (data.isNew()) {
                 Environment.getPersistentService().makePersistent(obj);
             }

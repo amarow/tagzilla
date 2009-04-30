@@ -20,8 +20,8 @@ public class GetHandlesAction extends ActionScriptAction{
         if (data is DataTable && DataTable(data).collection != null) {
             grid["handles"] = DataTable(data).toArrayCollection();
             var desk:Desk = context.invoker.document;
-            desk.count.text = "" + count;
-            desk.count.setStyle("color", count > 200 ? "red" : "green");
+//            desk.count.text = "" + count;
+//            desk.count.setStyle("color", count > 200 ? "red" : "green");
         }
     }
 }

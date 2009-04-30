@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                height="416"
+                width="556"
+                xmlns:ns1="de.ama.framework.gui.*"
+                title="Contact" alpha="0.7"
+                showCloseButton="true"
+                horizontalAlign="right"
+                close="PopUpManager.removePopUp(this)"
+        >
+
+    <mx:Script><![CDATA[
+        import de.ama.framework.action.ActionStarter;
+import de.ama.framework.action.DataAction;
+import mx.managers.PopUpManager;
+
+        private function save():void {
+            var da:DataAction = new DataAction();
+            da.data = dataPanel.getData();
+            ActionStarter.instance.execute(da, dataPanel);
+        }
+
+
+        ]]></mx:Script>
+
+
+	<ns1:EditPanel path="person" id="dataPanel" width="100%" height="90%" backgroundAlpha="0.3">
+		<ns1:EditField x="10" y="10"  label="Name" />
+		<ns1:EditField x="10" y="40"  label="Street" />
+		<ns1:EditField x="10" y="70"  label="City" />
+		<ns1:EditField x="10" y="100" label="Code" />
+    </ns1:EditPanel>
+
+    <mx:Button label="Save" click="save()"/>
+
+</mx:TitleWindow>
