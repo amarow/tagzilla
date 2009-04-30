@@ -18,12 +18,13 @@
         import de.ama.framework.data.Data;
         import de.ama.framework.data.DataTable;
         import de.ama.framework.util.Util;
-import de.ama.tagzilla.actions.DeskAction;
+        import de.ama.tagzilla.actions.DeskAction;
         import de.ama.tagzilla.actions.GetHandlesAction;
         import de.ama.tagzilla.data.DeskData;
         import de.ama.tagzilla.data.DeskHandleData;
         import de.ama.tagzilla.data.HandleData;
         import de.ama.tagzilla.data.TagData;
+        import de.ama.tagzilla.components.img.Images;
 
         import mx.events.DragEvent;
         import mx.managers.DragManager;
@@ -253,5 +254,6 @@ import de.ama.tagzilla.actions.DeskAction;
     <mx:TextInput left="540" bottom="10" id="searchInput3" change="searchChanged(event);" cornerRadius="4"
     color="#6E1506" width="116"/>
     <mx:LinkButton label="logout" click="logout()" fontSize="8" color="#0D1796" right="3" top="5"/>
+    <mx:Image x="10" y="10" width="16" source="{Images.OPEN_PNG}" height="16" mouseOver=""/>
 
 </mx:Canvas>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
                 xmlns:comps="de.ama.framework.gui.*"
-                layout="absolute" width="272" height="236"
+                layout="absolute" width="272" height="174"
                 title="Tag Properties" showCloseButton="true"
                 close="PopUpManager.removePopUp(this)"
-                borderAlpha="0.75" backgroundColor="#DFD2C3" backgroundAlpha="0.38">
+                borderAlpha="0.75" backgroundColor="#DFD2C3" backgroundAlpha="0.38"
+                defaultButton="okButton" >
 
     <mx:Script><![CDATA[
         import de.ama.framework.util.Util;
@@ -63,8 +64,8 @@
                               valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>
 
 
-    <mx:Button x="153" y="149" label="OK" click="onOK()" id="okButton" width="73" color="#0F6B08"/>
-    <mx:Button x="24" y="149" label="Delete" color="#F22D13" click="onDelete()"/>
+    <mx:Button x="153" y="96" label="OK" click="onOK()" id="okButton" width="73" color="#0F6B08"/>
+    <mx:Button x="66" y="96" label="Delete" color="#F22D13" click="onDelete()"/>
 
 
 </mx:TitleWindow>

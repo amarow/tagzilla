@@ -1,0 +1,11 @@
+/* CSS file */
+Button
+{
+	cornerRadius: 3;
+	borderColor: #626C72;
+	themeColor: #D8AC43;
+	fillAlphas: 1.0, 0.6, 0.48, 0.69;
+	fillColors: #E1CD90, #E1CD90;
+	disabledColor: #9C9C86;
+	color: #E86727;
+}

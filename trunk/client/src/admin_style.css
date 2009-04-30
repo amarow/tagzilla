@@ -1,0 +1,25 @@
+/* CSS file */
+
+global
+{
+	backgroundGradientAlphas: 1.0, 1.0;
+	backgroundGradientColors: #103107, #6A8762;
+}
+Canvas
+{
+	backgroundAlpha: 0.27;
+	borderStyle: none;
+	color: #051453;
+	cornerRadius: 5;
+}
+
+Button
+{
+	cornerRadius: 3;
+	borderColor: #ff6600;
+	themeColor: #D8AC43;
+	fillAlphas: 1.0, 0.6, 0.48, 0.69;
+	fillColors: #E1CD90, #E1CD90;
+	disabledColor: #9C9C86;
+	color: #E86727;
+}
