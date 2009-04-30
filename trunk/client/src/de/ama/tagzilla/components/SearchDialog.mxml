@@ -4,7 +4,8 @@
                 layout="absolute" width="694" height="102"
                 title="Search" showCloseButton="true"
                 close="PopUpManager.removePopUp(this)"
-                borderAlpha="0.75" backgroundColor="#DFD7C4" backgroundAlpha="1.0" borderColor="#BC8C19" borderStyle="solid" borderThickness="8">
+                borderAlpha="0.75" backgroundColor="#DFD7C4" backgroundAlpha="1.0" borderColor="#BC8C19" borderStyle="solid"
+                borderThickness="8">
 
 
     <mx:Script><![CDATA[

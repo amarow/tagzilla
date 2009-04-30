@@ -4,11 +4,11 @@
            backgroundAlpha="1.0"
            bottom="0" top="2" left="2" right="2"
            cornerRadius="11" borderStyle="solid" alpha="0.84" themeColor="#ACBCC6"
-           backgroundColor="#F5EED9"
+           backgroundColor="#CCC2A5"
            dragEnter="dragEnterHandler(event)"
            dragDrop="dragDropHandler(event)"
            width="1000" height="800"
-           initialize="bootstrap()">
+           initialize="bootstrap()" xmlns:ns2="de.ama.framework.gui.*">
 
     <mx:Script><![CDATA[
 
@@ -23,7 +23,8 @@
         import de.ama.tagzilla.data.DeskData;
         import de.ama.tagzilla.data.DeskHandleData;
         import de.ama.tagzilla.data.HandleData;
-        import de.ama.tagzilla.data.TagData;
+        import de.ama.tagzilla.data.PersonData;
+import de.ama.tagzilla.data.TagData;
         import de.ama.tagzilla.components.img.Images;
 
         import mx.events.DragEvent;
@@ -40,27 +41,27 @@
             ActionStarter.instance.execute(a, this);
 
         }
-
-        private function searchChanged(event:Event):void {
-            var a:GetHandlesAction = new GetHandlesAction();
-            a.path = "";
-
-            if (searchInput1.text.length > 0) {
-                a.path += searchInput1.text + "*";
-            }
-
-            if (searchInput2.text.length > 0) {
-                if (a.path.length == 0) a.path = "*";
-                a.path += searchInput2.text + "*";
-            }
-            if (searchInput3.text.length > 0) {
-                if (a.path.length == 0) a.path = "*";
-                a.path += searchInput3.text;
-            }
-
-            ActionStarter.instance.execute(a, this);
-
-        }
+//
+//        private function searchChanged(event:Event):void {
+//            var a:GetHandlesAction = new GetHandlesAction();
+//            a.path = "";
+//
+//            if (searchInput1.text.length > 0) {
+//                a.path += searchInput1.text + "*";
+//            }
+//
+//            if (searchInput2.text.length > 0) {
+//                if (a.path.length == 0) a.path = "*";
+//                a.path += searchInput2.text + "*";
+//            }
+//            if (searchInput3.text.length > 0) {
+//                if (a.path.length == 0) a.path = "*";
+//                a.path += searchInput3.text;
+//            }
+//
+//            ActionStarter.instance.execute(a, this);
+//
+//        }
 
         private var dto:DeskData = new DeskData();
 
@@ -244,16 +245,40 @@
             }
         }
 
+
+        private function showPersons():void{
+            var dlg:PersonEditor = PersonEditor(PopUpManager.createPopUp(parent, PersonEditor, false));
+            dlg.x = 10;
+            dlg.y = 50;
+
+
+            var pd:PersonData = new PersonData();
+            pd.name ="Herman";
+            pd.city ="HAmburg";
+            pd.country ="Germany";
+            pd.createt = new Date();
+            dlg.dataPanel.setData(pd);
+            
+        }
+
+        private function showSearchDialog():void {
+            var dlg:SearchDialog = SearchDialog(PopUpManager.createPopUp(parent, SearchDialog, false));
+            dlg.x = (width / 2 - (dlg.width / 2));
+            dlg.y = 250;
+        }
+
+
         ]]>
     </mx:Script>
-    <mx:TextInput left="58" bottom="10" id="searchInput1" change="searchChanged(event);" cornerRadius="4"
-    color="#6E1506" width="232"/>
-    <mx:Label text="count" width="40" color="#F4410A" textAlign="right" left="10" bottom="12" id="count"/>
-    <mx:TextInput left="298" bottom="10" id="searchInput2" change="searchChanged(event);" cornerRadius="4"
-    color="#6E1506" width="232"/>
-    <mx:TextInput left="540" bottom="10" id="searchInput3" change="searchChanged(event);" cornerRadius="4"
-    color="#6E1506" width="116"/>
+    <!--<mx:TextInput left="58" bottom="10" id="searchInput1" change="searchChanged(event);" cornerRadius="4" color="#6E1506" width="232"/>-->
+    <!--<mx:Label text="count" width="40" color="#F4410A" textAlign="right" left="10" bottom="12" id="count"/>-->
+    <!--<mx:TextInput left="298" bottom="10" id="searchInput2" change="searchChanged(event);" cornerRadius="4" color="#6E1506" width="232"/>-->
+    <!--<mx:TextInput left="540" bottom="10" id="searchInput3" change="searchChanged(event);" cornerRadius="4" color="#6E1506" width="116"/>-->
+
     <mx:LinkButton label="logout" click="logout()" fontSize="8" color="#0D1796" right="3" top="5"/>
-    <mx:Image x="10" y="10" width="16" source="{Images.OPEN_PNG}" height="16" mouseOver=""/>
+    <mx:LinkButton label="contacts" click="showPersons()" fontSize="8" color="#0D1796" left="3" top="5"/>
+    <mx:LinkButton label="find" click="showSearchDialog()" fontSize="8" color="#0D1796" left="3" bottom="5"/>
+
+
 
 </mx:Canvas>

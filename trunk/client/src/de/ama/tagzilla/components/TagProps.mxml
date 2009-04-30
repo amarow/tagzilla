@@ -5,7 +5,7 @@
                 title="Tag Properties" showCloseButton="true"
                 close="PopUpManager.removePopUp(this)"
                 borderAlpha="0.75" backgroundColor="#DFD2C3" backgroundAlpha="0.38"
-                defaultButton="okButton" >
+                defaultButton="{okButton}" >
 
     <mx:Script><![CDATA[
         import de.ama.framework.util.Util;
