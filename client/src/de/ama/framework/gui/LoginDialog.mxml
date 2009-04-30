@@ -63,7 +63,7 @@
                               valid="handleValid(event)" invalid="handleValid(event)" forbiddenChars="|*%?"/>
 
 
-    <mx:Button x="161" y="77" label="OK" click="tryLogin()" id="okButton" width="73" color="#0F6B08" tabIndex="3"/>
+    <mx:Button x="178" y="77" label="OK" click="tryLogin()" id="okButton" width="56" color="#0F6B08" tabIndex="3"/>
 
 
 </mx:TitleWindow>

@@ -11,6 +11,7 @@
 <applications>
 <application path="readFile.mxml"/>
 <application path="tagzilla.mxml"/>
+<application path="HomePage.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles/>
