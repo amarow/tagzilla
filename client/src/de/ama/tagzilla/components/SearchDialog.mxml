@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
                 xmlns:comps="de.ama.framework.gui.*"
-                layout="absolute" width="694" height="102"
+                layout="absolute" width="694" height="88"
                 title="Search" showCloseButton="true"
                 close="PopUpManager.removePopUp(this)"
-                borderAlpha="0.75" backgroundColor="#DFD7C4" backgroundAlpha="1.0" borderColor="#BC8C19" borderStyle="solid"
-                borderThickness="8">
+                borderAlpha="0.75" backgroundColor="#DFD9CA" backgroundAlpha="0.8" borderColor="#62480B" borderStyle="none"
+                borderThickness="5" cornerRadius="4"
+                 >
 
 
     <mx:Script><![CDATA[
         import de.ama.framework.action.ActionStarter;
+        import de.ama.framework.data.DataTable;
+        import de.ama.framework.util.Callback;
         import de.ama.tagzilla.actions.GetHandlesAction;
 
         import mx.managers.PopUpManager;
+
+        public var grid:HandlesGrid;
 
         private function searchChanged(event:Event):void {
             var a:GetHandlesAction = new GetHandlesAction();
@@ -31,16 +36,24 @@
                 a.path += searchInput3.text;
             }
 
-            ActionStarter.instance.execute(a, this.parent);
+            ActionStarter.instance.execute(a, new Callback(this, showResult));
 
+        }
+
+        private function showResult(action:GetHandlesAction):void {
+            if (action.data is DataTable && DataTable(action.data).collection != null) {
+                grid.handles = DataTable(action.data).toArrayCollection();
+                count.text = "" + action.count;
+                count.setStyle("color", action.count > 200 ? "red" : "green");
+            }
         }
 
 
         ]]></mx:Script>
 
+    <mx:Label text="count" width="40" color="#F4410A" textAlign="right" left="0" bottom="22" id="count"/>
     <mx:TextInput left="58" id="searchInput1" change="searchChanged(event);" cornerRadius="4"
                   color="#6E1506" width="232" bottom="20"/>
-    <mx:Label text="count" width="40" color="#F4410A" textAlign="right" left="0" bottom="22" id="count"/>
     <mx:TextInput left="298" bottom="20" id="searchInput2" change="searchChanged(event);" cornerRadius="4"
                   color="#6E1506" width="232"/>
     <mx:TextInput left="538" bottom="20" id="searchInput3" change="searchChanged(event);" cornerRadius="4"
