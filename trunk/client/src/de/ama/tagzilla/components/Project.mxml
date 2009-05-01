@@ -3,12 +3,52 @@
         xmlns:mx="http://www.adobe.com/2006/mxml"
         xmlns:comps="de.ama.tagzilla.components.*"
         >
+    <mx:Script><![CDATA[
+        import de.ama.framework.action.ActionStarter;
+        import de.ama.framework.action.LogoutAction;
+        import de.ama.tagzilla.data.PersonData;
+
+        import mx.managers.PopUpManager;
+
+        private function showSearchDialog():void {
+            var dlg:SearchDialog = SearchDialog(PopUpManager.createPopUp(this, SearchDialog, false));
+            dlg.x = 100;
+            dlg.y = height-handlesGrid.height-dlg.height;
+            dlg.grid = handlesGrid;
+        }
+
+        private function showPersons():void {
+            var dlg:PersonEditor = PersonEditor(PopUpManager.createPopUp(this, PersonEditor, false));
+            dlg.x = 10;
+            dlg.y = 50;
+
+
+            var pd:PersonData = new PersonData();
+            pd.name = "Herman";
+            pd.city = "HAmburg";
+            pd.country = "Germany";
+            pd.createt = new Date();
+            dlg.dataPanel.setData(pd);
+
+        }
+
+        private function logout():void {
+            var a:LogoutAction = new LogoutAction();
+            ActionStarter.instance.execute(a, this);
+
+        }
+        ]]></mx:Script>
 
 
     <mx:VDividedBox top="0" left="0" right="0" bottom="0" verticalGap="5" liveDragging="true" color="#B5D4DA"
                     backgroundAlpha="0.94" backgroundColor="#131111">
         <mx:Canvas width="100%" height="50%" backgroundAlpha="0.55" backgroundColor="#080404">
-            <comps:Desk  />
+            <comps:Desk >
+                <mx:LinkButton label="find" click="showSearchDialog()" fontSize="8" color="#0D1796" left="3" bottom="5"/>
+                <mx:LinkButton label="logout" click="logout()" fontSize="8" color="#0D1796" right="3" top="5"/>
+                <mx:LinkButton label="contacts" click="showPersons()" fontSize="8" color="#0D1796" left="3" top="5"/>
+
+            </comps:Desk>
         </mx:Canvas>
         <mx:Canvas width="100%" height="200" backgroundAlpha="0.55" backgroundColor="#080404">
             <mx:Canvas backgroundAlpha="0.94" backgroundColor="#A89F9F" bottom="2" top="0" left="2" right="2"
