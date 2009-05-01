@@ -110,7 +110,7 @@ public class EditField extends Canvas{
     }
 
     public function setValue(val:Object):void {
-       TextInput(_input).text = val.toString();
+       TextInput(_input).text = Util.saveToString(val);
     }
 
     public function get editPanel():EditPanel {
