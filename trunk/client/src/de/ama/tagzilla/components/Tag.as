@@ -1,5 +1,7 @@
 package de.ama.tagzilla.components {
 import de.ama.framework.action.ActionStarter;
+import de.ama.framework.data.DataTable;
+import de.ama.framework.util.Callback;
 import de.ama.tagzilla.actions.GetHandlesAction;
 import de.ama.tagzilla.actions.TagAction;
 import de.ama.tagzilla.data.TagData;
@@ -104,7 +106,15 @@ public class Tag extends Canvas   {
         var a:GetHandlesAction = new GetHandlesAction();
         a.path = path+"*";
         a.tag = tag;
-        ActionStarter.instance.execute(a, this);
+        ActionStarter.instance.execute(a, new Callback(this,showResult));
+    }
+
+    private function showResult(action:GetHandlesAction):void {
+        if (action.data is DataTable && DataTable(action.data).collection != null) {
+            var doc:Object = document.parentDocument;
+            var grid:HandlesGrid = doc["handlesGrid"];
+            grid.handles = DataTable(action.data).toArrayCollection();
+        }
     }
 
     public function showConfig():void {

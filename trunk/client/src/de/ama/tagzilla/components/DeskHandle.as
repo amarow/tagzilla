@@ -31,7 +31,6 @@ public class DeskHandle extends Canvas   {
         dto = aData;
         if (dto == null) {
             dto = new DeskHandleData();
-            path = "move near other file, to retreive a location";
         }
 
         x = dto.x;
@@ -118,7 +117,7 @@ public class DeskHandle extends Canvas   {
         if (Util.isEmpty(val)) return;
         dto.path = val;
         mylabel.text = val;
-        width = val.length * 7 + 30;
+        width = val.length * 7 + 40;
     }
 
     public function get incomplete():Boolean {
@@ -156,10 +155,6 @@ public class DeskHandle extends Canvas   {
         dto.y = y;
         dto.path = path;
         return dto;
-    }
-
-    public function needsPath():Boolean {
-        return (path.indexOf("move near other") > 0);
     }
 
 
