@@ -22,7 +22,7 @@ public class ReceiveMailsServerAction extends ActionScriptAction {
     public void executeOnServer() throws MessagingException, IOException {
         Map map = new HashMap();
         File filesDir = Environment.getHomeRelativDir("files");
-        map.put("*", Ini.getString("mail.attachment.dir", filesDir.getAbsolutePath()));
+        map.put("*", Ini.getString("mail.attachment.dir", filesDir.getAbsolutePath()  , "temporäres Verzeichnis für eingehende mail-attachements"));
 
         data = MailFacade.receiveEmails("dbhcom01.dbh.de", -1, "ama", ".ama", map, false, 100);
 

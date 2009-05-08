@@ -7,6 +7,7 @@
         xmlns:comps="de.ama.tagzilla.components.*"
         xmlns:fw="de.ama.framework.gui.*"
         initialize="bootstrap();"
+        applicationComplete="registerHost()"
         >
 
 
@@ -17,6 +18,7 @@
 
         import mx.managers.PopUpManager;
 
+
         protected function bootstrap():void {
             Environment.initForProduction();
             var logindlg:LoginDialog = LoginDialog(PopUpManager.createPopUp(parent, LoginDialog, true));
@@ -24,6 +26,9 @@
             logindlg.y = 100;
         }
 
+        private function registerHost():void {
+            Environment.registerHostAdress();
+        }
         ]]></mx:Script>
 
 

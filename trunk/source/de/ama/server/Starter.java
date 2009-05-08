@@ -4,6 +4,7 @@ import de.ama.framework.servlet.DownloadServlet;
 import de.ama.framework.servlet.UploadServlet;
 import de.ama.server.services.Environment;
 import de.ama.server.services.impl.ActionServiceImpl;
+import de.ama.util.Ini;
 import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.handler.DefaultHandler;
@@ -34,14 +35,17 @@ public class Starter {
             // DB Connection ....
             Environment.initProduction();
 
-            Server server = new Server(8080);
+            int port = Ini.getInt("http.server.port",8080       ,"http port ");
+            String context = Ini.getString("server.context","/tagzilla");
+            
+            Server server = new Server(port);
 
             // the Files from the webroot are served with a standard ResourceHandler
             ResourceHandler resource_handler = new ResourceHandler();
             resource_handler.setResourceBase(Environment.getHomeDir().getAbsolutePath());
 
             // Servlet Contexts are here
-            Context servletContexts = new Context(server, "/tagzilla", Context.SESSIONS);
+            Context servletContexts = new Context(server, context, Context.SESSIONS);
             servletContexts.addServlet(new ServletHolder(new DownloadServlet()), "/download/*");
             servletContexts.addServlet(new ServletHolder(new UploadServlet()), "/upload/*");
             servletContexts.addServlet(new ServletHolder(new ActionServiceImpl()), "/action/*");

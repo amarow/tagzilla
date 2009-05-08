@@ -1,6 +1,8 @@
 package de.ama.framework.util {
 import de.ama.framework.action.LoginAction;
 import de.ama.framework.action.LogoutAction;
+import mx.core.Application;
+import mx.utils.URLUtil;
 
 public class Environment {
 
@@ -14,13 +16,14 @@ public class Environment {
 
     public static function initForProduction():void{
         _hostAdress     = "localhost";
-        _hostPort       = "8080";
+        _hostPort       = "";
         _hostContext    = "tagzilla";
     }
 
 
     public static function getServerUrl():String {
-        return "http://"+_hostAdress+":"+_hostPort+"/"+_hostContext;
+        var port:String = Util.isEmpty(_hostPort) ? "" : ":"+_hostPort;
+        return "http://"+_hostAdress+port+"/"+_hostContext;
     }
 
     public static function get hostContext():String {
@@ -48,6 +51,12 @@ public class Environment {
         return _userId;
     }
 
+
+
+    public static function registerHostAdress():void{
+       _hostAdress     = URLUtil.getServerName(Application.application.loaderInfo.url);
+       _hostPort     = ""+URLUtil.getPort(Application.application.loaderInfo.url);
+    }
 
     public static function registerLoginData(la:LoginAction):void{
        _user=la._user;
