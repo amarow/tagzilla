@@ -35,8 +35,8 @@ public class Starter {
             // DB Connection ....
             Environment.initProduction();
 
-            int port = Ini.getInt("http.server.port",8080       ,"http port ");
-            String context = Ini.getString("server.context","/tagzilla");
+            int port       = Ini.getInt("server.port",8080             ,"http port where this server is listening");
+            String context = Ini.getString("server.context","/tagzilla" ,"http context/doc-base of this server");
             
             Server server = new Server(port);
 
