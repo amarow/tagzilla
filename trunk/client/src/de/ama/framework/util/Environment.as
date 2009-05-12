@@ -7,7 +7,7 @@ import mx.utils.URLUtil;
 public class Environment {
 
     private static var _hostAdress:String;
-    private static var _hostPort:String;
+    private static var _hostPort:int;
     private static var _hostContext:String;
     private static var _user:String;
     private static var _pwd:String;
@@ -16,13 +16,13 @@ public class Environment {
 
     public static function initForProduction():void{
         _hostAdress     = "localhost";
-        _hostPort       = "";
+        _hostPort       = 0;
         _hostContext    = "tagzilla";
     }
 
 
     public static function getServerUrl():String {
-        var port:String = Util.isEmpty(_hostPort) ? "" : ":"+_hostPort;
+        var port:String = _hostPort>0 ? ":"+_hostPort : "" ;
         return "http://"+_hostAdress+port+"/"+_hostContext;
     }
 
@@ -54,8 +54,8 @@ public class Environment {
 
 
     public static function registerHostAdress():void{
-       _hostAdress     = URLUtil.getServerName(Application.application.loaderInfo.url);
-       _hostPort     = ""+URLUtil.getPort(Application.application.loaderInfo.url);
+       _hostAdress  = URLUtil.getServerName(Application.application.loaderInfo.url);
+       _hostPort    = URLUtil.getPort(Application.application.loaderInfo.url);
     }
 
     public static function registerLoginData(la:LoginAction):void{
