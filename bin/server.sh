@@ -11,6 +11,6 @@ CP=$CP:$LIB/hessian-3_2-snap.jar
 CP=$CP:$LIB/servlet-api.jar 
 echo $CP
 
-java -classpath $CP de.ama.server.Starter &
+java -classpath $CP de.ama.server.Starter > $HOME/log/server.log 2>&1 &
 
 
